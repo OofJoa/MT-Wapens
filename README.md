@@ -1,6 +1,6 @@
 # MT-Wapens
 
-https://www.spigotmc.org/resources/mt-wapens.76350/
+Plugin download: https://www.spigotmc.org/resources/mt-wapens.76350/
 
 Copyright 2020 Jazzkuh
 
