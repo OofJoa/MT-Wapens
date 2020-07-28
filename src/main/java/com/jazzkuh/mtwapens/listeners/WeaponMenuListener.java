@@ -189,8 +189,10 @@ public class WeaponMenuListener implements Listener {
         }
     }
 
-    private void getWeapon(Player player, int dura, String type) {
+    private void getWeapon(Player player, int dura, String string) {
         int UUID = Utils.randomValue(999999999, 10000);
+
+        String type = string.toLowerCase();
 
         ArrayList<String> Lore = new ArrayList<String>();
         Lore.add(Utils.color("&f"));
@@ -213,10 +215,13 @@ public class WeaponMenuListener implements Listener {
         Utils.createWeaponData(UUID, dura, plugin.getConfig().getInt("weapons." + type + ".max-ammo"));
 
         player.getInventory().addItem(weapon);
-        player.sendMessage(Utils.color("&6Je hebt succesvol het wapen &c" + type + "&6 (&c" + dura + " Durability&6) ontvangen."));
+        player.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color") + "Je hebt succesvol het wapen " + plugin.getConfig().getString("messages.second-color") + "" + type + plugin.getConfig().getString("messages.first-color") + " (" + plugin.getConfig().getString("messages.second-color") + "" + dura + " Durability" + plugin.getConfig().getString("messages.first-color") + ") ontvangen."));
     }
 
-    private void getAmmo(Player player, String type) {
+    private void getAmmo(Player player, String string) {
+
+        String type = string.toLowerCase();
+
         ItemStack bulletItem = new ItemBuilder(Material.IRON_INGOT)
                 .setName(Utils.color(plugin.getConfig().getString("weapons." + type + ".ammo-name")))
                 .setLore(Utils.color(plugin.getConfig().getString("ammo-lore")))
@@ -224,6 +229,6 @@ public class WeaponMenuListener implements Listener {
                 .toItemStack();
 
         player.getInventory().addItem(bulletItem);
-        player.sendMessage(Utils.color("&6Je hebt succesvol ammo voor het wapen &c" + type + "&6 ontvangen."));
+        player.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color") + "Je hebt succesvol ammo voor het wapen " + plugin.getConfig().getString("messages.second-color") + "" + type + plugin.getConfig().getString("messages.first-color") + " ontvangen."));
     }
 }

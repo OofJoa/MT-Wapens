@@ -54,43 +54,8 @@ public class Main extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new VoucherListener(this), this);
         getCommand("weapon").setExecutor(new WeaponCommand(this));
 
-        getConfig().options().header(" \n MT-Wapens Configuratie Files\n \nZorg ervoor dat je bij 'damage en attackspeed' altijd een DECIMAAL invult.\n");
-
-        getConfig().addDefault("weapon-lore", "Minetopia - Officieel Minetopia Wapen");
-        getConfig().addDefault("ammo-lore", "Minetopia - Officieel Minetopia Bullet");
-
-        getConfig().addDefault("weapons.deserteagle.name", "&8Desert Eagle");
-        getConfig().addDefault("weapons.deserteagle.ammo-name", "Desert Eagle Ammo");
-        getConfig().addDefault("weapons.deserteagle.damage", 2.0);
-        getConfig().addDefault("weapons.deserteagle.max-ammo", 7);
-        getConfig().addDefault("weapons.deserteagle.attackspeed", 1.0);
-
-        getConfig().addDefault("weapons.magnum44.name", "&8Magnum 44");
-        getConfig().addDefault("weapons.magnum44.ammo-name", "Magnum 44 Ammo");
-        getConfig().addDefault("weapons.magnum44.damage", 2.5);
-        getConfig().addDefault("weapons.magnum44.max-ammo", 8);
-        getConfig().addDefault("weapons.magnum44.attackspeed", 1.0);
-
-        getConfig().addDefault("weapons.waltherp99.name", "&8Walther P99");
-        getConfig().addDefault("weapons.waltherp99.ammo-name", "Walther P99 Ammo");
-        getConfig().addDefault("weapons.waltherp99.damage", 3.0);
-        getConfig().addDefault("weapons.waltherp99.max-ammo", 10);
-        getConfig().addDefault("weapons.waltherp99.attackspeed", 1.0);
-
-        getConfig().addDefault("weapons.glock19.name", "&8Glock 19");
-        getConfig().addDefault("weapons.glock19.ammo-name", "Glock 19 Ammo");
-        getConfig().addDefault("weapons.glock19.damage", 3.3);
-        getConfig().addDefault("weapons.glock19.max-ammo", 10);
-        getConfig().addDefault("weapons.glock19.attackspeed", 1.0);
-
-        getConfig().addDefault("weapons.m16a4.name", "&8M16A4");
-        getConfig().addDefault("weapons.m16a4.ammo-name", "M16A4 Ammo");
-        getConfig().addDefault("weapons.m16a4.damage", 3.7);
-        getConfig().addDefault("weapons.m16a4.max-ammo", 25);
-        getConfig().addDefault("weapons.m16a4.attackspeed", 1.0);
-
-        getConfig().options().copyDefaults(true);
-        saveConfig();
+        this.saveDefaultConfig();
+        this.saveConfig();
 
         new BukkitRunnable() {
             public void run() {

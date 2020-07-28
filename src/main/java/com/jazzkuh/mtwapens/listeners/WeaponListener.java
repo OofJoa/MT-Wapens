@@ -213,8 +213,8 @@ public class WeaponListener implements Listener {
                 player.setHealth(player.getHealth() - damage);
             }
 
-            attacker.sendMessage(Utils.color("&cJe hebt &4" + player.getName() + " &cgeraakt met jouw schot!"));
-            player.sendMessage(Utils.color("&cJe bent beschoten door &4" + attacker.getName() + "&c."));
+            attacker.sendMessage(Utils.color(plugin.getConfig().getString("messages.shot.you")).replace("<player>", player.getName()));
+            player.sendMessage(Utils.color(plugin.getConfig().getString("messages.shot.other")).replace("<player>", attacker.getName()));
         }
     }
 }
