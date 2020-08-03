@@ -10,6 +10,8 @@ import com.jazzkuh.mtwapens.utility.Metrics;
 import com.jazzkuh.mtwapens.utility.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -52,7 +54,7 @@ public class Main extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new WeaponPartListener(this), this);
         Bukkit.getPluginManager().registerEvents(new WeaponMenuListener(this), this);
         Bukkit.getPluginManager().registerEvents(new VoucherListener(this), this);
-        getCommand("weapon").setExecutor(new WeaponCommand(this));
+        setCommandExecutor("weapon", new WeaponCommand(this));
 
         this.saveDefaultConfig();
         this.saveConfig();
@@ -62,6 +64,14 @@ public class Main extends JavaPlugin implements Listener {
                 weaponData.saveWeaponData();
             }
         }.runTaskTimer(this, 0, 2400);
+    }
+
+    private void setCommandExecutor(String commandName, TabExecutor executor) {
+        PluginCommand command = this.getCommand(commandName);
+        if (command != null) {
+            command.setExecutor(executor);
+            command.setTabCompleter(executor);
+        }
     }
 
     @Override

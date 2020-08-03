@@ -10,14 +10,18 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-public class WeaponCommand implements CommandExecutor {
+public class WeaponCommand implements TabExecutor {
 
     private final Main plugin;
 
@@ -62,7 +66,7 @@ public class WeaponCommand implements CommandExecutor {
                     } else {
                         Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
                     }
-                } if (args[0].equalsIgnoreCase("voucher")) {
+                } else if (args[0].equalsIgnoreCase("voucher")) {
                     if (sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                         if (args.length > 2) {
                             if (args[1].equalsIgnoreCase("deserteagle") || args[1].equalsIgnoreCase("magnum44") || args[1].equalsIgnoreCase("waltherp99") || args[1].equalsIgnoreCase("glock19") || args[1].equalsIgnoreCase("m16a4")) {
@@ -199,5 +203,20 @@ public class WeaponCommand implements CommandExecutor {
 
         player.getInventory().addItem(bulletItem);
         player.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color") + "Je hebt succesvol ammo voor het wapen " + plugin.getConfig().getString("messages.second-color") + "" + type + plugin.getConfig().getString("messages.first-color") + " ontvangen."));
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        if (!command.testPermissionSilent(sender)) {
+            return Collections.emptyList();
+        }
+
+        if (args.length == 1) {
+            return Arrays.asList("help", "reload", "menu", "parts", "voucher", "getweapon", "getammo");
+        } else if (args.length == 2) {
+            return new ArrayList<>(plugin.getConfig().getConfigurationSection("weapons.").getKeys(false));
+        }
+
+        return Collections.emptyList();
     }
 }
