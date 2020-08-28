@@ -8,6 +8,7 @@ import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.Event;
@@ -188,33 +189,35 @@ public class WeaponListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityDamageNew(EntityDamageByEntityEvent event) {
-        Player player = (Player) event.getEntity();
+    public void onEntityDamage(EntityDamageByEntityEvent event) {
+        LivingEntity entity = (LivingEntity) event.getEntity();
         Player attacker = Bukkit.getPlayer(event.getDamager().getName());
 
         if (event.getDamager().getType() == EntityType.SNOWBALL) {
-            damageEventNew(event, player, attacker, "deserteagle");
-            damageEventNew(event, player, attacker, "magnum44");
-            damageEventNew(event, player, attacker, "waltherp99");
-            damageEventNew(event, player, attacker, "glock19");
-            damageEventNew(event, player, attacker, "m16a4");
+            damageEventNew(event, entity, attacker, "deserteagle");
+            damageEventNew(event, entity, attacker, "magnum44");
+            damageEventNew(event, entity, attacker, "waltherp99");
+            damageEventNew(event, entity, attacker, "glock19");
+            damageEventNew(event, entity, attacker, "m16a4");
         }
     }
 
-    private void damageEventNew(EntityDamageByEntityEvent event, Player player, Player attacker, String type) {
+    private void damageEventNew(EntityDamageByEntityEvent event, LivingEntity entity, Player attacker, String type) {
         if (attacker.getInventory().getItemInMainHand().hasItemMeta() && attacker.getInventory().getItemInMainHand().getItemMeta().hasDisplayName() && attacker.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(Utils.color(plugin.getConfig().getString("weapons." + type + ".name")))) {
             event.setCancelled(true);
 
             Double damage = plugin.getConfig().getDouble("weapons." + type + ".damage");
 
-            if (damage > player.getHealth()) {
-                player.setHealth(0.0);
+            if (damage > entity.getHealth()) {
+                entity.setHealth(0.0);
             } else {
-                player.setHealth(player.getHealth() - damage);
+                entity.setHealth(entity.getHealth() - damage);
             }
 
-            attacker.sendMessage(Utils.color(plugin.getConfig().getString("messages.shot.you")).replace("<player>", player.getName()));
-            player.sendMessage(Utils.color(plugin.getConfig().getString("messages.shot.other")).replace("<player>", attacker.getName()));
+            if (entity instanceof Player) {
+                attacker.sendMessage(Utils.color(plugin.getConfig().getString("messages.shot.you")).replace("<player>", entity.getName()));
+                entity.sendMessage(Utils.color(plugin.getConfig().getString("messages.shot.other")).replace("<player>", attacker.getName()));
+            }
         }
     }
 }
