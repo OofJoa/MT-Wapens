@@ -63,7 +63,7 @@ public class Main extends JavaPlugin implements Listener {
             public void run() {
                 weaponData.saveWeaponData();
             }
-        }.runTaskTimer(this, 0, 2400);
+        }.runTaskTimer(this, 0, 6000);
     }
 
     private void setCommandExecutor(String commandName, TabExecutor executor) {
