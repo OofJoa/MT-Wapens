@@ -190,6 +190,8 @@ public class WeaponListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageByEntityEvent event) {
+        if (event.isCancelled()) return;
+        
         LivingEntity entity = (LivingEntity) event.getEntity();
         Player attacker = Bukkit.getPlayer(event.getDamager().getName());
 
