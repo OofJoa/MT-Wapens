@@ -89,7 +89,7 @@ public class WeaponCommand implements TabExecutor {
                     sender.sendMessage(Utils.color(plugin.getConfig().getString("messages.second-color")
                             + "Dit type wapen bestaat niet. Kies uit: DesertEagle, Magnum44, WaltherP99, Glock19 of M16A4."));
                 }
-            } else if (args.length == 2 && args[0].equalsIgnoreCase("voucher")) {
+            } else if (args.length == 3 && args[0].equalsIgnoreCase("voucher")) {
                 if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                     Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
                     return true;
