@@ -57,7 +57,7 @@ public class WeaponCommand implements TabExecutor {
             sender.sendMessage(Utils.color("&f"));
         } else {
             if (args.length == 3 && args[0].equalsIgnoreCase("getweapon")) {
-                if (sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
+                if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                     Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
                     return true;
                 }
@@ -76,7 +76,7 @@ public class WeaponCommand implements TabExecutor {
                             + "Dit type wapen bestaat niet. Kies uit: DesertEagle, Magnum44, WaltherP99, Glock19 of M16A4."));
                 }
             } else if (args.length == 2 && args[0].equalsIgnoreCase("getammo")) {
-                if (sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
+                if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                     Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
                     return true;
                 }
@@ -90,7 +90,7 @@ public class WeaponCommand implements TabExecutor {
                             + "Dit type wapen bestaat niet. Kies uit: DesertEagle, Magnum44, WaltherP99, Glock19 of M16A4."));
                 }
             } else if (args.length == 2 && args[0].equalsIgnoreCase("voucher")) {
-                if (sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
+                if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                     Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
                     return true;
                 }
@@ -109,7 +109,7 @@ public class WeaponCommand implements TabExecutor {
                             + "Dit type wapen bestaat niet. Kies uit: DesertEagle, Magnum44, WaltherP99, Glock19 of M16A4."));
                 }
             } else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-                if (sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
+                if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                     Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
                     return true;
                 }
@@ -120,14 +120,14 @@ public class WeaponCommand implements TabExecutor {
                                 + plugin.getConfig().getString("messages.first-color") + " van MT-Wapens herladen."));
                 plugin.reloadConfig();
             } else if (args.length == 1 && args[0].equalsIgnoreCase("menu")) {
-                if (sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
+                if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                     Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
                     return true;
                 }
 
                 WeaponMenuListener.weaponMenu(plugin, player);
             } else if (args.length == 1 && args[0].equalsIgnoreCase("parts")) {
-                if (sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
+                if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                     Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
                     return true;
                 }
