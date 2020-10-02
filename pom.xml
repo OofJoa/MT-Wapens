@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jazzkuh</groupId>
-    <artifactId>mtwapens</artifactId>
+    <artifactId>MT-Wapens</artifactId>
     <version>1.0.11</version>
     <packaging>jar</packaging>
 
-    <name>mtwapens</name>
+    <name>MT-Wapens</name>
 
     <properties>
         <java.version>1.8</java.version>

@@ -206,9 +206,9 @@ public class WeaponListener implements Listener {
 
     private void damageEventNew(EntityDamageByEntityEvent event, LivingEntity entity, Player attacker, String type) {
         if (attacker.getInventory().getItemInMainHand().hasItemMeta() && attacker.getInventory().getItemInMainHand().getItemMeta().hasDisplayName() && attacker.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(Utils.color(plugin.getConfig().getString("weapons." + type + ".name")))) {
-            event.setCancelled(true);
+            event.setDamage(0.0);
 
-            Double damage = plugin.getConfig().getDouble("weapons." + type + ".damage");
+            double damage = plugin.getConfig().getDouble("weapons." + type + ".damage");
 
             if (damage > entity.getHealth()) {
                 entity.setHealth(0.0);
