@@ -6,6 +6,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import com.jazzkuh.mtwapens.utility.messages.Message;
+import com.jazzkuh.mtwapens.utility.messages.Messages;
+import com.jazzkuh.mtwapens.utility.messages.Placeholder;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -37,23 +40,20 @@ public class WeaponCommand implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         Player player = (Player) sender;
+        Messages messages = Main.getMessages();
 
         if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName())) {
+            String primaryColor = messages.getPrimaryColor();
+            String secondaryColor = messages.getSecondaryColor();
+
             sender.sendMessage(Utils.color("&f"));
-            sender.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color") + "" + plugin.getName()
-                    + " version: " + plugin.getConfig().getString("messages.second-color") + ""
-                    + plugin.getDescription().getVersion() + plugin.getConfig().getString("messages.first-color")
-                    + "."));
-            sender.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color") + "Description: "
-                    + plugin.getConfig().getString("messages.second-color") + ""
-                    + plugin.getDescription().getDescription() + plugin.getConfig().getString("messages.first-color")
-                    + "."));
-            sender.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color") + "Download: "
-                    + plugin.getConfig().getString("messages.second-color") + "" + plugin.getDescription().getWebsite()
-                    + plugin.getConfig().getString("messages.first-color") + "."));
-            sender.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color") + "By "
-                    + plugin.getConfig().getString("messages.second-color") + "[Jazzkuh]"
-                    + plugin.getConfig().getString("messages.first-color") + "."));
+            sender.sendMessage(primaryColor + plugin.getName()
+                    + " version: " + secondaryColor + plugin.getDescription().getVersion() + primaryColor + ".");
+            sender.sendMessage(primaryColor + "Description: " + secondaryColor +
+                    plugin.getDescription().getDescription() + primaryColor + ".");
+            sender.sendMessage(primaryColor + "Download: " + secondaryColor + plugin.getDescription().getWebsite()
+                    + primaryColor + ".");
+            sender.sendMessage(primaryColor + "By " + secondaryColor + "[Jazzkuh]" + primaryColor + ".");
             sender.sendMessage(Utils.color("&f"));
         } else {
             if (args.length == 3 && args[0].equalsIgnoreCase("getweapon")) {
@@ -68,12 +68,11 @@ public class WeaponCommand implements TabExecutor {
                     if (Utils.isInt(args[2]) && Integer.parseInt(args[2]) > 0 && args[2] != null) {
                         getWeapon(player, Integer.parseInt(args[2]), args[1]);
                     } else {
-                        sender.sendMessage(Utils.color(plugin.getConfig().getString("messages.second-color")
-                                + "Kan argument 2 niet parsen als geldige integer. Gebruik een integer hoger dan 0."));
+                        sender.sendMessage(messages.get(Message.INVALID_DURABILITY, Placeholder.of("argument", 2)));
                     }
                 } else {
-                    sender.sendMessage(Utils.color(plugin.getConfig().getString("messages.second-color")
-                            + "Dit type wapen bestaat niet. Kies uit: DesertEagle, Magnum44, WaltherP99, Glock19 of M16A4."));
+                    sender.sendMessage(messages.get(Message.INVALID_WEAPON,
+                            Placeholder.of("weapons", "DesertEagle, Magnum44, WaltherP99, Glock19 of M16A4")));
                 }
             } else if (args.length == 2 && args[0].equalsIgnoreCase("getammo")) {
                 if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
@@ -86,8 +85,8 @@ public class WeaponCommand implements TabExecutor {
                         || args[1].equalsIgnoreCase("m16a4")) {
                     getAmmo(player, args[1]);
                 } else {
-                    sender.sendMessage(Utils.color(plugin.getConfig().getString("messages.second-color")
-                            + "Dit type wapen bestaat niet. Kies uit: DesertEagle, Magnum44, WaltherP99, Glock19 of M16A4."));
+                    sender.sendMessage(messages.get(Message.INVALID_WEAPON,
+                            Placeholder.of("weapons", "DesertEagle, Magnum44, WaltherP99, Glock19 of M16A4")));
                 }
             } else if (args.length == 3 && args[0].equalsIgnoreCase("voucher")) {
                 if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
@@ -101,12 +100,11 @@ public class WeaponCommand implements TabExecutor {
                     if (Utils.isInt(args[2]) && Integer.parseInt(args[2]) > 0 && args[2] != null) {
                         getVoucher(player, Integer.parseInt(args[2]), args[1]);
                     } else {
-                        sender.sendMessage(Utils.color(plugin.getConfig().getString("messages.second-color")
-                                + "Kan argument 2 niet parsen als geldige integer. Gebruik een integer hoger dan 0."));
+                        sender.sendMessage(messages.get(Message.INVALID_DURABILITY, Placeholder.of("argument", 2)));
                     }
                 } else {
-                    sender.sendMessage(Utils.color(plugin.getConfig().getString("messages.second-color")
-                            + "Dit type wapen bestaat niet. Kies uit: DesertEagle, Magnum44, WaltherP99, Glock19 of M16A4."));
+                    sender.sendMessage(messages.get(Message.INVALID_WEAPON,
+                            Placeholder.of("weapons", "DesertEagle, Magnum44, WaltherP99, Glock19 of M16A4")));
                 }
             } else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
                 if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
@@ -114,11 +112,8 @@ public class WeaponCommand implements TabExecutor {
                     return true;
                 }
 
-                sender.sendMessage(
-                        Utils.color(plugin.getConfig().getString("messages.first-color") + "Je hebt succesvol de "
-                                + plugin.getConfig().getString("messages.second-color") + "config files"
-                                + plugin.getConfig().getString("messages.first-color") + " van MT-Wapens herladen."));
                 plugin.reloadConfig();
+                sender.sendMessage(messages.get(Message.FILES_RELOADED));
             } else if (args.length == 1 && args[0].equalsIgnoreCase("menu")) {
                 if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                     Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
@@ -142,15 +137,14 @@ public class WeaponCommand implements TabExecutor {
     }
 
     private void sendHelp(Command command, CommandSender sender) {
-        String primaryColor = plugin.getConfig().getString("messages.first-color");
-        String secondaryColor = plugin.getConfig().getString("messages.second-color");
+        String primaryColor = Main.getMessages().getPrimaryColor();
+        String secondaryColor = Main.getMessages().getSecondaryColor();
 
         sender.sendMessage(Utils.color(primaryColor + "&m------------------&f " + secondaryColor + "" + plugin.getName()
                 + " " + primaryColor + "&m------------------&f"));
         sender.sendMessage(Utils.color(primaryColor + "Version: " + secondaryColor + ""
-                + plugin.getDescription().getVersion() + primaryColor + "."));
-        sender.sendMessage(Utils.color(primaryColor + "By " + secondaryColor + "" + plugin.getDescription().getAuthors()
-                + primaryColor + "."));
+                + plugin.getDescription().getVersion() + primaryColor
+                + " by " + secondaryColor + plugin.getDescription().getAuthors() + "."));
         sender.sendMessage(Utils.color("&f"));
         sender.sendMessage(Utils.color(primaryColor + "/weapon " + secondaryColor + "help " + primaryColor + "- "
                 + secondaryColor + "Laat alle commandos zien."));
@@ -193,39 +187,32 @@ public class WeaponCommand implements TabExecutor {
         Utils.createWeaponData(UUID, dura, plugin.getConfig().getInt("weapons." + type + ".max-ammo"));
 
         player.getInventory().addItem(weapon);
-        player.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color")
-                + "Je hebt succesvol het wapen " + plugin.getConfig().getString("messages.second-color") + "" + type
-                + plugin.getConfig().getString("messages.first-color") + " ("
-                + plugin.getConfig().getString("messages.second-color") + "" + dura + " Durability"
-                + plugin.getConfig().getString("messages.first-color") + ") ontvangen."));
+        player.sendMessage(Main.getMessages().get(Message.WEAPON_RECEIVED,
+                Placeholder.of("weapontype", type), Placeholder.of("durability", dura)));
     }
 
     private void getVoucher(Player player, int dura, String string) {
+        Messages messages = Main.getMessages();
 
         String type = string.toLowerCase();
 
         ArrayList<String> lore = new ArrayList<String>();
         lore.add(Utils.color("&8&m-----------------"));
-        lore.add(Utils.color("&7Gebruik " + plugin.getConfig().getString("messages.first-color")
-                + "rechterklik&7 op deze voucher om"));
+        lore.add(Utils.color("&7Gebruik " +  messages.getPrimaryColor() + "rechterklik&7 op deze voucher om"));
         lore.add(Utils.color("&7hem te verzilveren!"));
         lore.add(Utils.color("&f"));
         lore.add(Utils.color(
-                "&7Deze " + plugin.getConfig().getString("messages.first-color") + "voucher&7 is houdbaar tot:"));
-        lore.add(Utils.color(plugin.getConfig().getString("messages.first-color") + "permanent"));
+                "&7Deze " + messages.getPrimaryColor() + "voucher&7 is houdbaar tot:"));
+        lore.add(Utils.color(messages.getPrimaryColor() + "permanent"));
         lore.add(Utils.color("&8&m-----------------"));
 
         ItemStack voucher = new ItemBuilder(Material.PAPER).setName(Utils.color(
-                plugin.getConfig().getString("messages.first-color") + "Voucher " + type + " " + dura + " Durability"))
+                messages.getPrimaryColor() + "Voucher " + type + " " + dura + " Durability"))
                 .setNBT("VOUCHER", "true").setLore(lore).toItemStack();
 
         player.getInventory().addItem(voucher);
-        player.sendMessage(Utils.color(
-                plugin.getConfig().getString("messages.first-color") + "Je hebt succesvol een voucher voor het wapen "
-                        + plugin.getConfig().getString("messages.second-color") + "" + type
-                        + plugin.getConfig().getString("messages.first-color") + " ("
-                        + plugin.getConfig().getString("messages.second-color") + "" + dura + " Durability"
-                        + plugin.getConfig().getString("messages.first-color") + ") ontvangen."));
+        player.sendMessage(Main.getMessages().get(Message.VOUCHER_RECEIVED,
+                Placeholder.of("weapontype", type), Placeholder.of("durability", dura)));
     }
 
     private void getAmmo(Player player, String string) {
@@ -238,9 +225,7 @@ public class WeaponCommand implements TabExecutor {
                 .setNBT("mtcustom", "" + type + "_bullets").toItemStack();
 
         player.getInventory().addItem(bulletItem);
-        player.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color")
-                + "Je hebt succesvol ammo voor het wapen " + plugin.getConfig().getString("messages.second-color") + ""
-                + type + plugin.getConfig().getString("messages.first-color") + " ontvangen."));
+        player.sendMessage(Main.getMessages().get(Message.AMMO_RECEIVED, Placeholder.of("weapontype", type)));
     }
 
     @Override

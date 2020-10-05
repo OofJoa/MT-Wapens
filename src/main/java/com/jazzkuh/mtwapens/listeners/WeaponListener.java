@@ -4,6 +4,9 @@ import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.data.WeaponData;
 import com.jazzkuh.mtwapens.utility.ItemBuilder;
 import com.jazzkuh.mtwapens.utility.Utils;
+import com.jazzkuh.mtwapens.utility.messages.Message;
+import com.jazzkuh.mtwapens.utility.messages.Messages;
+import com.jazzkuh.mtwapens.utility.messages.Placeholder;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -112,8 +115,11 @@ public class WeaponListener implements Listener {
                     im.setLore(Lore);
                     is.setItemMeta(im);
 
-                    player.sendMessage(Utils.color("&9Durability: &a" + weaponData.getWeaponData().getInt(UUID + ".durability")));
-                    player.sendMessage(Utils.color("&9Ammo: &a" + weaponData.getWeaponData().getInt(UUID + ".ammo") + "&f/&c" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
+                    player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_DURABILITY,
+                            Placeholder.of("durability", weaponData.getWeaponData().getInt(UUID + ".durability"))));
+                    player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_AMMO,
+                            Placeholder.of("ammo", weaponData.getWeaponData().getInt(UUID + ".ammo")),
+                            Placeholder.of("max-ammo", plugin.getConfig().getInt("weapons." + type + ".max-ammo"))));
 
                     /*Snowball bullet = player.launchProjectile(Snowball.class);
                     bullet.setCustomName(type + "-" + this.plugin.getConfig().getDouble("weapons." + type + ".damage"));
@@ -124,8 +130,10 @@ public class WeaponListener implements Listener {
                     bullet.setVelocity(bullet.getVelocity().multiply(2D));
                 }
             } else if (player.getInventory().containsAtLeast(bulletItem, 1)) {
-                player.sendTitle(Utils.color("&eReloading..."), Utils.color("&7Clickerdy click."), 10, 20, 10);
-                player.sendMessage(Utils.color("&eReloading..."));
+                Messages messages = Main.getMessages();
+
+                player.sendTitle(messages.get(Message.RELOADING_TITLE), messages.get(Message.RELOADING_SUBTITLE), 10, 20, 10);
+                player.sendMessage(messages.get(Message.RELOADING));
                 player.getInventory().removeItem(bulletItem);
 
                 weaponcooldown.put(UUID, new Date(new Date().getTime() + (long) (plugin.getConfig().getInt("weapons." + type + ".attackspeed") * 1000)));
@@ -144,10 +152,13 @@ public class WeaponListener implements Listener {
                 im.setLore(Lore);
                 is.setItemMeta(im);
 
-                player.sendMessage(Utils.color("&9Durability: &a" + weaponData.getWeaponData().getInt(UUID + ".durability")));
-                player.sendMessage(Utils.color("&9Ammo: &a" + weaponData.getWeaponData().getInt(UUID + ".ammo") + "&f/&c" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
+                player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_DURABILITY,
+                        Placeholder.of("durability", weaponData.getWeaponData().getInt(UUID + ".durability"))));
+                player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_AMMO,
+                        Placeholder.of("ammo", weaponData.getWeaponData().getInt(UUID + ".ammo")),
+                        Placeholder.of("max-ammo", plugin.getConfig().getInt("weapons." + type + ".max-ammo"))));
             } else {
-                player.sendMessage(Utils.color("&cOut of ammo!"));
+                player.sendMessage(Main.getMessages().get(Message.NO_AMMO));
             }
         } else {
             player.getInventory().removeItem(player.getInventory().getItemInMainHand());
@@ -161,8 +172,11 @@ public class WeaponListener implements Listener {
 
         String UUID = NBTEditor.getString(player.getInventory().getItem(event.getNewSlot()), "WEAPON-UUID");
 
-        player.sendMessage(Utils.color("&9Durability: &a" + weaponData.getWeaponData().getInt(UUID + ".durability")));
-        player.sendMessage(Utils.color("&9Ammo: &a" + weaponData.getWeaponData().getInt(UUID + ".ammo") + "&f/&c" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
+        player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_DURABILITY,
+                Placeholder.of("durability", weaponData.getWeaponData().getInt(UUID + ".durability"))));
+        player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_AMMO,
+                Placeholder.of("ammo", weaponData.getWeaponData().getInt(UUID + ".ammo")),
+                Placeholder.of("max-ammo", plugin.getConfig().getInt("weapons." + type + ".max-ammo"))));
     }
 
     @EventHandler
@@ -217,8 +231,9 @@ public class WeaponListener implements Listener {
             }
 
             if (entity instanceof Player) {
-                attacker.sendMessage(Utils.color(plugin.getConfig().getString("messages.shot.you")).replace("<player>", entity.getName()));
-                entity.sendMessage(Utils.color(plugin.getConfig().getString("messages.shot.other")).replace("<player>", attacker.getName()));
+                Messages messages = Main.getMessages();
+                attacker.sendMessage(messages.get(Message.SHOT_HIT_YOU, Placeholder.of("player", entity.getName())));
+                entity.sendMessage(messages.get(Message.SHOT_HIT_OTHER, Placeholder.of("player", attacker.getName())));
             }
         }
     }

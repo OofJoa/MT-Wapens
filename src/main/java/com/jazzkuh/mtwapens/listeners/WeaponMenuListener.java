@@ -3,6 +3,8 @@ package com.jazzkuh.mtwapens.listeners;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.utility.ItemBuilder;
 import com.jazzkuh.mtwapens.utility.Utils;
+import com.jazzkuh.mtwapens.utility.messages.Message;
+import com.jazzkuh.mtwapens.utility.messages.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -122,7 +124,7 @@ public class WeaponMenuListener implements Listener {
             if (event.getSlot() == 22 && (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(Utils.color("&c" + getDurability + " &6Durability")))) {
                 event.setCancelled(true);
                 if (!(getDurability >= 0)) {
-                    player.sendMessage("&cDe durability van een wapen kan niet lager dan het integer 0.");
+                    player.sendMessage(Main.getMessages().get(Message.INVALID_DURABILITY));
                 } else {
                     getWeapon(player, getDurability, weapon);
                     getDurability = 0;
@@ -215,7 +217,8 @@ public class WeaponMenuListener implements Listener {
         Utils.createWeaponData(UUID, dura, plugin.getConfig().getInt("weapons." + type + ".max-ammo"));
 
         player.getInventory().addItem(weapon);
-        player.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color") + "Je hebt succesvol het wapen " + plugin.getConfig().getString("messages.second-color") + "" + type + plugin.getConfig().getString("messages.first-color") + " (" + plugin.getConfig().getString("messages.second-color") + "" + dura + " Durability" + plugin.getConfig().getString("messages.first-color") + ") ontvangen."));
+        player.sendMessage(Main.getMessages().get(Message.WEAPON_RECEIVED,
+                Placeholder.of("weapontype", type), Placeholder.of("durability", dura)));
     }
 
     private void getAmmo(Player player, String string) {
@@ -229,6 +232,6 @@ public class WeaponMenuListener implements Listener {
                 .toItemStack();
 
         player.getInventory().addItem(bulletItem);
-        player.sendMessage(Utils.color(plugin.getConfig().getString("messages.first-color") + "Je hebt succesvol ammo voor het wapen " + plugin.getConfig().getString("messages.second-color") + "" + type + plugin.getConfig().getString("messages.first-color") + " ontvangen."));
+        player.sendMessage(Main.getMessages().get(Message.AMMO_RECEIVED, Placeholder.of("weapontype", type)));
     }
 }

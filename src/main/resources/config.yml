@@ -38,8 +38,6 @@ weapons:
     max-ammo: 25
     attackspeed: 1.0
 messages:
-  first-color: "&6"
-  second-color: "&c"
-  shot:
-    you: "&cJe hebt &4<player> &cgeraakt met jouw schot!"
-    other: "&cJe bent beschoten door &4<player>&c."
+  # Je kan de placeholders {PC} voor primary color en {SC} voor secondary color gebruiken
+  primary-color: '&6'
+  secondary-color: '&c'
