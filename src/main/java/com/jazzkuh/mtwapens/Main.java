@@ -58,6 +58,7 @@ public class Main extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new VoucherListener(this), this);
         setCommandExecutor("weapon", new WeaponCommand(this));
 
+        this.saveDefaultConfig();
         this.saveConfig();
 
         messages = new Messages(this);
