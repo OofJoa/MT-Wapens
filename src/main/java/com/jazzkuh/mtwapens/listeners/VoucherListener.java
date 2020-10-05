@@ -3,7 +3,10 @@ package com.jazzkuh.mtwapens.listeners;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.data.WeaponData;
 import com.jazzkuh.mtwapens.utility.ItemBuilder;
+import com.jazzkuh.mtwapens.utility.messages.Message;
+import com.jazzkuh.mtwapens.utility.messages.Messages;
 import com.jazzkuh.mtwapens.utility.Utils;
+import com.jazzkuh.mtwapens.utility.messages.Placeholder;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -98,6 +101,7 @@ public class VoucherListener implements Listener {
         Utils.createWeaponData(UUID, dura, plugin.getConfig().getInt("weapons." + type + ".max-ammo"));
 
         player.getInventory().addItem(weapon);
-        player.sendMessage(Utils.color("&6Je hebt succesvol het wapen &c" + type + "&6 (&c" + dura + " Durability&6) ontvangen."));
+        player.sendMessage(Main.getMessages().get(Message.WEAPON_RECEIVED,
+                Placeholder.of("weapontype", type), Placeholder.of("durability", dura)));
     }
 }

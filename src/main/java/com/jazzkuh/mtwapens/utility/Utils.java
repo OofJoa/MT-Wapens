@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.data.WeaponData;
+import com.jazzkuh.mtwapens.utility.messages.Message;
+import com.jazzkuh.mtwapens.utility.messages.Placeholder;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -32,7 +34,7 @@ public class Utils {
     }
 
     public static void noPermission(CommandSender sender, String s) {
-        sender.sendMessage(Utils.color("&cJe hebt niet genoeg rechten om dit command uit te voeren. Je hebt de permission " + s + " nodig."));
+        sender.sendMessage(Main.getMessages().get(Message.NO_PERMISSION, Placeholder.of("permission", s)));
     }
 
     public static HashMap<String, Date> cooldowns = new HashMap<String, Date>();

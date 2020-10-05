@@ -6,6 +6,7 @@ import com.jazzkuh.mtwapens.listeners.VoucherListener;
 import com.jazzkuh.mtwapens.listeners.WeaponListener;
 import com.jazzkuh.mtwapens.listeners.WeaponMenuListener;
 import com.jazzkuh.mtwapens.listeners.WeaponPartListener;
+import com.jazzkuh.mtwapens.utility.messages.Messages;
 import com.jazzkuh.mtwapens.utility.Metrics;
 import com.jazzkuh.mtwapens.utility.Utils;
 import org.bukkit.Bukkit;
@@ -27,6 +28,7 @@ import java.util.Arrays;
 public class Main extends JavaPlugin implements Listener {
 
     static WeaponData weaponData = WeaponData.getInstance();
+    static Messages messages;
 
     @Override
     public void onEnable() {
@@ -59,6 +61,8 @@ public class Main extends JavaPlugin implements Listener {
         this.saveDefaultConfig();
         this.saveConfig();
 
+        messages = new Messages(this);
+
         new BukkitRunnable() {
             public void run() {
                 weaponData.saveWeaponData();
@@ -79,6 +83,9 @@ public class Main extends JavaPlugin implements Listener {
         weaponData.saveWeaponData();
     }
 
+    public static Messages getMessages() {
+        return messages;
+    }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) throws IOException {
