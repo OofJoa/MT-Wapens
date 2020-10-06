@@ -1,6 +1,5 @@
 package com.jazzkuh.mtwapens.listeners;
 
-import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.utility.ItemBuilder;
 import com.jazzkuh.mtwapens.utility.Utils;
 import org.bukkit.Bukkit;
@@ -12,36 +11,27 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 
 public class WeaponPartListener implements Listener {
-    Main plugin;
-
-    public WeaponPartListener(Main plugin) {
-        this.plugin = plugin;
-    }
-
     private static ItemStack weaponPart(String string, String string2) {
 
         String weaponType = string.toLowerCase();
         String weaponTypePart = string2.toLowerCase();
 
-        ArrayList<String> Lore = new ArrayList<String>();
-        Lore.add("MT WAPEN PART MENU ITEM");
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("MT WAPEN PART MENU ITEM");
 
 
-        ItemStack weaponPart = new ItemBuilder(Material.IRON_INGOT)
+        return new ItemBuilder(Material.IRON_INGOT)
                 .setName(Utils.color("&8" + weaponType + " " + weaponTypePart))
                 .setNBT("mtcustom", weaponType + "_" + weaponTypePart)
-                .setLore(Lore)
+                .setLore(lore)
                 .toItemStack();
-
-        return weaponPart;
     }
 
-    public static void weaponPartMenu(Plugin plugin, Player player) {
+    public static void weaponPartMenu(Player player) {
         Inventory menu = Bukkit.getServer().createInventory(player, 9 * 5, "MT Wapen Parts Menu");
 
         menu.setItem(0, weaponPart("deserteagle", "frame"));
@@ -77,7 +67,6 @@ public class WeaponPartListener implements Listener {
 
     @EventHandler
     public void inventoryClick(InventoryClickEvent event) {
-
         Player player = (Player) event.getWhoClicked();
 
         if (event.getView().getTitle().contains("MT Wapen Parts Menu")) {
@@ -89,12 +78,12 @@ public class WeaponPartListener implements Listener {
 
             if (event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().hasLore() && event.getCurrentItem().getItemMeta().getLore().contains("MT WAPEN PART MENU ITEM")) {
 
-                ArrayList<String> ClearLore = new ArrayList<String>();
+                ArrayList<String> clearLore = new ArrayList<>();
 
                 ItemStack is = event.getCurrentItem();
                 ItemMeta im = is.getItemMeta();
 
-                im.setLore(ClearLore);
+                im.setLore(clearLore);
                 is.setItemMeta(im);
 
                 player.getInventory().addItem(is);

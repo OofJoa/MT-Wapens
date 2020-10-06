@@ -1,7 +1,6 @@
 package com.jazzkuh.mtwapens.utility.messages;
 
 import com.jazzkuh.mtwapens.utility.Utils;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 

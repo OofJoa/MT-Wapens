@@ -15,8 +15,7 @@ public enum Message {
     RELOADING("reload.message", "&eReloading..."),
     RELOADING_TITLE("reload.title", "&eReloading..."),
     RELOADING_SUBTITLE("reload.subtitle", "&7Clickerdy click."),
-    NO_AMMO("no-ammo", "&cOut of ammo!"),
-    ;
+    NO_AMMO("no-ammo", "&cOut of ammo!");
 
     private String path, defaultMessage;
     Message(String path, String defaultMessage) {

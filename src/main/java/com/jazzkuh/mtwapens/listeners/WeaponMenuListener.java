@@ -63,12 +63,12 @@ public class WeaponMenuListener implements Listener {
         return bulletItem;
     }
 
-    private static int getDurability = 0;
+    private static int durability = 0;
 
     public static void weaponMenu(Plugin plugin, Player player) {
         Inventory menu = Bukkit.getServer().createInventory(player, 9 * 4, "MT Wapens Menu");
 
-        getDurability = 0;
+        durability = 0;
 
         menu.setItem(11, createWeaponItem(plugin,"deserteagle"));
         menu.setItem(12, createWeaponItem(plugin,"magnum44"));
@@ -93,7 +93,7 @@ public class WeaponMenuListener implements Listener {
         menu.setItem(20, createWool("&c-5 Durability", (short) 14));
         menu.setItem(29, createWool("&c-10 Durability", (short) 14));
 
-        menu.setItem(22, new ItemBuilder(Material.WORKBENCH).setName(Utils.color("&c" + getDurability + " &6Durability")).toItemStack());
+        menu.setItem(22, new ItemBuilder(Material.WORKBENCH).setName(Utils.color("&c" + durability + " &6Durability")).toItemStack());
 
         menu.setItem(15, createWool("&a+1 Durability", (short) 5));
         menu.setItem(24, createWool("&a+5 Durability", (short) 5));
@@ -121,13 +121,13 @@ public class WeaponMenuListener implements Listener {
             createSlot(event, player, "&c-5 Durability", 20, true, 5, weapon);
             createSlot(event, player, "&c-10 Durability", 29, true, 10, weapon);
 
-            if (event.getSlot() == 22 && (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(Utils.color("&c" + getDurability + " &6Durability")))) {
+            if (event.getSlot() == 22 && (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(Utils.color("&c" + durability + " &6Durability")))) {
                 event.setCancelled(true);
-                if (!(getDurability >= 0)) {
+                if (!(durability >= 0)) {
                     player.sendMessage(Main.getMessages().get(Message.INVALID_DURABILITY));
                 } else {
-                    getWeapon(player, getDurability, weapon);
-                    getDurability = 0;
+                    getWeapon(player, durability, weapon);
+                    durability = 0;
                     player.closeInventory();
                 }
             }
@@ -160,16 +160,16 @@ public class WeaponMenuListener implements Listener {
         }
     }
 
-    private void createSlot (InventoryClickEvent event, Player player, String string, Integer integer, Boolean negative, Integer modify, String weapon) {
+    private void createSlot(InventoryClickEvent event, Player player, String string, Integer integer, Boolean negative, Integer modify, String weapon) {
         if (event.getSlot() == integer && (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(Utils.color(string)))) {
             event.setCancelled(true);
             if (negative) {
-                if (!(getDurability - modify < 0)) {
-                    getDurability -= modify;
+                if (!(durability - modify < 0)) {
+                    durability -= modify;
                     durabilityMenu(player, weapon);
                 }
             } else {
-                getDurability += modify;
+                durability += modify;
                 durabilityMenu(player, weapon);
             }
             //player.closeInventory();
@@ -196,18 +196,18 @@ public class WeaponMenuListener implements Listener {
 
         String type = string.toLowerCase();
 
-        ArrayList<String> Lore = new ArrayList<String>();
-        Lore.add(Utils.color("&f"));
-        Lore.add(Utils.color(plugin.getConfig().getString("weapon-lore")));
-        Lore.add(Utils.color("&f"));
-        Lore.add(Utils.color("&fAmmo: &7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo") + "&f/&7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
-        Lore.add(Utils.color("&f"));
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(Utils.color("&f"));
+        lore.add(Utils.color(plugin.getConfig().getString("weapon-lore")));
+        lore.add(Utils.color("&f"));
+        lore.add(Utils.color("&fAmmo: &7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo") + "&f/&7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
+        lore.add(Utils.color("&f"));
 
         ItemStack weapon = new ItemBuilder(Material.WOOD_HOE)
                 .setName(Utils.color(plugin.getConfig().getString("weapons." + type + ".name")))
                 .setNBT("mtcustom", type + "_fullmodel")
                 .setNBT("WEAPON-UUID", String.valueOf(UUID))
-                .setLore(Lore)
+                .setLore(lore)
                 .toItemStack();
 
         ItemMeta im = weapon.getItemMeta();
@@ -222,7 +222,6 @@ public class WeaponMenuListener implements Listener {
     }
 
     private void getAmmo(Player player, String string) {
-
         String type = string.toLowerCase();
 
         ItemStack bulletItem = new ItemBuilder(Material.IRON_INGOT)

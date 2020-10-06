@@ -14,7 +14,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -38,9 +37,9 @@ public class WeaponListener implements Listener {
         this.plugin = plugin;
     }
 
-    public static HashMap<String, Date> weaponcooldown = new HashMap<String, Date>();
+    public static HashMap<String, Date> weaponcooldown = new HashMap<>();
 
-    public static boolean weaponCooldown(final Long mil, String string) {
+    public static boolean weaponCooldown(String string) {
         if (weaponcooldown.containsKey(string)) {
             if (weaponcooldown.get(string).getTime() > new Date().getTime()) {
                 return false;
@@ -55,7 +54,6 @@ public class WeaponListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(final PlayerInteractEvent event) {
-
         Player player = event.getPlayer();
 
         if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR))
@@ -64,24 +62,24 @@ public class WeaponListener implements Listener {
         if (player.getInventory().getItemInMainHand() != null && player.getInventory().getItemInMainHand().getItemMeta() != null && player.getInventory().getItemInMainHand().getItemMeta().getDisplayName() != null) {
             if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Utils.color(plugin.getConfig().getString("weapons.deserteagle.name")))) {
                 event.setCancelled(true);
-                weaponClickEvent(event, player, "deserteagle");
+                weaponClickEvent(player, "deserteagle");
             } else if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Utils.color(plugin.getConfig().getString("weapons.magnum44.name")))) {
                 event.setCancelled(true);
-                weaponClickEvent(event, player, "magnum44");
+                weaponClickEvent(player, "magnum44");
             } else if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Utils.color(plugin.getConfig().getString("weapons.waltherp99.name")))) {
                 event.setCancelled(true);
-                weaponClickEvent(event, player, "waltherp99");
+                weaponClickEvent(player, "waltherp99");
             } else if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Utils.color(plugin.getConfig().getString("weapons.glock19.name")))) {
                 event.setCancelled(true);
-                weaponClickEvent(event, player, "glock19");
+                weaponClickEvent(player, "glock19");
             } else if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Utils.color(plugin.getConfig().getString("weapons.m16a4.name")))) {
                 event.setCancelled(true);
-                weaponClickEvent(event, player, "m16a4");
+                weaponClickEvent(player, "m16a4");
             }
         }
     }
 
-    private void weaponClickEvent(Event event, Player player, String type) {
+    private void weaponClickEvent(Player player, String type) {
         if (!(NBTEditor.contains(player.getInventory().getItemInMainHand(), "WEAPON-UUID")))
             return;
 
@@ -95,24 +93,24 @@ public class WeaponListener implements Listener {
 
         if (weaponData.getWeaponData().getInt(UUID + ".durability") > 0) {
             if (weaponData.getWeaponData().getInt(UUID + ".ammo") > 0) {
-                if (weaponCooldown((long) (plugin.getConfig().getInt("weapons." + type + ".attackspeed") * 1000), UUID)) {
+                if (weaponCooldown(UUID)) {
 
                     weaponcooldown.put(UUID, new Date(new Date().getTime() + (long) (plugin.getConfig().getDouble("weapons." + type + ".attackspeed") * 1000)));
 
                     weaponData.getWeaponData().set(UUID + ".durability", weaponData.getWeaponData().getInt(UUID + ".durability") - 1);
                     weaponData.getWeaponData().set(UUID + ".ammo", weaponData.getWeaponData().getInt(UUID + ".ammo") - 1);
 
-                    ArrayList<String> Lore = new ArrayList<String>();
+                    ArrayList<String> lore = new ArrayList<>();
 
                     ItemStack is = player.getInventory().getItemInMainHand();
                     ItemMeta im = is.getItemMeta();
 
-                    Lore.add(Utils.color("&f"));
-                    Lore.add(Utils.color(plugin.getConfig().getString("weapon-lore")));
-                    Lore.add(Utils.color("&f"));
-                    Lore.add(Utils.color("&fAmmo: &7" + weaponData.getWeaponData().getInt(UUID + ".ammo") + "&f/&7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
-                    Lore.add(Utils.color("&f"));
-                    im.setLore(Lore);
+                    lore.add(Utils.color("&f"));
+                    lore.add(Utils.color(plugin.getConfig().getString("weapon-lore")));
+                    lore.add(Utils.color("&f"));
+                    lore.add(Utils.color("&fAmmo: &7" + weaponData.getWeaponData().getInt(UUID + ".ammo") + "&f/&7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
+                    lore.add(Utils.color("&f"));
+                    im.setLore(lore);
                     is.setItemMeta(im);
 
                     player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_DURABILITY,
@@ -139,17 +137,17 @@ public class WeaponListener implements Listener {
                 weaponcooldown.put(UUID, new Date(new Date().getTime() + (long) (plugin.getConfig().getInt("weapons." + type + ".attackspeed") * 1000)));
                 weaponData.getWeaponData().set(UUID + ".ammo", plugin.getConfig().getInt("weapons." + type + ".max-ammo"));
 
-                ArrayList<String> Lore = new ArrayList<String>();
+                ArrayList<String> lore = new ArrayList<>();
 
                 ItemStack is = player.getInventory().getItemInMainHand();
                 ItemMeta im = is.getItemMeta();
 
-                Lore.add(Utils.color("&f"));
-                Lore.add(Utils.color(plugin.getConfig().getString("weapon-lore")));
-                Lore.add(Utils.color("&f"));
-                Lore.add(Utils.color("&fAmmo: &7" + weaponData.getWeaponData().getInt(UUID + ".ammo") + "&f/&7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
-                Lore.add(Utils.color("&f"));
-                im.setLore(Lore);
+                lore.add(Utils.color("&f"));
+                lore.add(Utils.color(plugin.getConfig().getString("weapon-lore")));
+                lore.add(Utils.color("&f"));
+                lore.add(Utils.color("&fAmmo: &7" + weaponData.getWeaponData().getInt(UUID + ".ammo") + "&f/&7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
+                lore.add(Utils.color("&f"));
+                im.setLore(lore);
                 is.setItemMeta(im);
 
                 player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_DURABILITY,

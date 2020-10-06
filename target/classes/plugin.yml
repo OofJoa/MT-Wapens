@@ -1,0 +1,9 @@
+name: MT-Wapens
+description: Voeg wapens toe aan jouw server
+website: https://www.spigotmc.org/resources/76350/
+version: 1.0.12
+main: com.jazzkuh.mtwapens.Main
+authors: [Jazzkuh]
+commands:
+  weapon:
+    aliases: [mtwapens, mt-wapens, weapons]
