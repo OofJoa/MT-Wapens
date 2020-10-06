@@ -1,7 +1,6 @@
 package com.jazzkuh.mtwapens.listeners;
 
 import com.jazzkuh.mtwapens.Main;
-import com.jazzkuh.mtwapens.data.WeaponData;
 import com.jazzkuh.mtwapens.utility.ItemBuilder;
 import com.jazzkuh.mtwapens.utility.Utils;
 import com.jazzkuh.mtwapens.utility.messages.Message;
@@ -10,6 +9,7 @@ import com.jazzkuh.mtwapens.utility.messages.Placeholder;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -30,8 +30,6 @@ import java.util.HashMap;
 
 public class WeaponListener implements Listener {
     Main plugin;
-
-    static WeaponData weaponData = WeaponData.getInstance();
 
     public WeaponListener(Main plugin) {
         this.plugin = plugin;
@@ -83,6 +81,8 @@ public class WeaponListener implements Listener {
         if (!(NBTEditor.contains(player.getInventory().getItemInMainHand(), "WEAPON-UUID")))
             return;
 
+        FileConfiguration weaponData = Main.getWeaponManager().getWeaponData();
+
         String UUID = NBTEditor.getString(player.getInventory().getItemInMainHand(), "WEAPON-UUID");
 
         ItemStack bulletItem = new ItemBuilder(Material.IRON_INGOT)
@@ -91,14 +91,14 @@ public class WeaponListener implements Listener {
                 .setNBT("mtcustom", "" + type + "_bullets")
                 .toItemStack();
 
-        if (weaponData.getWeaponData().getInt(UUID + ".durability") > 0) {
-            if (weaponData.getWeaponData().getInt(UUID + ".ammo") > 0) {
+        if (weaponData.getInt(UUID + ".durability") > 0) {
+            if (weaponData.getInt(UUID + ".ammo") > 0) {
                 if (weaponCooldown(UUID)) {
 
                     weaponcooldown.put(UUID, new Date(new Date().getTime() + (long) (plugin.getConfig().getDouble("weapons." + type + ".attackspeed") * 1000)));
 
-                    weaponData.getWeaponData().set(UUID + ".durability", weaponData.getWeaponData().getInt(UUID + ".durability") - 1);
-                    weaponData.getWeaponData().set(UUID + ".ammo", weaponData.getWeaponData().getInt(UUID + ".ammo") - 1);
+                    weaponData.set(UUID + ".durability", weaponData.getInt(UUID + ".durability") - 1);
+                    weaponData.set(UUID + ".ammo", weaponData.getInt(UUID + ".ammo") - 1);
 
                     ArrayList<String> lore = new ArrayList<>();
 
@@ -108,15 +108,15 @@ public class WeaponListener implements Listener {
                     lore.add(Utils.color("&f"));
                     lore.add(Utils.color(plugin.getConfig().getString("weapon-lore")));
                     lore.add(Utils.color("&f"));
-                    lore.add(Utils.color("&fAmmo: &7" + weaponData.getWeaponData().getInt(UUID + ".ammo") + "&f/&7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
+                    lore.add(Utils.color("&fAmmo: &7" + weaponData.getInt(UUID + ".ammo") + "&f/&7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
                     lore.add(Utils.color("&f"));
                     im.setLore(lore);
                     is.setItemMeta(im);
 
                     player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_DURABILITY,
-                            Placeholder.of("durability", weaponData.getWeaponData().getInt(UUID + ".durability"))));
+                            Placeholder.of("durability", weaponData.getInt(UUID + ".durability"))));
                     player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_AMMO,
-                            Placeholder.of("ammo", weaponData.getWeaponData().getInt(UUID + ".ammo")),
+                            Placeholder.of("ammo", weaponData.getInt(UUID + ".ammo")),
                             Placeholder.of("max-ammo", plugin.getConfig().getInt("weapons." + type + ".max-ammo"))));
 
                     /*Snowball bullet = player.launchProjectile(Snowball.class);
@@ -135,7 +135,7 @@ public class WeaponListener implements Listener {
                 player.getInventory().removeItem(bulletItem);
 
                 weaponcooldown.put(UUID, new Date(new Date().getTime() + (long) (plugin.getConfig().getInt("weapons." + type + ".attackspeed") * 1000)));
-                weaponData.getWeaponData().set(UUID + ".ammo", plugin.getConfig().getInt("weapons." + type + ".max-ammo"));
+                weaponData.set(UUID + ".ammo", plugin.getConfig().getInt("weapons." + type + ".max-ammo"));
 
                 ArrayList<String> lore = new ArrayList<>();
 
@@ -145,15 +145,15 @@ public class WeaponListener implements Listener {
                 lore.add(Utils.color("&f"));
                 lore.add(Utils.color(plugin.getConfig().getString("weapon-lore")));
                 lore.add(Utils.color("&f"));
-                lore.add(Utils.color("&fAmmo: &7" + weaponData.getWeaponData().getInt(UUID + ".ammo") + "&f/&7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
+                lore.add(Utils.color("&fAmmo: &7" + weaponData.getInt(UUID + ".ammo") + "&f/&7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
                 lore.add(Utils.color("&f"));
                 im.setLore(lore);
                 is.setItemMeta(im);
 
                 player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_DURABILITY,
-                        Placeholder.of("durability", weaponData.getWeaponData().getInt(UUID + ".durability"))));
+                        Placeholder.of("durability", weaponData.getInt(UUID + ".durability"))));
                 player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_AMMO,
-                        Placeholder.of("ammo", weaponData.getWeaponData().getInt(UUID + ".ammo")),
+                        Placeholder.of("ammo", weaponData.getInt(UUID + ".ammo")),
                         Placeholder.of("max-ammo", plugin.getConfig().getInt("weapons." + type + ".max-ammo"))));
             } else {
                 player.sendMessage(Main.getMessages().get(Message.NO_AMMO));
@@ -171,9 +171,9 @@ public class WeaponListener implements Listener {
         String UUID = NBTEditor.getString(player.getInventory().getItem(event.getNewSlot()), "WEAPON-UUID");
 
         player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_DURABILITY,
-                Placeholder.of("durability", weaponData.getWeaponData().getInt(UUID + ".durability"))));
+                Placeholder.of("durability", Main.getWeaponManager().getWeaponData().getInt(UUID + ".durability"))));
         player.sendMessage(Main.getMessages().get(Message.SHOT_INFO_AMMO,
-                Placeholder.of("ammo", weaponData.getWeaponData().getInt(UUID + ".ammo")),
+                Placeholder.of("ammo", Main.getWeaponManager().getWeaponData().getInt(UUID + ".ammo")),
                 Placeholder.of("max-ammo", plugin.getConfig().getInt("weapons." + type + ".max-ammo"))));
     }
 

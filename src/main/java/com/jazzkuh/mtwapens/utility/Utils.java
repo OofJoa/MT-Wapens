@@ -3,12 +3,12 @@ package com.jazzkuh.mtwapens.utility;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jazzkuh.mtwapens.Main;
-import com.jazzkuh.mtwapens.data.WeaponData;
 import com.jazzkuh.mtwapens.utility.messages.Message;
 import com.jazzkuh.mtwapens.utility.messages.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,8 +19,6 @@ import java.util.Random;
 import java.util.UUID;
 
 public class Utils {
-    static WeaponData weaponData = WeaponData.getInstance();
-
     public static String color(String input) {
         return ChatColor.translateAlternateColorCodes('&', input);
     }
@@ -34,8 +32,9 @@ public class Utils {
     }
 
     public static void createWeaponDataIntIfNotExists(int UUID, String string, Integer value) {
-        if (weaponData.getWeaponData().getString(UUID + string) == null) {
-            weaponData.getWeaponData().set(UUID + string, Integer.parseInt(String.valueOf(value)));
+        FileConfiguration weaponData = Main.getWeaponManager().getWeaponData();
+        if (weaponData.getString(UUID + string) == null) {
+            weaponData.set(UUID + string, Integer.parseInt(String.valueOf(value)));
         }
     }
 

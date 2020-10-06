@@ -1,7 +1,6 @@
 package com.jazzkuh.mtwapens.commands;
 
 import com.jazzkuh.mtwapens.Main;
-import com.jazzkuh.mtwapens.data.WeaponData;
 import com.jazzkuh.mtwapens.listeners.WeaponMenuListener;
 import com.jazzkuh.mtwapens.listeners.WeaponPartListener;
 import com.jazzkuh.mtwapens.utility.ItemBuilder;
@@ -104,7 +103,7 @@ public class WeaponCommand implements TabExecutor {
                 }
 
                 plugin.reloadConfig();
-                WeaponData.getInstance().reloadWeaponData();
+                Main.getWeaponManager().loadWeaponData();
                 sender.sendMessage(messages.get(Message.FILES_RELOADED));
             } else if (args.length == 1 && args[0].equalsIgnoreCase("menu")) {
                 if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {

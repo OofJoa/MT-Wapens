@@ -1,7 +1,7 @@
 package com.jazzkuh.mtwapens;
 
 import com.jazzkuh.mtwapens.commands.WeaponCommand;
-import com.jazzkuh.mtwapens.data.WeaponData;
+import com.jazzkuh.mtwapens.data.WeaponManager;
 import com.jazzkuh.mtwapens.listeners.VoucherListener;
 import com.jazzkuh.mtwapens.listeners.WeaponListener;
 import com.jazzkuh.mtwapens.listeners.WeaponMenuListener;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main extends JavaPlugin implements Listener {
-    static WeaponData weaponData = WeaponData.getInstance();
+    static WeaponManager weaponManager;
     static Messages messages;
 
     @Override
@@ -45,10 +45,6 @@ public class Main extends JavaPlugin implements Listener {
             this.getPluginLoader().disablePlugin(this);
         }
 
-        weaponData.setup(this);
-        weaponData.getWeaponData().options().copyDefaults(true);
-        weaponData.saveWeaponData();
-
         Bukkit.getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new WeaponListener(this), this);
         Bukkit.getPluginManager().registerEvents(new WeaponPartListener(), this);
@@ -60,10 +56,12 @@ public class Main extends JavaPlugin implements Listener {
         this.saveConfig();
 
         messages = new Messages(this);
+        weaponManager = new WeaponManager(this);
+        weaponManager.saveWeaponData();
 
         new BukkitRunnable() {
             public void run() {
-                weaponData.saveWeaponData();
+                weaponManager.saveWeaponData();
             }
         }.runTaskTimer(this, 0, 6000);
     }
@@ -78,11 +76,15 @@ public class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        weaponData.saveWeaponData();
+        weaponManager.saveWeaponData();
     }
 
     public static Messages getMessages() {
         return messages;
+    }
+
+    public static WeaponManager getWeaponManager() {
+        return weaponManager;
     }
 
     @EventHandler
