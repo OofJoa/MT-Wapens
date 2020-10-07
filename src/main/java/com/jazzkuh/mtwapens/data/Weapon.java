@@ -1,15 +1,28 @@
 package com.jazzkuh.mtwapens.data;
 
 public class Weapon {
-    String displayName, ammoName;
-    double damage, attackSpeed;
-    int maxAmmo;
+    WeaponType weaponType;
+    int durability, ammo;
 
-    public Weapon(String displayName, String ammoName, double damage, double attackSpeed, int maxAmmo) {
-        this.displayName = displayName;
-        this.ammoName = ammoName;
-        this.damage = damage;
-        this.attackSpeed = attackSpeed;
-        this.maxAmmo = maxAmmo;
+    public Weapon(WeaponType weaponType, int durability, int ammo) {
+        this.weaponType = weaponType;
+        this.durability = durability;
+        this.ammo = ammo;
+    }
+
+    public WeaponType getWeaponType() {
+        return weaponType;
+    }
+
+    public int getDurability() {
+        return durability;
+    }
+
+    public int getAmmo() {
+        return ammo;
+    }
+
+    public void setAmmo(int ammo) {
+        this.ammo = ammo;
     }
 }

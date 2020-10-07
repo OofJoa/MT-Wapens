@@ -7,7 +7,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.HashMap;
 
 public class Messages {
-    private String primaryColor, secondaryColor;
+    private String primaryColor, secondaryColor, weaponLore, ammoLore;
     private HashMap<Message, String> cache = new HashMap<>();
 
     public Messages(Plugin plugin) {
@@ -24,6 +24,8 @@ public class Messages {
 
         primaryColor = Utils.color(config.getString("messages.primary-color"));
         secondaryColor = Utils.color(config.getString("messages.secondary-color"));
+        weaponLore = Utils.color(config.getString("weapon-lore"));
+        ammoLore = Utils.color(config.getString("ammo-lore"));
 
         plugin.saveConfig();
     }
@@ -44,5 +46,13 @@ public class Messages {
 
     public String getSecondaryColor() {
         return secondaryColor;
+    }
+
+    public String getWeaponLore() {
+        return weaponLore;
+    }
+
+    public String getAmmoLore() {
+        return ammoLore;
     }
 }
