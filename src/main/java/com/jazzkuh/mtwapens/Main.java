@@ -46,18 +46,17 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         Bukkit.getPluginManager().registerEvents(this, this);
-        Bukkit.getPluginManager().registerEvents(new WeaponListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new WeaponListener(), this);
         Bukkit.getPluginManager().registerEvents(new WeaponPartListener(), this);
         Bukkit.getPluginManager().registerEvents(new WeaponMenuListener(this), this);
         Bukkit.getPluginManager().registerEvents(new VoucherListener(this), this);
         setCommandExecutor("weapon", new WeaponCommand(this));
 
         this.saveDefaultConfig();
-        this.saveConfig();
+        this.reloadConfig();
 
         messages = new Messages(this);
         weaponManager = new WeaponManager(this);
-        weaponManager.saveWeaponData();
 
         new BukkitRunnable() {
             public void run() {

@@ -8,6 +8,8 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.Function;
 
@@ -18,7 +20,8 @@ public class WeaponManager {
     File weaponDataFile;
 
     public WeaponManager(Plugin plugin) {
-        for (String weapon : plugin.getConfig().getConfigurationSection("weapons").getKeys(false)) {
+        System.out.println(plugin.getConfig().getConfigurationSection("weapons").getKeys(false));
+        for (String weapon : plugin.getConfig().getConfigurationSection("weapons.").getKeys(false)) {
             Function<String, Object> get = value -> plugin.getConfig().get("weapons." + weapon + "." + value);
             weaponTypes.put(Utils.color((String) get.apply("name")), new WeaponType(weapon,
                     (String) get.apply("name"), (String) get.apply("ammo-name"), (double) get.apply("damage"),
@@ -58,6 +61,10 @@ public class WeaponManager {
 
     public Weapon getWeapon(String uuid) {
         return weaponCache.get(uuid);
+    }
+
+    public Collection<WeaponType> getWeapons() {
+        return weaponTypes.values();
     }
 
     public Weapon putWeapon(String uuid, Weapon weapon) {

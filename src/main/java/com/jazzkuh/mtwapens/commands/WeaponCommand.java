@@ -1,6 +1,7 @@
 package com.jazzkuh.mtwapens.commands;
 
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.data.WeaponType;
 import com.jazzkuh.mtwapens.listeners.WeaponMenuListener;
 import com.jazzkuh.mtwapens.listeners.WeaponPartListener;
 import com.jazzkuh.mtwapens.utility.ItemBuilder;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.StringUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WeaponCommand implements TabExecutor {
     private final Main plugin;
@@ -228,8 +230,8 @@ public class WeaponCommand implements TabExecutor {
             return getApplicableTabCompletes(args[0],
                     Arrays.asList("help", "reload", "menu", "parts", "voucher", "getweapon", "getammo"));
         } else if (args.length == 2) {
-            return getApplicableTabCompletes(args[1],
-                    plugin.getConfig().getConfigurationSection("weapons.").getKeys(false));
+            return getApplicableTabCompletes(args[1], Main.getWeaponManager().getWeapons()
+                    .stream().map(WeaponType::getType).collect(Collectors.toList()));
         }
 
         return Collections.emptyList();

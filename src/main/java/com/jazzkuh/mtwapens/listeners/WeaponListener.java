@@ -46,11 +46,12 @@ public class WeaponListener implements Listener {
                 item == null || item.getItemMeta() == null) return;
 
         WeaponType weaponType = Main.getWeaponManager().getWeaponType(item.getItemMeta().getDisplayName());
-
         if (weaponType == null) return;
 
         FileConfiguration weaponData = Main.getWeaponManager().getWeaponData();
         String uuid = NBTEditor.getString(item, "WEAPON-UUID");
+
+        if (!(weaponCooldown.getOrDefault(uuid, -1L) < System.currentTimeMillis())) return;
 
         Weapon weapon = Main.getWeaponManager().getWeapon(uuid);
         if (weapon == null) {
@@ -85,14 +86,14 @@ public class WeaponListener implements Listener {
             bullet.setCustomName(type + "-" + this.plugin.getConfig().getDouble("weapons." + type + ".damage"));
             bullet.setVelocity(bullet.getVelocity().multiply(2D));*/
 
+            weapon.setAmmo(weapon.getAmmo() - 1);
+            weapon.setDurability(weapon.getDurability() - 1);
+
             Snowball bullet = player.launchProjectile(Snowball.class);
             bullet.setCustomName(weaponType.getDamage() + "");
             bullet.setShooter(player);
             bullet.setVelocity(bullet.getVelocity().multiply(2D));
         }
-
-        if (!(weaponCooldown.getOrDefault(uuid, -1L) < System.currentTimeMillis())) return;
-        weaponCooldown.put(uuid, System.currentTimeMillis() + ((long) (weaponType.getAttackSpeed() * 1000)));
 
         ItemMeta meta = item.getItemMeta();
 
@@ -107,6 +108,8 @@ public class WeaponListener implements Listener {
         item.setItemMeta(meta);
 
         showWeaponInfo(player, weapon);
+
+        weaponCooldown.put(uuid, System.currentTimeMillis() + ((long) (weaponType.getAttackSpeed() * 1000)));
     }
 
     private void showWeaponInfo(Player player, Weapon weapon) {
@@ -121,6 +124,7 @@ public class WeaponListener implements Listener {
     public void onPlayerItemHoldEvent(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItem(event.getNewSlot());
+        if (item == null) return;
         if (!NBTEditor.contains(item, "WEAPON-UUID")) return;
         Weapon weapon = Main.getWeaponManager().getWeapon(NBTEditor.getString(item, "WEAPON-UUID"));
         if (weapon == null) return;
