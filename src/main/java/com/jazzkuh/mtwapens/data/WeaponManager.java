@@ -21,7 +21,15 @@ public class WeaponManager {
     public WeaponManager(Plugin plugin) {
         for (String weapon : plugin.getConfig().getConfigurationSection("weapons.").getKeys(false)) {
             Function<String, Object> get = value -> plugin.getConfig().get("weapons." + weapon + "." + value);
-            weaponTypes.put(Utils.color((String) get.apply("name")), new WeaponType(weapon,
+            String displayName = Utils.color((String) get.apply("name"));
+            WeaponType currentType = weaponTypes.get(displayName);
+            if (currentType != null) {
+                Bukkit.getLogger().warning("\nWARNING! Due to the way MT-Wapens works, " +
+                        "it is currently not possible to have 2 weapons with the same display name. " +
+                        currentType.getType() + " will not work as expected.\n");
+            }
+
+            weaponTypes.put(displayName, new WeaponType(weapon,
                     (String) get.apply("name"), (String) get.apply("ammo-name"), (double) get.apply("damage"),
                     (double) get.apply("attackspeed"), (int) get.apply("max-ammo")));
         }
