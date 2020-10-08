@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -31,9 +32,10 @@ public class WeaponManager {
                         currentType.getType() + " will not work as expected.\n");
             }
 
-            weaponTypes.put(displayName, new WeaponType(weapon,
-                    (String) get.apply("name"), (String) get.apply("ammo-name"), (double) get.apply("damage"),
-                    (double) get.apply("attackspeed"), (int) get.apply("max-ammo")));
+            weaponTypes.put(displayName, new WeaponType(weapon, (String) get.apply("name"),
+                    (String) get.apply("ammo-name"), (double) get.apply("damage"),
+                    (double) get.apply("attackspeed"), (int) get.apply("max-ammo"),
+                    (ArrayList<String>) get.apply("parts")));
         }
 
         weaponDataFile = new File(plugin.getDataFolder(), "weapondata.yml");

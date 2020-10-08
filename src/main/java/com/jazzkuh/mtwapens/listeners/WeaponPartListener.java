@@ -1,8 +1,11 @@
 package com.jazzkuh.mtwapens.listeners;
 
+import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.data.WeaponType;
 import com.jazzkuh.mtwapens.utility.ItemBuilder;
 import com.jazzkuh.mtwapens.utility.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,54 +16,45 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class WeaponPartListener implements Listener {
-    private static ItemStack weaponPart(String string, String string2) {
-
-        String weaponType = string.toLowerCase();
-        String weaponTypePart = string2.toLowerCase();
-
+    private static ItemStack weaponPart(String part) {
         ArrayList<String> lore = new ArrayList<>();
         lore.add("MT WAPEN PART MENU ITEM");
 
-
         return new ItemBuilder(Material.IRON_INGOT)
-                .setName(Utils.color("&8" + weaponType + " " + weaponTypePart))
-                .setNBT("mtcustom", weaponType + "_" + weaponTypePart)
+                .setName(Utils.color("&8" + part.replace("_", " ")))
+                .setNBT("mtcustom", part)
                 .setLore(lore)
                 .toItemStack();
     }
 
-    public static void weaponPartMenu(Player player) {
-        Inventory menu = Bukkit.getServer().createInventory(player, 9 * 5, "MT Wapen Parts Menu");
+    public static void weaponPartMenu(Player player, int page) {
+        LinkedList<String> parts = new LinkedList<>();
+        for (WeaponType weaponType : Main.getWeaponManager().getWeaponTypes()) {
+            parts.addAll(weaponType.getParts().stream().map(part -> weaponType.getType() + "_" + part)
+                    .map(String::toLowerCase).collect(Collectors.toSet()));
+        }
 
-        menu.setItem(0, weaponPart("deserteagle", "frame"));
-        menu.setItem(1, weaponPart("deserteagle", "magazijn"));
-        menu.setItem(2, weaponPart("deserteagle", "trekker"));
-        menu.setItem(3, weaponPart("deserteagle", "grip"));
+        int size = (int) (Math.ceil(Math.min(4 * 9, parts.size()) / 9.0) * 9) + 9;
+        Inventory menu = Bukkit.getServer().createInventory(player, size, "MT Wapen Parts Menu");
+        menu.addItem(parts.stream().map(WeaponPartListener::weaponPart).skip(page * 36).limit(36).toArray(ItemStack[]::new));
 
-        menu.setItem(9, weaponPart("magnum44", "frame"));
-        menu.setItem(10, weaponPart("magnum44", "magazijn"));
-        menu.setItem(11, weaponPart("magnum44", "trekker"));
-        menu.setItem(12, weaponPart("magnum44", "grip"));
+        menu.setItem(size - 5, new ItemBuilder(Material.BARRIER).setName(ChatColor.RED + "Annuleer").toItemStack());
 
-        menu.setItem(18, weaponPart("waltherp99", "frame"));
-        menu.setItem(19, weaponPart("waltherp99", "magazijn"));
-        menu.setItem(20, weaponPart("waltherp99", "trekker"));
-        menu.setItem(21, weaponPart("waltherp99", "grip"));
+        if (page > 0) {
+            menu.setItem(size - 6, new ItemBuilder(Material.SIGN)
+                    .setName(ChatColor.GOLD + "Ga naar pagina " + page).toItemStack());
+        }
 
-        menu.setItem(27, weaponPart("glock19", "frame"));
-        menu.setItem(28, weaponPart("glock19", "magazijn"));
-        menu.setItem(29, weaponPart("glock19", "trekker"));
-        menu.setItem(30, weaponPart("glock19", "grip"));
-
-        menu.setItem(36, weaponPart("m16a4", "loop"));
-        menu.setItem(37, weaponPart("m16a4", "frame"));
-        menu.setItem(38, weaponPart("m16a4", "magazijn"));
-        menu.setItem(39, weaponPart("m16a4", "magazijnhouder"));
-        menu.setItem(40, weaponPart("m16a4", "trekker"));
-        menu.setItem(41, weaponPart("m16a4", "grip"));
-        menu.setItem(42, weaponPart("m16a4", "achterkant"));
+        if (parts.size() - page * 36 > 36) {
+            menu.setItem(size - 4, new ItemBuilder(Material.SIGN)
+                    .setName(ChatColor.GOLD + "Ga naar pagina " + (page + 2)).toItemStack());
+        }
 
         player.openInventory(menu);
     }
@@ -72,21 +66,27 @@ public class WeaponPartListener implements Listener {
         if (event.getView().getTitle().contains("MT Wapen Parts Menu")) {
             event.setCancelled(true);
 
+            ItemStack item = event.getCurrentItem();
+
+            if (item.getType() == Material.BARRIER) {
+                player.closeInventory();
+            } else if (item.getType() == Material.SIGN) {
+                int newPage = Integer.parseInt(item.getItemMeta().getDisplayName().replaceAll("([a-zA-Z]|\\s|§\\d)+", "")) - 1;
+                weaponPartMenu(player, newPage);
+            }
+
             if ((event.getCurrentItem() == null) || (event.getCurrentItem().getType().equals(Material.AIR))) {
                 return;
             }
 
-            if (event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().hasLore() && event.getCurrentItem().getItemMeta().getLore().contains("MT WAPEN PART MENU ITEM")) {
-
+            if (item.hasItemMeta() && item.getItemMeta().hasLore() && item.getItemMeta().getLore().contains("MT WAPEN PART MENU ITEM")) {
                 ArrayList<String> clearLore = new ArrayList<>();
-
-                ItemStack is = event.getCurrentItem();
-                ItemMeta im = is.getItemMeta();
+                ItemMeta im = item.getItemMeta();
 
                 im.setLore(clearLore);
-                is.setItemMeta(im);
+                item.setItemMeta(im);
 
-                player.getInventory().addItem(is);
+                player.getInventory().addItem(item);
                 player.closeInventory();
             }
         }

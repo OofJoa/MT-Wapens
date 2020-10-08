@@ -120,7 +120,7 @@ public class WeaponCommand implements TabExecutor {
                     return true;
                 }
 
-                WeaponPartListener.weaponPartMenu(player);
+                WeaponPartListener.weaponPartMenu(player, 0);
             } else {
                 sendHelp(sender);
             }
