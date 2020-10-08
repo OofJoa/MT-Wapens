@@ -1,11 +1,14 @@
 package com.jazzkuh.mtwapens.listeners;
 
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.data.Weapon;
+import com.jazzkuh.mtwapens.data.WeaponType;
 import com.jazzkuh.mtwapens.utility.ItemBuilder;
 import com.jazzkuh.mtwapens.utility.Utils;
 import com.jazzkuh.mtwapens.utility.messages.Message;
 import com.jazzkuh.mtwapens.utility.messages.Placeholder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,23 +40,23 @@ public class WeaponMenuListener implements Listener {
         return item;
     }
 
-    private static ItemStack createWeaponItem(Plugin plugin, String type) {
-        ItemStack weapon = new ItemBuilder(Material.WOOD_HOE)
-                .setName(Utils.color(plugin.getConfig().getString("weapons." + type + ".name")))
-                .setNBT("mtcustom", type + "_fullmodel")
+    private static ItemStack createWeaponItem(WeaponType weaponType) {
+        ItemStack weaponItem = new ItemBuilder(Material.WOOD_HOE)
+                .setName(weaponType.getDisplayName())
+                .setNBT("mtcustom", weaponType.getType() + "_fullmodel")
                 .toItemStack();
 
-        ItemMeta im = weapon.getItemMeta();
+        ItemMeta im = weaponItem.getItemMeta();
         im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        weapon.setItemMeta(im);
+        weaponItem.setItemMeta(im);
 
-        return weapon;
+        return weaponItem;
     }
 
-    private static ItemStack createAmmoItem(Plugin plugin, String type) {
+    private static ItemStack createAmmoItem(WeaponType weaponType) {
         ItemStack bulletItem = new ItemBuilder(Material.IRON_INGOT)
-                .setName(Utils.color(plugin.getConfig().getString("weapons." + type + ".ammo-name")))
-                .setNBT("mtcustom", "" + type + "_bullets")
+                .setName(weaponType.getDisplayName())
+                .setNBT("mtcustom", "" + weaponType.getType() + "_bullets")
                 .toItemStack();
 
         ItemMeta im = bulletItem.getItemMeta();
@@ -65,22 +68,29 @@ public class WeaponMenuListener implements Listener {
 
     private static int durability = 0;
 
-    public static void weaponMenu(Plugin plugin, Player player) {
-        Inventory menu = Bukkit.getServer().createInventory(player, 9 * 4, "MT Wapens Menu");
+    public static void weaponMenu(Player player, int page) {
+        ArrayList<WeaponType> weaponTypes = Main.getWeaponManager().getWeaponTypes();
+
+        Inventory menu = Bukkit.getServer().createInventory(player, 3 * 9, "MT Wapens Menu");
+        for (int i = 0; i < Math.min(weaponTypes.size() - page * 9, 9); i++) {
+            int index = i + page * 9;
+            menu.setItem(i, createWeaponItem(weaponTypes.get(index)));
+            menu.setItem(i + 9, createAmmoItem(weaponTypes.get(index)));
+        }
+
+        menu.setItem(22, new ItemBuilder(Material.BARRIER).setName(ChatColor.RED + "Annuleer").toItemStack());
+
+        if (page > 0) {
+            menu.setItem(21, new ItemBuilder(Material.SIGN)
+                    .setName(ChatColor.GOLD + "Ga naar pagina " + page).toItemStack());
+        }
+
+        if (weaponTypes.size() - page * 9 > 9) {
+            menu.setItem(23, new ItemBuilder(Material.SIGN)
+                    .setName(ChatColor.GOLD + "Ga naar pagina " + (page + 2)).toItemStack());
+        }
 
         durability = 0;
-
-        menu.setItem(11, createWeaponItem(plugin,"deserteagle"));
-        menu.setItem(12, createWeaponItem(plugin,"magnum44"));
-        menu.setItem(13, createWeaponItem(plugin,"waltherp99"));
-        menu.setItem(14, createWeaponItem(plugin,"glock19"));
-        menu.setItem(15, createWeaponItem(plugin,"m16a4"));
-
-        menu.setItem(20, createAmmoItem(plugin,"deserteagle"));
-        menu.setItem(21, createAmmoItem(plugin,"magnum44"));
-        menu.setItem(22, createAmmoItem(plugin,"waltherp99"));
-        menu.setItem(23, createAmmoItem(plugin,"glock19"));
-        menu.setItem(24, createAmmoItem(plugin,"m16a4"));
 
         player.openInventory(menu);
     }
@@ -93,7 +103,7 @@ public class WeaponMenuListener implements Listener {
         menu.setItem(20, createWool("&c-5 Durability", (short) 14));
         menu.setItem(29, createWool("&c-10 Durability", (short) 14));
 
-        menu.setItem(22, new ItemBuilder(Material.WORKBENCH).setName(Utils.color("&c" + durability + " &6Durability")).toItemStack());
+        menu.setItem(22, new ItemBuilder(Material.WORKBENCH).setColoredName("&c" + durability + " &6Durability").toItemStack());
 
         menu.setItem(15, createWool("&a+1 Durability", (short) 5));
         menu.setItem(24, createWool("&a+5 Durability", (short) 5));
@@ -104,7 +114,6 @@ public class WeaponMenuListener implements Listener {
 
     @EventHandler
     public void inventoryClick(InventoryClickEvent event) {
-
         Player player = (Player) event.getWhoClicked();
 
         if (event.getView().getTitle().contains("Durability Modifier")) {
@@ -146,17 +155,20 @@ public class WeaponMenuListener implements Listener {
                 return;
             }
 
-            createWeaponSlot(event, player, "deserteagle", 11);
-            createWeaponSlot(event, player, "magnum44", 12);
-            createWeaponSlot(event, player, "waltherp99", 13);
-            createWeaponSlot(event, player, "glock19", 14);
-            createWeaponSlot(event, player, "m16a4", 15);
+            ItemStack item = event.getCurrentItem();
+            String displayName = item.getItemMeta().getDisplayName();
 
-            createAmmoSlot(event, player, "deserteagle", 20);
-            createAmmoSlot(event, player, "magnum44", 21);
-            createAmmoSlot(event, player, "waltherp99", 22);
-            createAmmoSlot(event, player, "glock19", 23);
-            createAmmoSlot(event, player, "m16a4", 24);
+            if (item.getType() == Material.BARRIER) {
+                player.closeInventory();
+            } else if (item.getType() == Material.SIGN) {
+                int newPage = Integer.parseInt(displayName.replaceAll("([a-zA-Z]|\\s|§\\d)+", "")) - 1;
+                weaponMenu(player, newPage);
+            } else if (event.getSlot() < 9) {
+                durabilityMenu(player, Main.getWeaponManager().getWeaponType(displayName).getType());
+            } else {
+                getAmmo(player, Main.getWeaponManager().getWeaponType(displayName).getType());
+                player.closeInventory();
+            }
         }
     }
 
@@ -173,21 +185,6 @@ public class WeaponMenuListener implements Listener {
                 durabilityMenu(player, weapon);
             }
             //player.closeInventory();
-        }
-    }
-
-    private void createWeaponSlot(InventoryClickEvent event, Player player, String string, Integer integer) {
-        if (event.getSlot() == integer && (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(Utils.color(plugin.getConfig().getString("weapons." + string + ".name"))))) {
-            event.setCancelled(true);
-            durabilityMenu(player, string);
-        }
-    }
-
-    private void createAmmoSlot(InventoryClickEvent event, Player player, String string, Integer integer) {
-        if (event.getSlot() == integer && (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(Utils.color(plugin.getConfig().getString("weapons." + string + ".ammo-name"))))) {
-            event.setCancelled(true);
-            getAmmo(player, string);
-            player.closeInventory();
         }
     }
 

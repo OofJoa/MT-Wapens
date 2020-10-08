@@ -113,7 +113,7 @@ public class WeaponCommand implements TabExecutor {
                     return true;
                 }
 
-                WeaponMenuListener.weaponMenu(plugin, player);
+                WeaponMenuListener.weaponMenu(player, 0);
             } else if (args.length == 1 && args[0].equalsIgnoreCase("parts")) {
                 if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                     Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
@@ -230,7 +230,7 @@ public class WeaponCommand implements TabExecutor {
             return getApplicableTabCompletes(args[0],
                     Arrays.asList("help", "reload", "menu", "parts", "voucher", "getweapon", "getammo"));
         } else if (args.length == 2) {
-            return getApplicableTabCompletes(args[1], Main.getWeaponManager().getWeapons()
+            return getApplicableTabCompletes(args[1], Main.getWeaponManager().getWeaponTypes()
                     .stream().map(WeaponType::getType).collect(Collectors.toList()));
         }
 
