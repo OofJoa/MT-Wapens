@@ -55,7 +55,7 @@ public class WeaponListener implements Listener {
 
         Weapon weapon = Main.getWeaponManager().getWeapon(uuid);
         if (weapon == null) {
-            weapon = weaponManager.putWeapon(uuid, new Weapon(weaponType,
+            weapon = weaponManager.putWeapon(uuid, new Weapon(weaponType, Integer.parseInt(NBTEditor.getString(item, "WEAPON-UUID")),
                     weaponData.getInt(uuid + ".durability"), weaponData.getInt(uuid + ".ammo")));
         }
 

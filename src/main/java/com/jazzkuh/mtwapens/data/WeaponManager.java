@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class WeaponManager {
@@ -55,6 +57,12 @@ public class WeaponManager {
 
     public void saveWeaponData() {
         try {
+            for (Weapon weapon : weaponCache.values()) {
+                System.out.println("Saved " + weapon.getUuid());
+                weaponData.set(weapon.getUuid() + ".durability", weapon.getDurability());
+                weaponData.set(weapon.getUuid() + ".ammo", weapon.getAmmo());
+            }
+
             weaponData.save(weaponDataFile);
         } catch (IOException e) {
             Bukkit.getServer().getLogger().severe("There was an error while saving weapondata.yml!");
