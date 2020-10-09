@@ -126,8 +126,16 @@ public class WeaponListener implements Listener {
         ItemStack item = player.getInventory().getItem(event.getNewSlot());
         if (item == null) return;
         if (!NBTEditor.contains(item, "WEAPON-UUID")) return;
-        Weapon weapon = Main.getWeaponManager().getWeapon(NBTEditor.getString(item, "WEAPON-UUID"));
-        if (weapon == null) return;
+
+        WeaponManager weaponManager = Main.getWeaponManager();
+        String uuid = NBTEditor.getString(item, "WEAPON-UUID");
+        Weapon weapon = weaponManager.getWeapon(uuid);
+        if (weapon == null) {
+            FileConfiguration weaponData = weaponManager.getWeaponData();
+            weapon = weaponManager.putWeapon(uuid, new Weapon(
+                    weaponManager.getWeaponType(item.getItemMeta().getDisplayName()), Integer.parseInt(uuid),
+                    weaponData.getInt(uuid + ".durability"), weaponData.getInt(uuid + ".ammo")));
+        }
 
         showWeaponInfo(player, weapon);
     }

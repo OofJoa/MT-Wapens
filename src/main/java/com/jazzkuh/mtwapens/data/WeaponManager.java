@@ -60,7 +60,6 @@ public class WeaponManager {
     public void saveWeaponData() {
         try {
             for (Weapon weapon : weaponCache.values()) {
-                System.out.println("Saved " + weapon.getUuid());
                 weaponData.set(weapon.getUuid() + ".durability", weapon.getDurability());
                 weaponData.set(weapon.getUuid() + ".ammo", weapon.getAmmo());
             }
