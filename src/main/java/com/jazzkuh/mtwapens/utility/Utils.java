@@ -1,34 +1,24 @@
 package com.jazzkuh.mtwapens.utility;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jazzkuh.mtwapens.Main;
-import com.jazzkuh.mtwapens.data.WeaponData;
 import com.jazzkuh.mtwapens.utility.messages.Message;
 import com.jazzkuh.mtwapens.utility.messages.Placeholder;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
 public class Utils {
-
-    Main plugin;
-
-    static WeaponData weaponData = WeaponData.getInstance();
-
-    public Utils(Main plugin) {
-        this.plugin = plugin;
-    }
-
     public static String color(String input) {
         return ChatColor.translateAlternateColorCodes('&', input);
     }
@@ -37,17 +27,14 @@ public class Utils {
         sender.sendMessage(Main.getMessages().get(Message.NO_PERMISSION, Placeholder.of("permission", s)));
     }
 
-    public static HashMap<String, Date> cooldowns = new HashMap<String, Date>();
-
     public static Integer randomValue(Integer max, Integer min) {
-        Random random = new Random();
-        int value = random.nextInt(max - min) + min;
-        return value;
+        return new Random().nextInt(max - min) + min;
     }
 
     public static void createWeaponDataIntIfNotExists(int UUID, String string, Integer value) {
-        if (weaponData.getWeaponData().getString(UUID + string) == null) {
-            weaponData.getWeaponData().set(UUID + string, Integer.parseInt(String.valueOf(value)));
+        FileConfiguration weaponData = Main.getWeaponManager().getWeaponData();
+        if (weaponData.getString(UUID + string) == null) {
+            weaponData.set(UUID + string, Integer.parseInt(String.valueOf(value)));
         }
     }
 
@@ -57,69 +44,44 @@ public class Utils {
     }
 
     public static boolean isInt(String s) {
-        boolean amIValid = false;
         try {
             Integer.parseInt(s);
-            // s is a valid integer!
-            amIValid = true;
+            return true;
         } catch (NumberFormatException e) {
-            amIValid = false;
+            return false;
         }
-        return amIValid;
     }
 
     public static String getServerIP() {
-        try {
-            URL url = new URL("https://verify.minetopiasdb.nl/reqip.php");
-            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-            httpURLConnection.setConnectTimeout(5000);
-            httpURLConnection.setRequestMethod("POST");
-            httpURLConnection.setRequestProperty("User-Agent", "MTWAPENS");
-            httpURLConnection.connect();
-
-            JsonParser jsonParser = new JsonParser();
-            JsonElement jsonElement = jsonParser.parse(new InputStreamReader((InputStream)httpURLConnection.getContent()));
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-
-            return jsonObject.get("message").getAsString();
-        } catch (Exception e) {}
-        return "-1";
+        JsonObject root = getJSON("https://verify.minetopiasdb.nl/reqip.php", "POST");
+        return root == null ? "-1" : root.get("message").getAsString();
     }
 
     public static boolean checkForBlacklist(String string) {
-        try {
-            URL url = new URL("https://mt-wapens.glitch.me/verify?check=" + string);
-            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-            httpURLConnection.setConnectTimeout(5000);
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setRequestProperty("User-Agent", "MTWAPENS");
-            httpURLConnection.connect();
-
-            JsonParser jsonParser = new JsonParser();
-            JsonElement jsonElement = jsonParser.parse(new InputStreamReader((InputStream)httpURLConnection.getContent()));
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-
-            return jsonObject.get("message").getAsBoolean();
-        } catch (Exception exept) {}
-        return false;
+        JsonObject root = getJSON("https://mt-wapens.glitch.me/verify?check=" + string, "GET");
+        return root != null && root.get("message").getAsBoolean();
     }
 
     public static boolean authoriseUser(UUID string) {
+        JsonObject root = getJSON("https://mt-wapens.glitch.me/authorize?check=" + string, "GET");
+        return root != null && root.get("message").getAsBoolean();
+    }
+
+    private static JsonObject getJSON(String url, String method) {
         try {
-            URL url = new URL("https://mt-wapens.glitch.me/authorize?check=" + string);
-            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-            httpURLConnection.setConnectTimeout(5000);
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setRequestProperty("User-Agent", "MTWAPENS");
-            httpURLConnection.connect();
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setConnectTimeout(5000);
+            connection.setRequestMethod(method);
+            connection.setRequestProperty("User-Agent", "MTWAPENS");
+            connection.connect();
 
-            JsonParser jsonParser = new JsonParser();
-            JsonElement jsonElement = jsonParser.parse(new InputStreamReader((InputStream)httpURLConnection.getContent()));
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            return new JsonParser().parse(new InputStreamReader((InputStream) connection.getContent())).getAsJsonObject();
+        } catch (IOException e) {
+            Bukkit.getLogger().severe("Error performing HTTP request");
+            e.printStackTrace();
+        }
 
-            return jsonObject.get("message").getAsBoolean();
-        } catch (Exception exept) {}
-        return false;
+        return null;
     }
 }
 

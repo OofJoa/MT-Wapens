@@ -1,11 +1,11 @@
 package com.jazzkuh.mtwapens.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
+import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.data.WeaponType;
+import com.jazzkuh.mtwapens.listeners.WeaponMenuListener;
+import com.jazzkuh.mtwapens.listeners.WeaponPartListener;
+import com.jazzkuh.mtwapens.utility.ItemBuilder;
+import com.jazzkuh.mtwapens.utility.Utils;
 import com.jazzkuh.mtwapens.utility.messages.Message;
 import com.jazzkuh.mtwapens.utility.messages.Messages;
 import com.jazzkuh.mtwapens.utility.messages.Placeholder;
@@ -19,18 +19,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.StringUtil;
 
-import com.jazzkuh.mtwapens.Main;
-import com.jazzkuh.mtwapens.data.WeaponData;
-import com.jazzkuh.mtwapens.listeners.WeaponMenuListener;
-import com.jazzkuh.mtwapens.listeners.WeaponPartListener;
-import com.jazzkuh.mtwapens.utility.ItemBuilder;
-import com.jazzkuh.mtwapens.utility.Utils;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class WeaponCommand implements TabExecutor {
-
     private final Main plugin;
-
-    static WeaponData weaponData = WeaponData.getInstance();
 
     public WeaponCommand(Main plugin) {
         this.plugin = plugin;
@@ -38,7 +31,6 @@ public class WeaponCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
         Player player = (Player) sender;
         Messages messages = Main.getMessages();
 
@@ -113,6 +105,7 @@ public class WeaponCommand implements TabExecutor {
                 }
 
                 plugin.reloadConfig();
+                Main.getWeaponManager().loadWeaponData();
                 sender.sendMessage(messages.get(Message.FILES_RELOADED));
             } else if (args.length == 1 && args[0].equalsIgnoreCase("menu")) {
                 if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
@@ -120,23 +113,23 @@ public class WeaponCommand implements TabExecutor {
                     return true;
                 }
 
-                WeaponMenuListener.weaponMenu(plugin, player);
+                WeaponMenuListener.weaponMenu(player, 0);
             } else if (args.length == 1 && args[0].equalsIgnoreCase("parts")) {
                 if (!sender.hasPermission(this.plugin.getName() + ".command." + command.getName() + "." + args[0])) {
                     Utils.noPermission(sender, this.plugin.getName() + ".command." + command.getName() + "." + args[0]);
                     return true;
                 }
 
-                WeaponPartListener.weaponPartMenu(plugin, player);
+                WeaponPartListener.weaponPartMenu(player, 0);
             } else {
-                sendHelp(command, sender);
+                sendHelp(sender);
             }
         }
         return true;
 
     }
 
-    private void sendHelp(Command command, CommandSender sender) {
+    private void sendHelp(CommandSender sender) {
         String primaryColor = Main.getMessages().getPrimaryColor();
         String secondaryColor = Main.getMessages().getSecondaryColor();
 
@@ -167,17 +160,17 @@ public class WeaponCommand implements TabExecutor {
 
         String type = string.toLowerCase();
 
-        ArrayList<String> Lore = new ArrayList<String>();
-        Lore.add(Utils.color("&f"));
-        Lore.add(Utils.color(plugin.getConfig().getString("weapon-lore")));
-        Lore.add(Utils.color("&f"));
-        Lore.add(Utils.color("&fAmmo: &7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo") + "&f/&7"
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(Utils.color("&f"));
+        lore.add(Utils.color(plugin.getConfig().getString("weapon-lore")));
+        lore.add(Utils.color("&f"));
+        lore.add(Utils.color("&fAmmo: &7" + plugin.getConfig().getInt("weapons." + type + ".max-ammo") + "&f/&7"
                 + plugin.getConfig().getInt("weapons." + type + ".max-ammo")));
-        Lore.add(Utils.color("&f"));
+        lore.add(Utils.color("&f"));
 
         ItemStack weapon = new ItemBuilder(Material.WOOD_HOE)
                 .setName(Utils.color(plugin.getConfig().getString("weapons." + type + ".name")))
-                .setNBT("mtcustom", type + "_fullmodel").setNBT("WEAPON-UUID", String.valueOf(UUID)).setLore(Lore)
+                .setNBT("mtcustom", type + "_fullmodel").setNBT("WEAPON-UUID", String.valueOf(UUID)).setLore(lore)
                 .toItemStack();
 
         ItemMeta im = weapon.getItemMeta();
@@ -196,7 +189,7 @@ public class WeaponCommand implements TabExecutor {
 
         String type = string.toLowerCase();
 
-        ArrayList<String> lore = new ArrayList<String>();
+        ArrayList<String> lore = new ArrayList<>();
         lore.add(Utils.color("&8&m-----------------"));
         lore.add(Utils.color("&7Gebruik " +  messages.getPrimaryColor() + "rechterklik&7 op deze voucher om"));
         lore.add(Utils.color("&7hem te verzilveren!"));
@@ -216,7 +209,6 @@ public class WeaponCommand implements TabExecutor {
     }
 
     private void getAmmo(Player player, String string) {
-
         String type = string.toLowerCase();
 
         ItemStack bulletItem = new ItemBuilder(Material.IRON_INGOT)
@@ -235,17 +227,17 @@ public class WeaponCommand implements TabExecutor {
         }
 
         if (args.length == 1) {
-            return getApplicableTabCompleters(args[0],
+            return getApplicableTabCompletes(args[0],
                     Arrays.asList("help", "reload", "menu", "parts", "voucher", "getweapon", "getammo"));
         } else if (args.length == 2) {
-            return getApplicableTabCompleters(args[1],
-                    plugin.getConfig().getConfigurationSection("weapons.").getKeys(false));
+            return getApplicableTabCompletes(args[1], Main.getWeaponManager().getWeaponTypes()
+                    .stream().map(WeaponType::getType).collect(Collectors.toList()));
         }
 
         return Collections.emptyList();
     }
 
-    private List<String> getApplicableTabCompleters(String arg, Collection<String> completions) {
-        return StringUtil.copyPartialMatches(arg, completions, new ArrayList<String>(completions.size()));
+    private List<String> getApplicableTabCompletes(String arg, Collection<String> completions) {
+        return StringUtil.copyPartialMatches(arg, completions, new ArrayList<>(completions.size()));
     }
 }

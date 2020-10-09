@@ -2,6 +2,8 @@
 #  MT-Wapens Configuratie Files
 # #
 # Zorg ervoor dat je bij 'damage en attackspeed' altijd een DECIMAAL invult.
+# Zorg ervoor dat er niet meerdere wapens met dezelfde 'name' zijn.
+# 'parts' is niet verplicht, maar nodig als je een weaponpart uit /weapon parts wilt halen
 # #
 # #
 weapon-lore: Minetopia - Officieel Minetopia Wapen
@@ -13,30 +15,35 @@ weapons:
     damage: 2.0
     max-ammo: 7
     attackspeed: 1.0
+    parts: ['frame', 'magazijn', 'trekker', 'grip' ]
   magnum44:
     name: '&8Magnum 44'
     ammo-name: Magnum 44 Ammo
     damage: 2.5
     max-ammo: 8
     attackspeed: 1.0
+    parts: ['frame', 'magazijn', 'trekker', 'grip']
   waltherp99:
     name: '&8Walther P99'
     ammo-name: Walther P99 Ammo
     damage: 3.0
     max-ammo: 10
     attackspeed: 1.0
+    parts: ['frame', 'magazijn', 'trekker', 'grip']
   glock19:
     name: '&8Glock 19'
     ammo-name: Glock 19 Ammo
     damage: 3.3
     max-ammo: 10
     attackspeed: 1.0
+    parts: ['frame', 'magazijn', 'trekker', 'grip']
   m16a4:
     name: '&8M16A4'
     ammo-name: M16A4 Ammo
     damage: 3.7
     max-ammo: 25
     attackspeed: 1.0
+    parts: ['frame', 'magazijn', 'trekker', 'grip', 'loop', 'magazijnhouder', 'achterkant']
 messages:
   # Je kan de placeholders <pc> voor primary color en <sc> voor secondary color gebruiken
   primary-color: '&6'
