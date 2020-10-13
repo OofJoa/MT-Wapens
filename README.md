@@ -8,4 +8,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## License
-[GNU LGPLv2.1](https://choosealicense.com/licenses/lgpl-2.1/)
+[GNU LGPLv2.1](https://choosealicense.com/licenses/lgpl-2.1/) © [Jazzkuh](https://github.com/Jazzkuh/)
