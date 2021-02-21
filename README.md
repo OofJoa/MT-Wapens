@@ -10,5 +10,8 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
+## Discord
+[Click to join](https://discord.gg/AvRpCUZ)
+
 ## License
 [GNU LGPLv2.1](https://choosealicense.com/licenses/lgpl-2.1/) © [Jazzkuh](https://github.com/Jazzkuh/)
