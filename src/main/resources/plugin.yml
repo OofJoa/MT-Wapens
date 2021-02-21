@@ -1,9 +1,16 @@
 name: MT-Wapens
-description: Voeg wapens toe aan jouw server
-website: https://www.spigotmc.org/resources/76350/
 version: ${project.version}
+description: Add weapons to your Minecraft server
+website: https://www.spigotmc.org/resources/76350/
 main: com.jazzkuh.mtwapens.Main
-authors: [Jazzkuh]
+author: Jazzkuh
 commands:
-  weapon:
-    aliases: [mtwapens, mt-wapens, weapons]
+  getweapon:
+    description: GetWeapon command
+  getammo:
+    description: GetAmmo command
+  mtwapens:
+    aliases: [weapon, mtwapen]
+    description: Main MTWapens command
+  giveweapon:
+    description: GiveWeapon command

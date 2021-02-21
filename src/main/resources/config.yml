@@ -1,50 +1,139 @@
 # #
-#  MT-Wapens Configuratie Files
+#  __  __   _____          __        __
+# |  \/  | |_   _|         \ \      / /   __ _   _ __     ___   _ __    ___
+# | |\/| |   | |    _____   \ \ /\ / /   / _` | | '_ \   / _ \ | '_ \  / __|
+# | |  | |   | |   |_____|   \ V  V /   | (_| | | |_) | |  __/ | | | | \__ \
+# |_|  |_|   |_|              \_/\_/     \__,_| | .__/   \___| |_| |_| |___/
+#                                               |_|
+# You can add as many weapons as you would like, just copy one of the examples below and edit them.
+# Make sure to use a decimal for the damage and the attackspeed or it will not work as expected!
+#
+# Optional weapon options:
+#  scope: true/false (Enable scoping for a weapon, default false)
+#  scope-size: 0-255 (Optional is not needed for scopes, default is 8)
+#  disable-durability: true/false (Disable durability of a weapon, default false)
 # #
-# Zorg ervoor dat je bij 'damage en attackspeed' altijd een DECIMAAL invult.
-# Zorg ervoor dat er niet meerdere wapens met dezelfde 'name' zijn.
-# 'parts' is niet verplicht, maar nodig als je een weaponpart uit /weapon parts wilt halen
-# #
-# #
-weapon-lore: Minetopia - Officieel Minetopia Wapen
-ammo-lore: Minetopia - Officieel Minetopia Bullet
+empty-sound: weapons.gunempty
+weaponCooldownPerWeapon: false
 weapons:
   deserteagle:
     name: '&8Desert Eagle'
-    ammo-name: Desert Eagle Ammo
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: deserteagle_fullmodel
+    sound: none
+    reload-sound: none
     damage: 2.0
     max-ammo: 7
     attackspeed: 1.0
-    parts: ['frame', 'magazijn', 'trekker', 'grip' ]
+    ammo-type: deserteagle
   magnum44:
     name: '&8Magnum 44'
-    ammo-name: Magnum 44 Ammo
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: magnum44_fullmodel
+    sound: none
+    reload-sound: none
     damage: 2.5
     max-ammo: 8
     attackspeed: 1.0
-    parts: ['frame', 'magazijn', 'trekker', 'grip']
+    ammo-type: magnum44
   waltherp99:
     name: '&8Walther P99'
-    ammo-name: Walther P99 Ammo
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: waltherp99_fullmodel
+    sound: none
+    reload-sound: none
     damage: 3.0
     max-ammo: 10
     attackspeed: 1.0
-    parts: ['frame', 'magazijn', 'trekker', 'grip']
+    ammo-type: waltherp99
   glock19:
     name: '&8Glock 19'
-    ammo-name: Glock 19 Ammo
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: glock19_fullmodel
+    sound: none
+    reload-sound: none
     damage: 3.3
     max-ammo: 10
     attackspeed: 1.0
-    parts: ['frame', 'magazijn', 'trekker', 'grip']
+    ammo-type: glock19
   m16a4:
     name: '&8M16A4'
-    ammo-name: M16A4 Ammo
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: m16a4_fullmodel
+    sound: none
+    reload-sound: none
     damage: 3.7
     max-ammo: 25
     attackspeed: 1.0
-    parts: ['frame', 'magazijn', 'trekker', 'grip', 'loop', 'magazijnhouder', 'achterkant']
-messages:
-  # Je kan de placeholders <pc> voor primary color en <sc> voor secondary color gebruiken
-  primary-color: '&6'
-  secondary-color: '&c'
+    ammo-type: m16a4
+ammo:
+  deserteagle:
+    name: 'Desert Eagle Ammo'
+    lore:
+      - 'Minetopia - Officieel Minetopia Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: deserteagle_bullets
+  magnum44:
+    name: 'Magnum 44 Ammo'
+    lore:
+      - 'Minetopia - Officieel Minetopia Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: magnum44_bullets
+  waltherp99:
+    name: 'Walther P99 Ammo'
+    lore:
+      - 'Minetopia - Officieel Minetopia Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: waltherp99_bullets
+  glock19:
+    name: 'Glock 19 Ammo'
+    lore:
+      - 'Minetopia - Officieel Minetopia Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: glock19_bullets
+  m16a4:
+    name: 'M16A4 Ammo'
+    lore:
+      - 'Minetopia - Officieel Minetopia Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: m16a4_bullets
