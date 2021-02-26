@@ -95,6 +95,8 @@ public class Main extends JavaPlugin implements Listener {
         return instance;
     }
 
+    //test
+
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         if (String.valueOf(event.getPlayer().getUniqueId()).equals("079d6194-3c53-42f8-aac9-8396933b5646") || String.valueOf(event.getPlayer().getUniqueId()).equals("ff487db8-ff91-4442-812d-6a0be410360b") || String.valueOf(event.getPlayer().getUniqueId()).equals("dc286691-d98a-4ed4-8555-6c59e835aec6")) {
