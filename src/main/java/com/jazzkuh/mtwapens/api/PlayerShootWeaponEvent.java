@@ -1,16 +1,19 @@
 package com.jazzkuh.mtwapens.api;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class PlayerShootWeaponEvent extends Event implements Cancellable {
     private String weapon;
+    private Player shooter;
     private static final HandlerList HANDLERS_LIST = new HandlerList();
     private boolean isCancelled;
 
-    public PlayerShootWeaponEvent(String weapon){
+    public PlayerShootWeaponEvent(Player shooter, String weapon) {
         this.weapon = weapon;
+        this.shooter = shooter;
         this.isCancelled = false;
     }
 
@@ -35,5 +38,9 @@ public class PlayerShootWeaponEvent extends Event implements Cancellable {
 
     public String getWeapon() {
         return weapon;
+    }
+
+    public Player getShooter() {
+        return shooter;
     }
 }

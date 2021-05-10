@@ -64,7 +64,7 @@ public class WeaponListener implements Listener {
                     if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(Utils.color(plugin.getConfig().getString("weapons." + type + ".name")))) {
                         event.setCancelled(true);
 
-                        PlayerShootWeaponEvent shootWeaponEvent = new PlayerShootWeaponEvent(type);
+                        PlayerShootWeaponEvent shootWeaponEvent = new PlayerShootWeaponEvent(player, type);
                         Bukkit.getPluginManager().callEvent(event);
 
                         if (shootWeaponEvent.isCancelled()) return;
