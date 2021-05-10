@@ -1,12 +1,14 @@
 package com.jazzkuh.mtwapens.function;
 
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.api.PlayerShootWeaponEvent;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.messages.DefaultMessages;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -61,6 +63,12 @@ public class WeaponListener implements Listener {
                 for (String type : plugin.getConfig().getConfigurationSection("weapons.").getKeys(false)) {
                     if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(Utils.color(plugin.getConfig().getString("weapons." + type + ".name")))) {
                         event.setCancelled(true);
+
+                        PlayerShootWeaponEvent shootWeaponEvent = new PlayerShootWeaponEvent(type);
+                        Bukkit.getPluginManager().callEvent(event);
+
+                        if (shootWeaponEvent.isCancelled()) return;
+
                         weaponClickEvent(event, player, type);
                     }
                 }
@@ -73,7 +81,7 @@ public class WeaponListener implements Listener {
                             if (player.hasPotionEffect(PotionEffectType.SLOW)) {
                                 player.removePotionEffect(PotionEffectType.SLOW);
                             } else {
-                                int amplifier = Utils.isInt(String.valueOf(plugin.getConfig().getInt("weapons." + type + ".scope-size"))) ? plugin.getConfig().getInt("weapons." + type + ".scope-size") : 8;
+                                int amplifier = plugin.getConfig().getInt("weapons." + type + ".scope-size") != 0 ? plugin.getConfig().getInt("weapons." + type + ".scope-size") : 8;
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 600, amplifier), true);
                             }
                         }
@@ -247,11 +255,22 @@ public class WeaponListener implements Listener {
                         event.setDamage(0.0);
 
                         double damage = plugin.getConfig().getDouble("weapons." + type + ".damage");
+                        double finalDamage = damage;
+
+                        if (plugin.getConfig().getBoolean("projectileProtectionReducesDamage")) {
+                            if (entity.getEquipment().getChestplate() != null &&
+                                    entity.getEquipment().getChestplate().getEnchantments().containsKey(Enchantment.PROTECTION_PROJECTILE)) {
+                                int enchantmentLevel = entity.getEquipment().getChestplate().getEnchantments().get(Enchantment.PROTECTION_PROJECTILE);
+
+                                int percentage = plugin.getConfig().getInt("damageReductionPercentagePerLevel") != 0 ? plugin.getConfig().getInt("damageReductionPercentagePerLevel") : 5;
+                                finalDamage = damage - ((damage / 100 * percentage) * enchantmentLevel);
+                            }
+                        }
 
                         if (damage > entity.getHealth()) {
                             entity.setHealth(0.0);
                         } else {
-                            entity.setHealth(entity.getHealth() - damage);
+                            entity.setHealth(entity.getHealth() - finalDamage);
                         }
                     }
                 }
