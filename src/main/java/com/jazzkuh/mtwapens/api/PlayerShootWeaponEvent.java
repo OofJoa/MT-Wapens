@@ -5,11 +5,11 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerShootWeaponEvent extends Event implements Cancellable {
+public final class PlayerShootWeaponEvent extends Event implements Cancellable {
     private String weapon;
     private Player shooter;
-    private static final HandlerList HANDLERS_LIST = new HandlerList();
     private boolean isCancelled;
+    private static final HandlerList handlers = new HandlerList();
 
     public PlayerShootWeaponEvent(Player shooter, String weapon) {
         this.weapon = weapon;
@@ -27,20 +27,19 @@ public class PlayerShootWeaponEvent extends Event implements Cancellable {
         this.isCancelled = cancelled;
     }
 
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLERS_LIST;
-    }
-
-    public static HandlerList getHandlerList() {
-        return HANDLERS_LIST;
-    }
-
     public String getWeapon() {
         return weapon;
     }
 
     public Player getShooter() {
         return shooter;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 }

@@ -65,9 +65,11 @@ public class WeaponListener implements Listener {
                         event.setCancelled(true);
 
                         PlayerShootWeaponEvent shootWeaponEvent = new PlayerShootWeaponEvent(player, type);
-                        Bukkit.getPluginManager().callEvent(event);
+                        Bukkit.getServer().getPluginManager().callEvent(shootWeaponEvent);
 
-                        if (shootWeaponEvent.isCancelled()) return;
+                        if (shootWeaponEvent.isCancelled()) {
+                            return;
+                        }
 
                         weaponClickEvent(event, player, type);
                     }
