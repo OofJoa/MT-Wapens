@@ -17,13 +17,17 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.metadata.MetadataValueAdapter;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -120,8 +124,13 @@ public class WeaponListener implements Listener {
 
         if (NBTEditor.getInt(player.getInventory().getItemInMainHand(), "durability") > 0) {
             if (NBTEditor.getInt(player.getInventory().getItemInMainHand(), "ammo") > 0) {
-                if (weaponCooldown(cooldownId)) {
+                if (Main.getInstance().getConfig().getBoolean("weapons." + type + ".canOnlyShootWhenScoped") &&
+                        !player.hasPotionEffect(PotionEffectType.SLOW)) {
+                    Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.WEAPON_CANT_SHOOT_WIHTOUT_SCOPE));
+                    return;
+                }
 
+                if (weaponCooldown(cooldownId)) {
                     weaponCooldown.put(cooldownId, new Date(new Date().getTime() + (long) (plugin.getConfig().getDouble("weapons." + type + ".attackspeed") * 1000)));
 
                     setNBT(player, "ammo", NBTEditor.getInt(player.getInventory().getItemInMainHand(), "ammo") - 1);
@@ -153,7 +162,7 @@ public class WeaponListener implements Listener {
                             .replace("<MaxAmmo>", String.valueOf(plugin.getConfig().getInt("weapons." + type + ".max-ammo"))));
 
                     Snowball bullet = player.launchProjectile(Snowball.class);
-                    bullet.setCustomName(player.getName());
+                    bullet.setCustomName("" + plugin.getConfig().getDouble("weapons." + type + ".damage"));
                     bullet.setShooter(player);
                     bullet.setVelocity(bullet.getVelocity().multiply(2D));
 
@@ -249,15 +258,21 @@ public class WeaponListener implements Listener {
 
         if (event.getEntity() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getEntity();
-            Player attacker = Bukkit.getPlayer(event.getDamager().getName());
 
             if (event.getDamager() instanceof Snowball) {
+                ProjectileSource projectileSource = ((Snowball) event.getDamager()).getShooter();
+
+                if (!(projectileSource instanceof Player)) return;
+
+                Player attacker = (Player) projectileSource;
+
+                double dmg = Double.parseDouble(event.getDamager().getName());
+
                 for (String type : plugin.getConfig().getConfigurationSection("weapons.").getKeys(false)) {
                     if (attacker.getInventory().getItemInMainHand().hasItemMeta() && attacker.getInventory().getItemInMainHand().getItemMeta().hasDisplayName() && attacker.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(Utils.color(plugin.getConfig().getString("weapons." + type + ".name")))) {
                         event.setDamage(0.0);
 
-                        double damage = plugin.getConfig().getDouble("weapons." + type + ".damage");
-                        double finalDamage = damage;
+                        double finalDamage = dmg;
 
                         if (plugin.getConfig().getBoolean("projectileProtectionReducesDamage")) {
                             if (entity.getEquipment().getChestplate() != null &&
@@ -265,11 +280,11 @@ public class WeaponListener implements Listener {
                                 int enchantmentLevel = entity.getEquipment().getChestplate().getEnchantments().get(Enchantment.PROTECTION_PROJECTILE);
 
                                 int percentage = plugin.getConfig().getInt("damageReductionPercentagePerLevel") != 0 ? plugin.getConfig().getInt("damageReductionPercentagePerLevel") : 5;
-                                finalDamage = damage - ((damage / 100 * percentage) * enchantmentLevel);
+                                finalDamage = dmg - ((dmg / 100 * percentage) * enchantmentLevel);
                             }
                         }
 
-                        if (damage > entity.getHealth()) {
+                        if (dmg > entity.getHealth()) {
                             entity.setHealth(0.0);
                         } else {
                             entity.setHealth(entity.getHealth() - finalDamage);

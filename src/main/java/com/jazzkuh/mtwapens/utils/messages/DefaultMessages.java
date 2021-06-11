@@ -13,7 +13,8 @@ public enum DefaultMessages {
     MENU_DURABILITY_TITLE("Weapons.Menu.Durability.Title", "Weapon Builder <WeaponType>"),
     MENU_WEAPON_TITLE("Weapons.Menu.Weapon.Title", "Weapon Menu"),
     MENU_WEAPON_BUTTON_CLOSE("Weapons.Menu.Weapon.Buttons.Close", "&cClose"),
-    MENU_WEAPON_BUTTON_PAGE("Weapons.Menu.Weapon.Buttons.Page", "&aPage <Page>");
+    MENU_WEAPON_BUTTON_PAGE("Weapons.Menu.Weapon.Buttons.Page", "&aPage <Page>"),
+    WEAPON_CANT_SHOOT_WIHTOUT_SCOPE("Weapons.CanShootWithoutScope", "&cSorry bro, no 360 noscope for you...");
 
     private final String path;
     private final String message;

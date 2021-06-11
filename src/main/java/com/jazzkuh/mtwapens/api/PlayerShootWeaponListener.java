@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 
 public class PlayerShootWeaponListener implements Listener {
     @EventHandler
-    public void normalLogin(PlayerShootWeaponEvent event) {
+    public void onPlayerShootWeapon(PlayerShootWeaponEvent event) {
         // Some code here
     }
 }
