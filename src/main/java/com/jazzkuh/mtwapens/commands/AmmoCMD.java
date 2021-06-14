@@ -51,18 +51,18 @@ public class AmmoCMD implements TabExecutor {
         return true;
     }
 
-    private void getAmmo(Player player, String string) {
+    public static void getAmmo(Player player, String string) {
 
         String type = string.toLowerCase();
 
         ArrayList<String> lore = new ArrayList<>();
-        for (String lorePart : plugin.getConfig().getStringList("ammo." + type + ".lore")) {
+        for (String lorePart : Main.getInstance().getConfig().getStringList("ammo." + type + ".lore")) {
             lore.add(Utils.color(lorePart));
         }
 
-        ItemStack bulletItem = new ItemBuilder(Material.valueOf(plugin.getConfig().getString("ammo." + type + ".material")))
-                .setName(Utils.color(plugin.getConfig().getString("ammo." + type + ".name")))
-                .setNBT(plugin.getConfig().getString("ammo." + type + ".nbt"), plugin.getConfig().getString("ammo." + type + ".nbtvalue"))
+        ItemStack bulletItem = new ItemBuilder(Material.valueOf( Main.getInstance().getConfig().getString("ammo." + type + ".material")))
+                .setName(Utils.color( Main.getInstance().getConfig().getString("ammo." + type + ".name")))
+                .setNBT(Main.getInstance().getConfig().getString("ammo." + type + ".nbt"),  Main.getInstance().getConfig().getString("ammo." + type + ".nbtvalue"))
                 .setLore(lore)
                 .toItemStack();
 

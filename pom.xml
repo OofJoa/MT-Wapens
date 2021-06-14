@@ -6,7 +6,7 @@
 
     <groupId>com.jazzkuh</groupId>
     <artifactId>MT-Wapens</artifactId>
-    <version>2.0.20</version>
+    <version>2.0.22</version>
     <packaging>jar</packaging>
 
     <name>MT-Wapens</name>
@@ -79,9 +79,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.github.bananapuncher714</groupId>
+            <groupId>com.github.BananaPuncher714</groupId>
             <artifactId>NBTEditor</artifactId>
-            <version>7.16</version>
+            <version>master-07c240621d-1</version>
         </dependency>
     </dependencies>
 </project>

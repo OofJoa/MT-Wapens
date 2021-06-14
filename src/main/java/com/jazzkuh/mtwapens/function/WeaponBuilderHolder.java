@@ -80,6 +80,9 @@ public class WeaponBuilderHolder extends InventoryHandler {
 
         event.setCancelled(true);
 
+        if (event.getCurrentItem() == null) return;
+        if (event.getCurrentItem().getType() == Material.AIR) return;
+
         ItemStack item = event.getCurrentItem();
         String type = ((WeaponBuilderHolder) inventory.getHolder()).getType();
 
