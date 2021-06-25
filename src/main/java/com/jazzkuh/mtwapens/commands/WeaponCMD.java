@@ -1,10 +1,10 @@
 package com.jazzkuh.mtwapens.commands;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -72,7 +72,7 @@ public class WeaponCMD implements TabExecutor {
             lore.add(Utils.color(finalPart));
         }
 
-        ItemStack weapon = new ItemBuilder(Material.valueOf(plugin.getConfig().getString("weapons." + type + ".material")))
+        ItemStack weapon = new ItemBuilder(XMaterial.matchXMaterial(plugin.getConfig().getString("weapons." + type + ".material")).get().parseMaterial())
                 .setName(Utils.color(plugin.getConfig().getString("weapons." + type + ".name")))
                 .setNBT(plugin.getConfig().getString("weapons." + type + ".nbt"), plugin.getConfig().getString("weapons." + type + ".nbtvalue"))
                 .setLore(lore)

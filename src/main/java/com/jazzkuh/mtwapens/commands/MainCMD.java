@@ -1,8 +1,7 @@
 package com.jazzkuh.mtwapens.commands;
 
 import com.jazzkuh.mtwapens.Main;
-import com.jazzkuh.mtwapens.configuration.FileManager;
-import com.jazzkuh.mtwapens.function.WeaponMenuHolder;
+import com.jazzkuh.mtwapens.function.WeaponMenu;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.messages.Messages;
 import org.bukkit.command.Command;
@@ -45,14 +44,14 @@ public class MainCMD implements TabExecutor {
             if (args[0].equals("reload")) {
                 if (!Utils.checkPermission(sender, "mtwapens.command.reload")) return false;
 
-                FileManager.getInstance().reloadMessages();
+                Main.getMessagesFile().reloadConfig();
                 Main.messages = new Messages(plugin);
                 plugin.reloadConfig();
                 Utils.sendMessage(player, "&aSuccessfully reloaded the configuration files.");
             } else if (args[0].equalsIgnoreCase("menu")) {
                 if (!Utils.checkPermission(sender, "mtwapens.command.menu")) return false;
 
-                new WeaponMenuHolder(plugin, 0).open(player);
+                new WeaponMenu(plugin, 0).open(player);
             } else if (args[0].equalsIgnoreCase("debug")) {
                 if (!Utils.checkPermission(sender, "mtwapens.command.debug")) return false;
 

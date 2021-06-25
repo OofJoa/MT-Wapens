@@ -4,6 +4,7 @@ description: Add weapons to your Minecraft server
 website: https://www.spigotmc.org/resources/76350/
 main: com.jazzkuh.mtwapens.Main
 author: Jazzkuh
+api-version: 1.16
 commands:
   getweapon:
     description: GetWeapon command

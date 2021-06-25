@@ -6,8 +6,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public final class PlayerShootWeaponEvent extends Event implements Cancellable {
-    private String weapon;
-    private Player shooter;
+    private final String weapon;
+    private final Player shooter;
     private boolean isCancelled;
     private static final HandlerList handlers = new HandlerList();
 

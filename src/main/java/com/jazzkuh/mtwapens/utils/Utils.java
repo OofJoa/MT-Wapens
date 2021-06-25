@@ -10,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,10 +22,14 @@ import java.util.UUID;
 public class Utils {
 
     public static void sendMessage(Player player, String input) {
-        player.sendMessage(Utils.color(input));
+        if (input.length() >= 1) {
+            player.sendMessage(Utils.color(input));
+        }
     }
     public static void sendMessage(CommandSender sender, String input) {
-        sender.sendMessage(Utils.color(input));
+        if (input.length() >= 1) {
+            sender.sendMessage(Utils.color(input));
+        }
     }
     public static void sendBroadcast(String input) {
         Bukkit.broadcastMessage(Utils.color(input));
@@ -76,7 +81,7 @@ public class Utils {
 
     private static JsonObject getJSON(String url, String method) {
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            HttpURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
             connection.setConnectTimeout(5000);
             connection.setRequestMethod(method);
             connection.setRequestProperty("User-Agent", "MTWAPENS");
@@ -84,7 +89,7 @@ public class Utils {
 
             return new JsonParser().parse(new InputStreamReader((InputStream) connection.getContent())).getAsJsonObject();
         } catch (IOException e) {
-            Bukkit.getLogger().severe("Error performing HTTP request");
+            Bukkit.getLogger().severe("Error performing HTTPS request");
             e.printStackTrace();
         }
 

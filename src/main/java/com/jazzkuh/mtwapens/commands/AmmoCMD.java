@@ -1,5 +1,6 @@
 package com.jazzkuh.mtwapens.commands;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
@@ -60,7 +61,7 @@ public class AmmoCMD implements TabExecutor {
             lore.add(Utils.color(lorePart));
         }
 
-        ItemStack bulletItem = new ItemBuilder(Material.valueOf( Main.getInstance().getConfig().getString("ammo." + type + ".material")))
+        ItemStack bulletItem = new ItemBuilder(XMaterial.matchXMaterial( Main.getInstance().getConfig().getString("ammo." + type + ".material")).get().parseMaterial())
                 .setName(Utils.color( Main.getInstance().getConfig().getString("ammo." + type + ".name")))
                 .setNBT(Main.getInstance().getConfig().getString("ammo." + type + ".nbt"),  Main.getInstance().getConfig().getString("ammo." + type + ".nbtvalue"))
                 .setLore(lore)

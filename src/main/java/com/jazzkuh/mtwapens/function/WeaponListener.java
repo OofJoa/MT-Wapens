@@ -1,5 +1,6 @@
 package com.jazzkuh.mtwapens.function;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.api.PlayerShootWeaponEvent;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
@@ -114,7 +115,7 @@ public class WeaponListener implements Listener {
             bulletLore.add(Utils.color(lorePart));
         }
 
-        ItemStack bulletItem = new ItemBuilder(Material.valueOf(plugin.getConfig().getString("ammo." + ammoType + ".material")))
+        ItemStack bulletItem = new ItemBuilder(XMaterial.matchXMaterial(plugin.getConfig().getString("ammo." + ammoType + ".material")).get().parseMaterial())
                 .setName(Utils.color(plugin.getConfig().getString("ammo." + ammoType + ".name")))
                 .setNBT(plugin.getConfig().getString("ammo." + ammoType + ".nbt"), plugin.getConfig().getString("ammo." + ammoType + ".nbtvalue"))
                 .setLore(bulletLore)
