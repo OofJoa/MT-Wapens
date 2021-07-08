@@ -4,7 +4,7 @@
 name: MT-Wapens
 
 on:
-  release:
+  push:
     types: [created]
 
 jobs:
