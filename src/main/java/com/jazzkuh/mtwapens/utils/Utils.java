@@ -86,7 +86,7 @@ public class Utils {
     }
 
     public static boolean checkForBlacklist(String string) {
-        JsonObject root = getJSON("https://mt-wapens.glitch.me/verify?check=" + string, "GET");
+        JsonObject root = getJSON("https://dash.mtwapens.nl/verify?check=" + string, "GET");
         return root != null && root.get("message").getAsBoolean();
     }
 
