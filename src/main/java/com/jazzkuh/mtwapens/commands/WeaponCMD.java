@@ -38,7 +38,7 @@ public class WeaponCMD extends AbstractCommand {
                 return;
             }
 
-            if (!Utils.isInt(args[1]) && Integer.parseInt(args[1]) < 0) {
+            if (!Utils.isInt(args[1]) || Integer.parseInt(args[1]) < 0) {
                 Utils.sendMessage(sender, "&cThe given durability is not a valid integer.");
                 return;
             }
