@@ -3,9 +3,7 @@
 
 name: MT-Wapens
 
-on:
-  push:
-    types: [created]
+on: [push, pull_request]
 
 jobs:
   build:
