@@ -14,8 +14,8 @@ public enum DefaultMessages {
     MENU_WEAPON_TITLE("Weapons.Menu.Weapon.Title", "Weapon Menu"),
     MENU_WEAPON_BUTTON_CLOSE("Weapons.Menu.Weapon.Buttons.Close", "&cClose"),
     MENU_WEAPON_BUTTON_PAGE("Weapons.Menu.Weapon.Buttons.Page", "&aPage <Page>"),
-    MENU_AMMO_TITLE("Weapons.menu.Ammo.Title", "Ammo Menu"),
-    MENU_SWITCHER("Weapons.menu.Switcher", "&aSwitch to &2<Menu>"),
+    MENU_AMMO_TITLE("Weapons.Menu.Ammo.Title", "Ammo Menu"),
+    MENU_SWITCHER("Weapons.Menu.Switcher", "&aSwitch to &2<Menu>"),
     WEAPON_CANT_SHOOT_WIHTOUT_SCOPE("Weapons.CanShootWithoutScope", "&cSorry bro, no 360 noscope for you...");
 
     private final String path;

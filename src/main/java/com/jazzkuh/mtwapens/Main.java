@@ -4,7 +4,10 @@ import com.jazzkuh.mtwapens.commands.AmmoCMD;
 import com.jazzkuh.mtwapens.commands.MainCMD;
 import com.jazzkuh.mtwapens.commands.WeaponCMD;
 import com.jazzkuh.mtwapens.function.DevListener;
-import com.jazzkuh.mtwapens.function.WeaponListener;
+import com.jazzkuh.mtwapens.function.listeners.PlayerItemHeldListener;
+import com.jazzkuh.mtwapens.function.listeners.PlayerQuitListener;
+import com.jazzkuh.mtwapens.function.listeners.WeaponDamageListener;
+import com.jazzkuh.mtwapens.function.listeners.WeaponFireListener;
 import com.jazzkuh.mtwapens.utils.ConfigurationFile;
 import com.jazzkuh.mtwapens.utils.Metrics;
 import com.jazzkuh.mtwapens.utils.Utils;
@@ -16,21 +19,21 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
 
 public class Main extends JavaPlugin implements Listener {
 
     private static @Getter Main instance;
     public static @Getter Messages messages;
     private static @Getter ConfigurationFile messagesFile;
-    private static @Getter ConfigurationFile breakablesFile;
+    private static final @Getter HashMap<String, Boolean> reloadDelay = new HashMap<>();
 
     @Override
     public void onEnable() {
         instance = this;
 
         GUIHolder.init(this);
-
         new Metrics(this, 7967);
 
         if (Utils.checkForBlacklist(Utils.getServerIP() + ":" + Bukkit.getServer().getPort())) {
@@ -40,7 +43,10 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         Bukkit.getPluginManager().registerEvents(this, this);
-        Bukkit.getPluginManager().registerEvents(new WeaponListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerItemHeldListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(), this);
+        Bukkit.getPluginManager().registerEvents(new WeaponDamageListener(), this);
+        Bukkit.getPluginManager().registerEvents(new WeaponFireListener(), this);
         Bukkit.getPluginManager().registerEvents(new DevListener(this), this);
 
         new MainCMD().register(this);
@@ -50,21 +56,16 @@ public class Main extends JavaPlugin implements Listener {
         messagesFile = new ConfigurationFile(this, "messages.yml");
         messagesFile.saveConfig();
 
-        breakablesFile = new ConfigurationFile(this, "breakables.yml");
-        breakablesFile.saveConfig();
-
         messages = new Messages(this);
 
         this.saveDefaultConfig();
         this.saveConfig();
 
-        this.getLogger().info("MT-Wapens was succesfully loaded.");
+        this.getLogger().info("MT-Wapens version " + this.getDescription().getVersion() + " has been loaded.");
 
-        new BukkitRunnable() {
-            public void run() {
-                checkBlacklistStatus(instance);
-            }
-        }.runTaskTimerAsynchronously(this, 0, 12000);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
+            checkBlacklistStatus(instance);
+        }, 0, 12000);
     }
 
     public void checkBlacklistStatus(Plugin plugin) {

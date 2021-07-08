@@ -36,6 +36,7 @@ public class WeaponFactory {
                 .setNBT(Main.getInstance().getConfig().getString("weapons." + type + ".nbt"), Main.getInstance().getConfig().getString("weapons." + type + ".nbtvalue"))
                 .setNBT("ammo", Main.getInstance().getConfig().getInt("weapons." + type + ".max-ammo"))
                 .setNBT("durability", durability)
+                .setNBT("mtwapens_weapon", type)
                 .setItemFlag(ItemFlag.HIDE_ATTRIBUTES)
                 .setLore(lore)
                 .toItemStack();

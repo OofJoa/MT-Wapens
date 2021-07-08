@@ -3,12 +3,15 @@ package com.jazzkuh.mtwapens.utils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jazzkuh.mtwapens.Main;
+import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -52,6 +55,14 @@ public class Utils {
         }
     }
 
+    public static List<String> color(List<String> lore){
+        List<String> clore = new ArrayList<>();
+        for(String s : lore){
+            clore.add(color(s));
+        }
+        return clore;
+    }
+
     public static boolean isInt(String s) {
         boolean amIValid;
         try {
@@ -61,6 +72,12 @@ public class Utils {
             amIValid = false;
         }
         return amIValid;
+    }
+
+    public static void applyNBTTag(ItemStack itemStack, String key, Object value) {
+        ItemStack is = NBTEditor.set(itemStack, value, key);
+        ItemMeta itemMeta = is.getItemMeta();
+        itemStack.setItemMeta(itemMeta);
     }
 
     public static String getServerIP() {
@@ -97,6 +114,5 @@ public class Utils {
         }
         return playerNames;
     }
-
 }
 
