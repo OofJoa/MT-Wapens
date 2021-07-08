@@ -1,8 +1,9 @@
-package com.jazzkuh.mtwapens.function;
+package com.jazzkuh.mtwapens.function.menu;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.commands.WeaponCMD;
+import com.jazzkuh.mtwapens.function.WeaponFactory;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.menu.GUIHolder;
 import com.jazzkuh.mtwapens.utils.messages.DefaultMessages;
@@ -25,9 +26,9 @@ public class WeaponBuilderMenu extends GUIHolder {
                 .replace("<WeaponType>", type));
 
         if (this.durability >= 1) {
-            this.inventory.setItem(11, woolItem(true, 1, (byte) 14));
-            this.inventory.setItem(20, woolItem(true, 5, (byte) 14));
-            this.inventory.setItem(29, woolItem(true, 10, (byte) 14));
+            this.inventory.setItem(11, woolItem(true, 1, XMaterial.RED_WOOL.parseMaterial()));
+            this.inventory.setItem(20, woolItem(true, 5, XMaterial.RED_WOOL.parseMaterial()));
+            this.inventory.setItem(29, woolItem(true, 10, XMaterial.RED_WOOL.parseMaterial()));
         }
 
         this.inventory.setItem(22,
@@ -38,9 +39,9 @@ public class WeaponBuilderMenu extends GUIHolder {
                         .setNBT("craftweapon", "true")
                         .toItemStack());
 
-        this.inventory.setItem(15, woolItem(false, 1, (byte) 5));
-        this.inventory.setItem(24, woolItem(false, 5, (byte) 5));
-        this.inventory.setItem(33, woolItem(false, 10, (byte) 5));
+        this.inventory.setItem(15, woolItem(false, 1, XMaterial.LIME_WOOL.parseMaterial()));
+        this.inventory.setItem(24, woolItem(false, 5, XMaterial.LIME_WOOL.parseMaterial()));
+        this.inventory.setItem(33, woolItem(false, 10, XMaterial.LIME_WOOL.parseMaterial()));
     }
 
     public Inventory getInventory() {
@@ -55,24 +56,16 @@ public class WeaponBuilderMenu extends GUIHolder {
         return this.type;
     }
 
-    private ItemStack woolItem(boolean negative, int durability, byte data) {
+    private ItemStack woolItem(boolean negative, int durability, Material material) {
         String identifier = "+";
         String message = "MENU_DURABILITY_ADD";
-        XMaterial xMaterial;
 
         if (negative) {
             identifier = "-";
             message = "MENU_DURABILITY_REMOVE";
         }
 
-        if (data == 5) {
-            xMaterial = XMaterial.LIME_WOOL;
-        } else {
-            xMaterial = XMaterial.RED_WOOL;
-        }
-
-
-        return new ItemBuilder(xMaterial.parseMaterial())
+        return new ItemBuilder(material)
                 .setName(Main.getMessages().get(DefaultMessages.valueOf(message))
                         .replace("<Identifier>", identifier)
                         .replace("<Durability>", String.valueOf(durability)))
@@ -110,7 +103,7 @@ public class WeaponBuilderMenu extends GUIHolder {
             if (NBTEditor.contains(item, "craftweapon") && item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
                 if (event.getSlot() == 22 && item.getType().equals(XMaterial.CRAFTING_TABLE.parseMaterial())) {
                     int durability = ((WeaponBuilderMenu) inventory.getHolder()).getDurability();
-                    WeaponCMD.getWeapon(Main.getInstance(), player, type, durability);
+                    new WeaponFactory(player).buildWeapon(type, durability);
                     player.closeInventory();
                 }
             }

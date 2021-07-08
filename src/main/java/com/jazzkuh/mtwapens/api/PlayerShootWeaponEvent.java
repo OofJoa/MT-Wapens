@@ -1,5 +1,6 @@
 package com.jazzkuh.mtwapens.api;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;

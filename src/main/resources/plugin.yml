@@ -7,11 +7,10 @@ author: Jazzkuh
 api-version: 1.16
 commands:
   getweapon:
-    description: GetWeapon command
+    aliases: [giveweapon]
+    description: Get or give a weapon to a player.
   getammo:
-    description: GetAmmo command
+    description: Get or give ammo to a player.
   mtwapens:
     aliases: [weapon, mtwapen]
-    description: Main MTWapens command
-  giveweapon:
-    description: GiveWeapon command
+    description: Open the weapon menu or reload the plugin.

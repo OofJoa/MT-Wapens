@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -73,6 +74,11 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setNBT(String key, String value) {
+        is = NBTEditor.set(is, value, key);
+        return this;
+    }
+
+    public ItemBuilder setNBT(String key, int value) {
         is = NBTEditor.set(is, value, key);
         return this;
     }
@@ -261,6 +267,30 @@ public class ItemBuilder {
             is.setItemMeta(im);
         } catch (ClassCastException expected) {
         }
+        return this;
+    }
+
+    /**
+     * Set the flags of an item.
+     *
+     * @param itemFlag The itemFlag you want to add.
+     */
+    public ItemBuilder setItemFlag(ItemFlag itemFlag) {
+        ItemMeta im = is.getItemMeta();
+        im.addItemFlags(itemFlag);
+        is.setItemMeta(im);
+        return this;
+    }
+
+    /**
+     * Set the flags of an item.
+     *
+     * @param itemFlag The itemFlag you want to add.
+     */
+    public ItemBuilder setItemFlag(ItemFlag[] itemFlag) {
+        ItemMeta im = is.getItemMeta();
+        im.addItemFlags(itemFlag);
+        is.setItemMeta(im);
         return this;
     }
 

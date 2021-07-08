@@ -1,104 +1,86 @@
 package com.jazzkuh.mtwapens.commands;
 
+import com.google.common.collect.ImmutableList;
 import com.jazzkuh.mtwapens.Main;
-import com.jazzkuh.mtwapens.function.WeaponMenu;
+import com.jazzkuh.mtwapens.function.menu.WeaponMenu;
 import com.jazzkuh.mtwapens.utils.Utils;
+import com.jazzkuh.mtwapens.utils.command.AbstractCommand;
+import com.jazzkuh.mtwapens.utils.command.Argument;
 import com.jazzkuh.mtwapens.utils.messages.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.util.StringUtil;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-public class MainCMD implements TabExecutor {
+public class MainCMD extends AbstractCommand {
 
-    private final Main plugin;
-
-    public MainCMD(Main plugin) {
-        this.plugin = plugin;
-        argumentHandler.put("reload", "Reload the plugin.");
-        argumentHandler.put("menu", "Open the weapon menu.");
-        argumentHandler.put("debug <weaponType>", "Check if a weapon is setup properly.");
+    public MainCMD() {
+        super("mtwapens", ImmutableList.builder()
+                .add(new Argument("reload", "Reload the plugin."))
+                .add(new Argument("menu", "Grab ammo and weapons from a menu."))
+                .build());
     }
 
-    public HashMap<String, String> argumentHandler = new HashMap<>();
-
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage("This command is not usable by console.");
-            return false;
+    public void execute(CommandSender sender, Command command, String label, String[] args) {
+        if (!senderIsPlayer()) return;
+        if (!hasPermission(getBasePermission() + ".reload", true)
+                || !hasPermission(getBasePermission() + ".menu", true)) {
+            sendDefaultMessage(sender);
+            return;
         }
 
         Player player = (Player) sender;
 
-        if (!sender.hasPermission("mtwapens.command.reload") || !sender.hasPermission("mtwapens.command.menu")  || !sender.hasPermission("mtwapens.command.debug")) {
-            getPluginMessage(player);
-            return false;
-        }
-
         if (args.length > 0) {
-            if (args[0].equals("reload")) {
-                if (!Utils.checkPermission(sender, "mtwapens.command.reload")) return false;
+            switch (args[0]) {
+                case "reload": {
+                    if (!hasPermission(getBasePermission() + ".reload", false)) return;
 
-                Main.getMessagesFile().reloadConfig();
-                Main.messages = new Messages(plugin);
-                plugin.reloadConfig();
-                Utils.sendMessage(player, "&aSuccessfully reloaded the configuration files.");
-            } else if (args[0].equalsIgnoreCase("menu")) {
-                if (!Utils.checkPermission(sender, "mtwapens.command.menu")) return false;
-
-                new WeaponMenu(plugin, 0).open(player);
-            } else if (args[0].equalsIgnoreCase("debug")) {
-                if (!Utils.checkPermission(sender, "mtwapens.command.debug")) return false;
-
-                if (args.length > 1) {
-                    Utils.debugWeapon(player, args[1]);
-                } else {
-                    Utils.formatHelpMessage(argumentHandler, command, sender);
+                    Main.getMessagesFile().reloadConfig();
+                    Main.messages = new Messages(Main.getInstance());
+                    Main.getInstance().reloadConfig();
+                    Utils.sendMessage(player, "&aReloaded the configuration files, please check the console for any errors.");
+                    break;
                 }
-            } else {
-                Utils.formatHelpMessage(argumentHandler, command, sender);
+                case "menu": {
+                    if (!hasPermission(getBasePermission() + ".menu", false)) return;
+                    new WeaponMenu(player, 0).open(player);
+                    break;
+                }
+                default: {
+                    sendNotEnoughArguments(this);
+                    break;
+                }
             }
         } else {
-            Utils.formatHelpMessage(argumentHandler, command, sender);
+            sendNotEnoughArguments(this);
         }
-
-        return true;
     }
 
-    private void getPluginMessage(Player player) {
-        Utils.sendMessage(player, "&f");
-        Utils.sendMessage(player, "&a" + plugin.getName() + " version: &2" + plugin.getDescription().getVersion() + "&a.");
-        Utils.sendMessage(player, "&aDescription: &2" + plugin.getDescription().getDescription() + "&a.");
-        Utils.sendMessage(player, "&aDownload: &2" + plugin.getDescription().getWebsite() + "&a.");
-        Utils.sendMessage(player, "&aBy &2[Jazzkuh]&a.");
-        Utils.sendMessage(player, "&f");
+    private void sendDefaultMessage(CommandSender sender) {
+        Utils.sendMessage(sender, "&8 ----------------------------------------------");
+        Utils.sendMessage(sender, "&8| &2" + Main.getInstance().getDescription().getName() + " version: &a" + Main.getInstance().getDescription().getVersion());
+        Utils.sendMessage(sender, "&8| &2Description: &a" + Main.getInstance().getDescription().getDescription());
+        Utils.sendMessage(sender, "&8| &2Download: &a" + Main.getInstance().getDescription().getWebsite());
+        Utils.sendMessage(sender, "&8| &2Authors: &aJazzkuh");
+        Utils.sendMessage(sender, "&8 ----------------------------------------------");
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission("mtwapens.command.reload") || !sender.hasPermission("mtwapens.command.menu") || !sender.hasPermission("mtwapens.command.debug")) {
+        if (!sender.hasPermission(getBasePermission() + ".reload")
+                || !sender.hasPermission(getBasePermission() + ".menu"))
             return Collections.emptyList();
-        }
 
         if (args.length == 1) {
             return getApplicableTabCompleters(args[0],
-                    Arrays.asList("reload", "menu", "debug"));
-        }
-
-        if (args[0].equalsIgnoreCase("debug") && args.length == 2) {
-            return getApplicableTabCompleters(args[1],
-                    plugin.getConfig().getConfigurationSection("weapons.").getKeys(false));
+                    Arrays.asList("reload", "menu"));
         }
 
         return Collections.emptyList();
-    }
-
-    private List<String> getApplicableTabCompleters(String arg, Collection<String> completions) {
-        return StringUtil.copyPartialMatches(arg, completions, new ArrayList<>(completions.size()));
     }
 }

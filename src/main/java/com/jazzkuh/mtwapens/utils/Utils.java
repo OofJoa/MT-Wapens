@@ -16,8 +16,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -35,8 +36,20 @@ public class Utils {
         Bukkit.broadcastMessage(Utils.color(input));
     }
 
-    public static String color(String input) {
-        return ChatColor.translateAlternateColorCodes('&', input);
+    public static final Pattern hexPattern = Pattern.compile("&#(\\w{5}[0-9a-f])");
+    public static String color(String message) {
+        if (Bukkit.getServer().getVersion().contains("1_16") || Bukkit.getServer().getVersion().contains("1_17")) {
+            Matcher matcher = hexPattern.matcher(message);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while (matcher.find()) {
+                matcher.appendReplacement(stringBuilder, net.md_5.bungee.api.ChatColor.of("#" + matcher.group(1)).toString());
+            }
+
+            return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', matcher.appendTail(stringBuilder).toString());
+        } else {
+            return org.bukkit.ChatColor.translateAlternateColorCodes('&', message);
+        }
     }
 
     public static boolean isInt(String s) {
@@ -48,25 +61,6 @@ public class Utils {
             amIValid = false;
         }
         return amIValid;
-    }
-
-    public static boolean isDouble(String s) {
-        boolean amIValid;
-        try {
-            Double.parseDouble(s);
-            amIValid = true;
-        } catch (NumberFormatException e) {
-            amIValid = false;
-        }
-        return amIValid;
-    }
-
-    public static boolean checkPermission(CommandSender sender, String permission) {
-        if (sender.hasPermission(permission))
-            return true;
-
-        sender.sendMessage(Utils.color("&cTo use this command, you need permission " + permission + "."));
-        return false;
     }
 
     public static String getServerIP() {
@@ -96,61 +90,13 @@ public class Utils {
         return null;
     }
 
-    public static void formatHelpMessage(HashMap<String, String> argumentHandler, Command command, CommandSender sender) {
-        for (String argument : argumentHandler.keySet()) {
-            sender.sendMessage(Utils.color("&a/" + command.getName() + " " + argument + " - " + argumentHandler.get(argument)));
+    public static Collection<String> getPlayerNames() {
+        List<String> playerNames = new ArrayList<>();
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            playerNames.add(player.getName());
         }
+        return playerNames;
     }
 
-    private static void debugMessage(Player player, String type, String debugString, Boolean configured) {
-        if (!configured) {
-            Utils.sendMessage(player, "&7 - " + debugString + ": " + "&4INCORRECT");
-        } else {
-            Utils.sendMessage(player, "&7 - " + debugString + ": " + "&2CORRECT");
-        }
-    }
-
-    public static void debugWeapon(Player player, String type) {
-        if (Main.getInstance().getConfig().getConfigurationSection("weapons.").getKeys(false).contains(type)) {
-            sendMessage(player, "&aDebug report for weapon " + type + ":");
-
-            debugString(player, type, "name");
-            debugString(player, type, "lore");
-
-            debugMessage(player, type, "material", Main.getInstance().getConfig().getString("weapons." + type + ".material") != null && isMaterial(Main.getInstance().getConfig().getString("weapons." + type + ".material")));
-
-            debugString(player, type, "nbt");
-            debugString(player, type, "nbtvalue");
-
-            debugMessage(player, type, "damage", Main.getInstance().getConfig().getString("weapons." + type + ".damage") != null && isDouble(Main.getInstance().getConfig().getString("weapons." + type + ".damage")));
-
-            debugMessage(player, type, "max-ammo", Main.getInstance().getConfig().getString("weapons." + type + ".max-ammo") != null && isInt(Main.getInstance().getConfig().getString("weapons." + type + ".max-ammo")));
-
-            debugMessage(player, type, "attackspeed", Main.getInstance().getConfig().getString("weapons." + type + ".attackspeed") != null && isDouble(Main.getInstance().getConfig().getString("weapons." + type + ".attackspeed")));
-
-            debugString(player, type, "ammo-type");
-        } else {
-            Utils.sendMessage(player, "&cThe weapon you are trying to debug has not been found in the configuration files.");
-        }
-    }
-
-    private static boolean isMaterial(String material) {
-        boolean amIValid;
-        try {
-            Material.valueOf(material);
-            amIValid = true;
-        } catch (Exception e) {
-            amIValid = false;
-        }
-        return amIValid;
-    }
-
-    private static void debugString(Player player, String type, String debugString) {
-        if (Main.getInstance().getConfig().getString("weapons." + type + "." + debugString) == null) {
-            debugMessage(player, type, debugString, false);
-        } else {
-            debugMessage(player, type, debugString, true);
-        }
-    }
 }
 
