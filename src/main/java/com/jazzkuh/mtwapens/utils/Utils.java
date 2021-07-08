@@ -40,7 +40,7 @@ public class Utils {
     public static String color(String message) {
         if (Bukkit.getServer().getVersion().contains("1_16") || Bukkit.getServer().getVersion().contains("1_17")) {
             Matcher matcher = hexPattern.matcher(message);
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuffer stringBuilder = new StringBuffer();
 
             while (matcher.find()) {
                 matcher.appendReplacement(stringBuilder, net.md_5.bungee.api.ChatColor.of("#" + matcher.group(1)).toString());
