@@ -1,0 +1,5 @@
+getammo {
+  ammo brigadier:string single_word {
+    player brigadier:string single_word;
+  }
+}

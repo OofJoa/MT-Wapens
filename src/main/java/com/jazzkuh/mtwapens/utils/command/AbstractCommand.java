@@ -3,6 +3,10 @@ package com.jazzkuh.mtwapens.utils.command;
 import com.google.common.collect.ImmutableList;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.utils.Utils;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import me.lucko.commodore.Commodore;
+import me.lucko.commodore.CommodoreProvider;
+import me.lucko.commodore.file.CommodoreFileFormat;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -38,7 +42,6 @@ public abstract class AbstractCommand implements TabExecutor {
             cmd.setExecutor(this);
         }
 
-        /*
         //Commodore
         if (CommodoreProvider.isSupported()) {
             Commodore commodore = CommodoreProvider.getCommodore(plugin);
@@ -49,7 +52,7 @@ public abstract class AbstractCommand implements TabExecutor {
                 LiteralCommandNode<?> literalCommandNode = CommodoreFileFormat.parse(inputStream);
                 commodore.register(cmd, literalCommandNode);
             } catch (IOException ignored) {}
-        }*/
+        }
     }
 
     @Override
