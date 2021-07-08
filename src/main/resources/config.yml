@@ -8,10 +8,8 @@
 # You can add as many weapons as you would like, just copy one of the examples below and edit them.
 # Make sure to use a decimal for the damage and the attackspeed or it will not work as expected!
 #
-# Optional weapon options:
-#  scope: true/false (Enable scoping for a weapon, default false)
-#  scope-size: 0-255 (Optional is not needed for scopes, default is 8)
-#  disable-durability: true/false (Disable durability of a weapon, default false)
+# Make sure to check the docs if you need any help: https://docs.mtwapens.nl/
+#
 # #
 empty-sound: weapons.gunempty
 weaponCooldownPerWeapon: false

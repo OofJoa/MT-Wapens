@@ -3,6 +3,7 @@ package com.jazzkuh.mtwapens.commands;
 import com.google.common.collect.ImmutableList;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
+import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.command.AbstractCommand;
 import com.jazzkuh.mtwapens.utils.command.Argument;
@@ -49,7 +50,8 @@ public class WeaponCMD extends AbstractCommand {
                 case 2: {
                     if (!senderIsPlayer()) return;
                     Player player = (Player) sender;
-                    new WeaponFactory(player).buildWeapon(type, durability);
+                    Weapon weapon = new Weapon(type);
+                    new WeaponFactory(player).buildWeapon(weapon, durability);
                     break;
                 }
                 case 3: {
@@ -60,7 +62,8 @@ public class WeaponCMD extends AbstractCommand {
 
                     Player target = Bukkit.getPlayer(args[2]);
 
-                    new WeaponFactory(target).buildWeapon(type, durability);
+                    Weapon weapon = new Weapon(type);
+                    new WeaponFactory(target).buildWeapon(weapon, durability);
                     Utils.sendMessage(sender, "&aSuccesfully gave " + target.getName() + " an " + type + " of " + durability + " durability.");
                     break;
                 }

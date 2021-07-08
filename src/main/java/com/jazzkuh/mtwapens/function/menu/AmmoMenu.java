@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.commands.AmmoCMD;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
+import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.menu.GUIHolder;
@@ -78,7 +79,8 @@ public class AmmoMenu extends GUIHolder {
 
         if (NBTEditor.contains(item, "menuItem") && item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
             String type = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-            new WeaponFactory(player).buildAmmo(type);
+            Ammo ammo = new Ammo(type);
+            new WeaponFactory(player).buildAmmo(ammo);
         } else if (NBTEditor.contains(item, "switcher")) {
             new WeaponMenu(player, 0).open(player);
         } else if (item.getType() == XMaterial.OAK_SIGN.parseMaterial()) {

@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.commands.WeaponCMD;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
+import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.menu.GUIHolder;
 import com.jazzkuh.mtwapens.utils.messages.DefaultMessages;
@@ -103,7 +104,8 @@ public class WeaponBuilderMenu extends GUIHolder {
             if (NBTEditor.contains(item, "craftweapon") && item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
                 if (event.getSlot() == 22 && item.getType().equals(XMaterial.CRAFTING_TABLE.parseMaterial())) {
                     int durability = ((WeaponBuilderMenu) inventory.getHolder()).getDurability();
-                    new WeaponFactory(player).buildWeapon(type, durability);
+                    Weapon weapon = new Weapon(type);
+                    new WeaponFactory(player).buildWeapon(weapon, durability);
                     player.closeInventory();
                 }
             }

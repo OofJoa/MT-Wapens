@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.google.common.collect.ImmutableList;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
+import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.command.AbstractCommand;
@@ -48,7 +49,8 @@ public class AmmoCMD extends AbstractCommand {
                 case 1: {
                     if (!senderIsPlayer()) return;
                     Player player = (Player) sender;
-                    new WeaponFactory(player).buildAmmo(type);
+                    Ammo ammo = new Ammo(type);
+                    new WeaponFactory(player).buildAmmo(ammo);
                     break;
                 }
                 case 2: {
@@ -59,7 +61,8 @@ public class AmmoCMD extends AbstractCommand {
 
                     Player target = Bukkit.getPlayer(args[1]);
 
-                    new WeaponFactory(target).buildAmmo(type);
+                    Ammo ammo = new Ammo(type);
+                    new WeaponFactory(target).buildAmmo(ammo);
                     Utils.sendMessage(sender, "&aSuccesfully gave " + target.getName() + " ammo type " + type + ".");
                     break;
                 }

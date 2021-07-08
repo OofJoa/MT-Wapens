@@ -2,13 +2,18 @@ package com.jazzkuh.mtwapens.function;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.function.objects.Ammo;
+import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
+import io.github.bananapuncher714.nbteditor.NBTEditor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WeaponFactory {
 
@@ -18,44 +23,34 @@ public class WeaponFactory {
         this.player = player;
     }
     
-    public void buildWeapon(String type, int durability) {
-        type = type.toLowerCase();
-
-        ArrayList<String> lore = new ArrayList<>();
-        for (String lorePart : Main.getInstance().getConfig().getStringList("weapons." + type + ".lore")) {
-            lorePart = Utils.color(lorePart)
-                    .replace("<Ammo>", String.valueOf(Main.getInstance().getConfig().getInt("weapons." + type + ".max-ammo")))
-                    .replace("<MaxAmmo>", String.valueOf(Main.getInstance().getConfig().getInt("weapons." + type + ".max-ammo")))
-                    .replace("<Damage>", String.valueOf(Main.getInstance().getConfig().getDouble("weapons." + type + ".damage")))
+    public void buildWeapon(Weapon weapon, int durability) {
+        ArrayList<String> weaponLore = new ArrayList<>();
+        for (String string : (List<String>) weapon.getParameter(Weapon.WeaponParameters.LORE)) {
+            string = string.replace("<Ammo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString())
+                    .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString())
+                    .replace("<Damage>", weapon.getParameter(Weapon.WeaponParameters.DAMAGE).toString())
                     .replace("<Durability>", String.valueOf(durability));
-            lore.add(lorePart);
+            weaponLore.add(string);
         }
 
-        ItemStack itemStack = new ItemBuilder(XMaterial.matchXMaterial(Main.getInstance().getConfig().getString("weapons." + type + ".material")).get().parseMaterial())
-                .setName(Utils.color(Main.getInstance().getConfig().getString("weapons." + type + ".name")))
-                .setNBT(Main.getInstance().getConfig().getString("weapons." + type + ".nbt"), Main.getInstance().getConfig().getString("weapons." + type + ".nbtvalue"))
-                .setNBT("ammo", Main.getInstance().getConfig().getInt("weapons." + type + ".max-ammo"))
+        ItemStack itemStack = new ItemBuilder((Material) weapon.getParameter(Weapon.WeaponParameters.MATERIAL))
+                .setName(Utils.color(weapon.getParameter(Weapon.WeaponParameters.NAME).toString()))
+                .setNBT(weapon.getParameter(Weapon.WeaponParameters.NBT).toString(), weapon.getParameter(Weapon.WeaponParameters.NBTVALUE).toString())
+                .setNBT("ammo", (int) weapon.getParameter(Weapon.WeaponParameters.MAXAMMO))
                 .setNBT("durability", durability)
-                .setNBT("mtwapens_weapon", type)
+                .setNBT("mtwapens_weapon", weapon.getWeaponType())
                 .setItemFlag(ItemFlag.HIDE_ATTRIBUTES)
-                .setLore(lore)
+                .setLore(weaponLore)
                 .toItemStack();
 
         this.player.getInventory().addItem(itemStack);
     }
 
-    public void buildAmmo(String type) {
-        type = type.toLowerCase();
-
-        ArrayList<String> lore = new ArrayList<>();
-        for (String lorePart : Main.getInstance().getConfig().getStringList("ammo." + type + ".lore")) {
-            lore.add(Utils.color(lorePart));
-        }
-
-        ItemStack itemStack = new ItemBuilder(XMaterial.matchXMaterial(Main.getInstance().getConfig().getString("ammo." + type + ".material")).get().parseMaterial())
-                .setName(Utils.color( Main.getInstance().getConfig().getString("ammo." + type + ".name")))
-                .setNBT(Main.getInstance().getConfig().getString("ammo." + type + ".nbt"),  Main.getInstance().getConfig().getString("ammo." + type + ".nbtvalue"))
-                .setLore(lore)
+    public void buildAmmo(Ammo ammoType) {
+        ItemStack itemStack = new ItemBuilder((Material) ammoType.getParameter(Ammo.AmmoParameters.MATERIAL))
+                .setName(ammoType.getParameter(Ammo.AmmoParameters.NAME).toString())
+                .setNBT(ammoType.getParameter(Ammo.AmmoParameters.NBT).toString(), ammoType.getParameter(Ammo.AmmoParameters.NBTVALUE).toString())
+                .setLore((List<String>) ammoType.getParameter(Ammo.AmmoParameters.LORE))
                 .toItemStack();
 
         player.getInventory().addItem(itemStack);

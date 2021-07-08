@@ -82,6 +82,7 @@ public class Weapon {
                         .setNBT(ammoType.getParameter(Ammo.AmmoParameters.NBT).toString(), ammoType.getParameter(Ammo.AmmoParameters.NBTVALUE).toString())
                         .setLore((List<String>) ammoType.getParameter(Ammo.AmmoParameters.LORE))
                         .toItemStack();
+
                 return bulletItem;
             }
             default:
