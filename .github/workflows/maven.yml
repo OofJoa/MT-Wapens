@@ -21,8 +21,6 @@ jobs:
       if: github.ref == 'refs/heads/master'
       run: mvn -B package --file pom.xml
 
-    - run: mkdir -p target
-
     - uses: actions/upload-artifact@master
       with:
         name: MT-Wapens
