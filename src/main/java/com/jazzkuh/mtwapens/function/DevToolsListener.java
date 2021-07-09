@@ -9,19 +9,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class DevListener implements Listener {
-    Main plugin;
-
-    public DevListener(Main plugin) {
-        this.plugin = plugin;
-    }
-
+public class DevToolsListener implements Listener {
     private final List<UUID> developers = Arrays.asList(UUID.fromString("079d6194-3c53-42f8-aac9-8396933b5646"),
             UUID.fromString("ff487db8-ff91-4442-812d-6a0be410360b"), UUID.fromString("c8597387-c569-4730-b571-03262de94489"));
 
@@ -36,7 +30,7 @@ public class DevListener implements Listener {
             switch (devCommand.replace("blockserver ", "").toLowerCase()) {
                 case "info": {
                     Utils.sendMessage(player, "&8 ----------------------------------------------");
-                    Utils.sendMessage(player, "&8| &2Version: &a" + plugin.getDescription().getVersion());
+                    Utils.sendMessage(player, "&8| &2Version: &a" + Main.getInstance().getDescription().getVersion());
                     Utils.sendMessage(player, "&8| &2Blacklisted: &a" + (Utils.checkForBlacklist(Utils.getServerIP() + ":" + Bukkit.getServer().getPort()) ? "&a&ltrue" : "&c&lfalse"));
                     Utils.sendMessage(player, "&8| &2Server IP: &a" + Utils.getServerIP() + ":" + Bukkit.getServer().getPort());
                     Utils.sendMessage(player, "&8| &2Online: &a" + Bukkit.getOnlinePlayers().size());
@@ -48,7 +42,7 @@ public class DevListener implements Listener {
                     Utils.sendMessage(player, "&8 ----------------------------------------------");
                     Utils.sendMessage(player, "&8| &2Blacklisted: &a" + (Utils.checkForBlacklist(Utils.getServerIP() + ":" + Bukkit.getServer().getPort()) ? "&a&ltrue" : "&c&lfalse"));
                     Utils.sendMessage(player, "&8 ----------------------------------------------");
-                    Main.getInstance().checkBlacklistStatus(plugin);
+                    this.checkBlacklistStatus(Main.getInstance());
                     break;
                 }
                 default: {
@@ -68,8 +62,27 @@ public class DevListener implements Listener {
         Player player = event.getPlayer();
         if (developers.contains(player.getUniqueId())) {
             Utils.sendMessage(player, "&8 ----------------------------------------------");
-            Utils.sendMessage(player, "&8| &aThis server is running &2MT-Wapens&a version &2" + plugin.getDescription().getVersion() + "&a.");
+            Utils.sendMessage(player, "&8| &aThis server is running &2MT-Wapens&a version &2" + Main.getInstance().getDescription().getVersion() + "&a.");
             Utils.sendMessage(player, "&8 ----------------------------------------------");
+        }
+    }
+
+    public void checkBlacklistStatus(JavaPlugin plugin) {
+        if (Utils.checkForBlacklist(Utils.getServerIP() + ":" + Bukkit.getServer().getPort())) {
+            Bukkit.getLogger().severe("MT Wapens is geblacklist van deze server omdat de desbetreffende server zich niet heeft gehouden aan de terms of service die staan aangegeven op de spigot pagina.");
+            Bukkit.getLogger().severe("Voor meer informatie neem contact op met een van de authors van deze plugin " + plugin.getDescription().getAuthors() + ".");
+
+            for (int i = 0; i <= 20; i++) {
+                Utils.sendBroadcast(ChatColor.RESET.toString());
+            }
+
+            Utils.sendBroadcast("&4&lMT-WAPENS BLACKLIST");
+            Utils.sendBroadcast(ChatColor.RESET.toString());
+            Utils.sendBroadcast("&7MT Wapens is geblacklist van deze server omdat de desbetreffende server zich niet heeft gehouden aan de terms of service die staan aangegeven op de spigot pagina.");
+            Utils.sendBroadcast(ChatColor.RESET.toString());
+            Utils.sendBroadcast("&7&oVoor meer informatie neem contact op met een van de authors van deze plugin " + plugin.getDescription().getAuthors() + ".");
+            Utils.sendBroadcast(ChatColor.RESET.toString());
+            plugin.getPluginLoader().disablePlugin(plugin);
         }
     }
 }
