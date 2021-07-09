@@ -14,6 +14,7 @@ import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.menu.GUIHolder;
 import com.jazzkuh.mtwapens.utils.messages.Messages;
 import lombok.Getter;
+import me.lucko.commodore.CommodoreProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
@@ -62,6 +63,10 @@ public class Main extends JavaPlugin implements Listener {
         this.saveConfig();
 
         this.getLogger().info("MT-Wapens version " + this.getDescription().getVersion() + " has been loaded.");
+
+        if (CommodoreProvider.isSupported()) {
+            this.getLogger().info("Version is 1.13+, using commodore.");
+        }
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
             checkBlacklistStatus(instance);
