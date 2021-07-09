@@ -26,9 +26,9 @@ public class PlayerItemHeldListener implements Listener {
 
         if (NBTEditor.contains(itemStack, "mtwapens_weapon")) return;
 
-        for (String weaponType : Main.getInstance().getConfig().getConfigurationSection("weapons.").getKeys(false)) {
+        for (String weaponType : Main.getWeapons().getConfig().getConfigurationSection("weapons.").getKeys(false)) {
             if (!itemStack.getItemMeta().getDisplayName().equals(
-                    Utils.color(Main.getInstance().getConfig().getString("weapons." + weaponType + ".name")))) continue;
+                    Utils.color(Main.getWeapons().getConfig().getString("weapons." + weaponType + ".name")))) continue;
             Utils.applyNBTTag(itemStack, "mtwapens_weapon", weaponType);
             Utils.sendMessage(player, "&eYour weapon has been adjusted to fully work with the new MT-Wapens 3.0 update.");
         }

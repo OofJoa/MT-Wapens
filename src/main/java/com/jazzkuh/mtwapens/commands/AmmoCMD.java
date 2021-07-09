@@ -1,26 +1,21 @@
 package com.jazzkuh.mtwapens.commands;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.google.common.collect.ImmutableList;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
 import com.jazzkuh.mtwapens.function.objects.Ammo;
-import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.command.AbstractCommand;
 import com.jazzkuh.mtwapens.utils.command.Argument;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.StringUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class AmmoCMD extends AbstractCommand {
 
@@ -35,9 +30,9 @@ public class AmmoCMD extends AbstractCommand {
         if (!hasPermission(getBasePermission(), false)) return;
 
         if (args.length > 0) {
-            ArrayList<String> ammoTypes = new ArrayList<>(Main.getInstance().getConfig().getConfigurationSection("ammo.").getKeys(false));
+            ArrayList<String> ammoTypes = new ArrayList<>(Main.getAmmo().getConfig().getConfigurationSection("ammo.").getKeys(false));
 
-            if (Main.getInstance().getConfig().getString("weapons." + args[0] + ".name") == null) {
+            if (Main.getAmmo().getConfig().getString("weapons." + args[0] + ".name") == null) {
                 Utils.sendMessage(sender, "&cThe given ammo type is not a valid ammo type. Please choose one of the following: "
                         + StringUtils.join(ammoTypes, ", "));
                 return;
@@ -82,7 +77,7 @@ public class AmmoCMD extends AbstractCommand {
 
         if (args.length == 1) {
             return getApplicableTabCompleters(args[0],
-                    Main.getInstance().getConfig().getConfigurationSection("ammo.").getKeys(false));
+                    Main.getAmmo().getConfig().getConfigurationSection("ammo.").getKeys(false));
         }
 
         if (args.length == 2) {

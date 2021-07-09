@@ -1,0 +1,96 @@
+# #
+#  __  __   _____          __        __
+# |  \/  | |_   _|         \ \      / /   __ _   _ __     ___   _ __    ___
+# | |\/| |   | |    _____   \ \ /\ / /   / _` | | '_ \   / _ \ | '_ \  / __|
+# | |  | |   | |   |_____|   \ V  V /   | (_| | | |_) | |  __/ | | | | \__ \
+# |_|  |_|   |_|              \_/\_/     \__,_| | .__/   \___| |_| |_| |___/
+#                                               |_|
+# Make sure to check the docs if you need any help: https://docs.mtwapens.nl/
+#
+# #
+weapons:
+  deserteagle:
+    name: '&8Desert Eagle'
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: deserteagle_fullmodel
+    sound: none
+    reload-sound: none
+    damage: 2.0
+    max-ammo: 7
+    attackspeed: 1.0
+    ammo-type: deserteagle
+  magnum44:
+    name: '&8Magnum 44'
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: magnum44_fullmodel
+    sound: none
+    reload-sound: none
+    damage: 2.5
+    max-ammo: 8
+    attackspeed: 1.0
+    ammo-type: magnum44
+  waltherp99:
+    name: '&8Walther P99'
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: waltherp99_fullmodel
+    sound: none
+    reload-sound: none
+    damage: 3.0
+    max-ammo: 10
+    attackspeed: 1.0
+    ammo-type: waltherp99
+  glock19:
+    name: '&8Glock 19'
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: glock19_fullmodel
+    sound: none
+    reload-sound: none
+    damage: 3.3
+    max-ammo: 10
+    attackspeed: 1.0
+    ammo-type: glock19
+  m16a4:
+    name: '&8M16A4'
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: m16a4_fullmodel
+    sound: none
+    reload-sound: none
+    damage: 3.7
+    max-ammo: 25
+    attackspeed: 1.0
+    ammo-type: m16a4

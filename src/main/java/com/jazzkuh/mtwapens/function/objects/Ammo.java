@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class Ammo {
 
     public @Getter String ammoType;
-    private final FileConfiguration config = Main.getInstance().getConfig();
+    private final FileConfiguration config = Main.getAmmo().getConfig();
 
     public Ammo(String ammoType) {
         this.ammoType = ammoType;

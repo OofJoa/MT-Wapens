@@ -30,9 +30,9 @@ public class WeaponCMD extends AbstractCommand {
         if (!hasPermission(getBasePermission(), false)) return;
 
         if (args.length > 1) {
-            ArrayList<String> weaponTypes = new ArrayList<>(Main.getInstance().getConfig().getConfigurationSection("weapons.").getKeys(false));
+            ArrayList<String> weaponTypes = new ArrayList<>(Main.getWeapons().getConfig().getConfigurationSection("weapons.").getKeys(false));
 
-            if (Main.getInstance().getConfig().getString("weapons." + args[0] + ".name") == null) {
+            if (Main.getWeapons().getConfig().getString("weapons." + args[0] + ".name") == null) {
                 Utils.sendMessage(sender, "&cThe given weapon type is not a valid weapon. Please choose one of the following: "
                         + StringUtils.join(weaponTypes, ", "));
                 return;
@@ -83,7 +83,7 @@ public class WeaponCMD extends AbstractCommand {
 
         if (args.length == 1) {
             return getApplicableTabCompleters(args[0],
-                    Main.getInstance().getConfig().getConfigurationSection("weapons.").getKeys(false));
+                    Main.getWeapons().getConfig().getConfigurationSection("weapons.").getKeys(false));
         }
 
         if (args.length == 3) {

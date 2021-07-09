@@ -48,6 +48,7 @@ public class WeaponFireListener implements Listener {
 
         if (!NBTEditor.contains(itemStack, "mtwapens_weapon")) return;
         String weaponType = NBTEditor.getString(itemStack, "mtwapens_weapon");
+        Weapon weapon = new Weapon(weaponType);
 
         switch (event.getAction()) {
             case RIGHT_CLICK_BLOCK:
@@ -57,13 +58,12 @@ public class WeaponFireListener implements Listener {
                 PlayerShootWeaponEvent shootWeaponEvent = new PlayerShootWeaponEvent(player, weaponType);
                 Bukkit.getServer().getPluginManager().callEvent(shootWeaponEvent);
                 if (shootWeaponEvent.isCancelled()) return;
-                Weapon weapon = new Weapon(weaponType);
 
                 executeWeaponFire(event, player, weapon);
                 break;
             }
             case LEFT_CLICK_AIR: {
-                if (!Main.getInstance().getConfig().getBoolean("weapons." + weaponType + ".scope")) return;
+                if (!(boolean) weapon.getParameter(Weapon.WeaponParameters.SCOPE)) return;
 
                 if (player.hasPotionEffect(PotionEffectType.SLOW)) {
                     player.removePotionEffect(PotionEffectType.SLOW);

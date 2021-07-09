@@ -41,8 +41,12 @@ public class MainCMD extends AbstractCommand {
                     if (!hasPermission(getBasePermission() + ".reload", false)) return;
 
                     Main.getMessagesFile().reloadConfig();
-                    Main.getGrenades().reloadConfig();
                     Main.messages = new Messages(Main.getInstance());
+
+                    Main.getWeapons().reloadConfig();
+                    Main.getAmmo().reloadConfig();
+                    Main.getGrenades().reloadConfig();
+
                     Main.getInstance().reloadConfig();
                     Utils.sendMessage(player, "&aReloaded the configuration files, please check the console for any errors.");
                     break;

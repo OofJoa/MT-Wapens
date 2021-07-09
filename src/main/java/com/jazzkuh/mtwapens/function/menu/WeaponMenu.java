@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 
@@ -22,16 +21,16 @@ public class WeaponMenu extends GUIHolder {
     public WeaponMenu(Player player, int page) {
         int pageSize = 9 * 5;
 
-        ArrayList<String> weapons = new ArrayList<>(Main.getInstance().getConfig().getConfigurationSection("weapons.").getKeys(false));
+        ArrayList<String> weapons = new ArrayList<>(Main.getWeapons().getConfig().getConfigurationSection("weapons.").getKeys(false));
         this.inventory = Bukkit.createInventory(this, 6 * 9, Main.getMessages().get(DefaultMessages.MENU_WEAPON_TITLE));
 
         for (int i = 0; i < Math.min(weapons.size() - page * pageSize, pageSize); i++) {
             int index = i + page * pageSize;
             String type = weapons.get(index);
 
-            ItemStack weapon = new ItemBuilder(XMaterial.matchXMaterial(Main.getInstance().getConfig().getString("weapons." + type + ".material")).get().parseMaterial())
+            ItemStack weapon = new ItemBuilder(XMaterial.matchXMaterial(Main.getWeapons().getConfig().getString("weapons." + type + ".material")).get().parseMaterial())
                     .setName(Utils.color("&a" + type))
-                    .setNBT(Main.getInstance().getConfig().getString("weapons." + type + ".nbt"), Main.getInstance().getConfig().getString("weapons." + type + ".nbtvalue"))
+                    .setNBT(Main.getWeapons().getConfig().getString("weapons." + type + ".nbt"), Main.getWeapons().getConfig().getString("weapons." + type + ".nbtvalue"))
                     .setNBT("menuItem", "true")
                     .toItemStack();
 
@@ -81,7 +80,7 @@ public class WeaponMenu extends GUIHolder {
         }
 
         if (NBTEditor.contains(item, "switcher")) {
-            new AmmoMenu(Main.getInstance(), 0).open(player);
+            new AmmoMenu(player, 0).open(player);
         } else if (item.getType() == XMaterial.OAK_SIGN.parseMaterial()) {
             int newPage = Integer.parseInt(ChatColor.stripColor(item.getItemMeta().getDisplayName()).replaceAll("([a-zA-Z]|\\s|§\\d)+", "")) - 1;
             new WeaponMenu(player, newPage).open(player);

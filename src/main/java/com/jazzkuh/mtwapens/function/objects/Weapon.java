@@ -14,7 +14,7 @@ import java.util.List;
 public class Weapon {
 
     public @Getter String weaponType;
-    private final FileConfiguration config = Main.getInstance().getConfig();
+    private final FileConfiguration config = Main.getWeapons().getConfig();
 
     public Weapon(String weaponType) {
         this.weaponType = weaponType;

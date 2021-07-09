@@ -2,7 +2,6 @@ package com.jazzkuh.mtwapens.function.menu;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
-import com.jazzkuh.mtwapens.commands.AmmoCMD;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
 import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
@@ -17,24 +16,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 
 public class AmmoMenu extends GUIHolder {
-    public AmmoMenu(Plugin plugin, int page) {
+    public AmmoMenu(Player player, int page) {
         int pageSize = 9 * 5;
 
-        ArrayList<String> weapons = new ArrayList<>(plugin.getConfig().getConfigurationSection("ammo.").getKeys(false));
+        ArrayList<String> weapons = new ArrayList<>(Main.getAmmo().getConfig().getConfigurationSection("ammo.").getKeys(false));
         this.inventory = Bukkit.createInventory(this, 6 * 9, Main.getMessages().get(DefaultMessages.MENU_AMMO_TITLE));
 
         for (int i = 0; i < Math.min(weapons.size() - page * pageSize, pageSize); i++) {
             int index = i + page * pageSize;
             String type = weapons.get(index);
 
-            ItemStack weapon = new ItemBuilder(XMaterial.matchXMaterial(plugin.getConfig().getString("ammo." + type + ".material")).get().parseMaterial())
+            ItemStack weapon = new ItemBuilder(XMaterial.matchXMaterial(Main.getAmmo().getConfig().getString("ammo." + type + ".material")).get().parseMaterial())
                     .setName(Utils.color("&a" + type))
-                    .setNBT(plugin.getConfig().getString("ammo." + type + ".nbt"), plugin.getConfig().getString("ammo." + type + ".nbtvalue"))
+                    .setNBT(Main.getAmmo().getConfig().getString("ammo." + type + ".nbt"), Main.getAmmo().getConfig().getString("ammo." + type + ".nbtvalue"))
                     .setNBT("menuItem", "true")
                     .toItemStack();
 
@@ -85,7 +83,7 @@ public class AmmoMenu extends GUIHolder {
             new WeaponMenu(player, 0).open(player);
         } else if (item.getType() == XMaterial.OAK_SIGN.parseMaterial()) {
             int newPage = Integer.parseInt(ChatColor.stripColor(item.getItemMeta().getDisplayName()).replaceAll("([a-zA-Z]|\\s|§\\d)+", "")) - 1;
-            new AmmoMenu(Main.getInstance(), newPage).open(player);
+            new AmmoMenu(player, newPage).open(player);
         }
     }
 }

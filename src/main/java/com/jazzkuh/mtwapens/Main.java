@@ -23,6 +23,8 @@ public class Main extends JavaPlugin implements Listener {
 
     private static @Getter Main instance;
     public static @Getter Messages messages;
+    private static @Getter ConfigurationFile weapons;
+    private static @Getter ConfigurationFile ammo;
     private static @Getter ConfigurationFile grenades;
     private static @Getter ConfigurationFile messagesFile;
     private static final @Getter HashMap<String, Boolean> reloadDelay = new HashMap<>();
@@ -52,6 +54,12 @@ public class Main extends JavaPlugin implements Listener {
         new WeaponCMD().register(this);
         new AmmoCMD().register(this);
         new GrenadeCMD().register(this);
+
+        weapons = new ConfigurationFile(this, "weapons.yml", true);
+        weapons.saveConfig();
+
+        ammo = new ConfigurationFile(this, "ammo.yml", true);
+        ammo.saveConfig();
 
         grenades = new ConfigurationFile(this, "grenades.yml", true);
         grenades.saveConfig();
