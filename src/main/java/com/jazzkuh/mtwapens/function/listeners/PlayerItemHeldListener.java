@@ -54,9 +54,8 @@ public class PlayerItemHeldListener implements Listener {
         String weaponType = NBTEditor.getString(itemStack, "mtwapens_weapon");
         Weapon weapon = new Weapon(weaponType);
 
-        Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.DURABILITY)
-                .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability"))));
-        Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.AMMO)
+        Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.AMMO_DURABILITY)
+                .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                 .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                 .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
     }

@@ -3,6 +3,8 @@ package com.jazzkuh.mtwapens.utils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -27,14 +29,27 @@ public class Utils {
 
     public static void sendMessage(Player player, String input) {
         if (input.length() >= 1) {
-            player.sendMessage(Utils.color(input));
+            if (input.startsWith("a:")) {
+                sendActionbar(player, input.substring(2));
+            } else {
+                player.sendMessage(Utils.color(input));
+            }
         }
     }
     public static void sendMessage(CommandSender sender, String input) {
         if (input.length() >= 1) {
-            sender.sendMessage(Utils.color(input));
+            if (input.startsWith("a:") && sender instanceof Player) {
+                sendActionbar((Player) sender, input.substring(2));
+            } else {
+                sender.sendMessage(Utils.color(input));
+            }
         }
     }
+
+    public static void sendActionbar(Player player, String input) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(color(input)));
+    }
+
     public static void sendBroadcast(String input) {
         Bukkit.broadcastMessage(Utils.color(input));
     }

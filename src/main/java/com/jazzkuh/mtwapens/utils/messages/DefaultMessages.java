@@ -2,8 +2,7 @@ package com.jazzkuh.mtwapens.utils.messages;
 
 public enum DefaultMessages {
     NO_AMMO("Weapons.NoAmmo", "&cOut of ammo!"),
-    DURABILITY("Weapons.Durability", "&9Durability: &a<Durability>"),
-    AMMO("Weapons.Ammo", "&9Ammo: &a<Ammo>&f/&c<MaxAmmo>"),
+    AMMO_DURABILITY("Weapons.AmmoDurability", "&9Durability: &a<Durability>\n&9Ammo: &a<Ammo>&f/&c<MaxAmmo>"),
     RELOADING("Weapons.Reloading.Message", "&eReloading..."),
     RELOADING_TITLE("Weapons.Reloading.Title", "&eReloading..."),
     RELOADING_SUBTITLE("Weapons.Reloading.Subtitle", "&7Clickerdy click."),

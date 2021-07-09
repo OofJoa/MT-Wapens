@@ -116,9 +116,8 @@ public class WeaponFireListener implements Listener {
 
             updateWeaponLore(itemStack, weapon);
 
-            Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.DURABILITY)
-                    .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability"))));
-            Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.AMMO)
+            Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.AMMO_DURABILITY)
+                    .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                     .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                     .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
 
@@ -151,9 +150,8 @@ public class WeaponFireListener implements Listener {
                 Utils.applyNBTTag(itemStack, "ammo", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO));
                 updateWeaponLore(itemStack, weapon);
 
-                Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.DURABILITY)
-                        .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability"))));
-                Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.AMMO)
+                Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.AMMO_DURABILITY)
+                        .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                         .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                         .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
 
