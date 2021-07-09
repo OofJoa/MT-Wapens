@@ -1,12 +1,10 @@
 package com.jazzkuh.mtwapens.function;
 
-import com.cryptomorin.xseries.XMaterial;
-import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.objects.Ammo;
+import com.jazzkuh.mtwapens.function.objects.Grenade;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -54,5 +52,25 @@ public class WeaponFactory {
                 .toItemStack();
 
         player.getInventory().addItem(itemStack);
+    }
+
+    public void buildGrenade(Grenade grenade, int uses) {
+        ArrayList<String> weaponLore = new ArrayList<>();
+        for (String string : (List<String>) grenade.getParameter(Grenade.GrenadeParameters.LORE)) {
+            string = string.replace("<Ranged-Damage>", grenade.getParameter(Grenade.GrenadeParameters.RANGED_DAMAGE).toString())
+                    .replace("<Uses>", String.valueOf(uses));
+            weaponLore.add(string);
+        }
+
+        ItemStack itemStack = new ItemBuilder((Material) grenade.getParameter(Grenade.GrenadeParameters.MATERIAL))
+                .setName(Utils.color(grenade.getParameter(Grenade.GrenadeParameters.NAME).toString()))
+                .setNBT(grenade.getParameter(Grenade.GrenadeParameters.NBT).toString(), grenade.getParameter(Grenade.GrenadeParameters.NBTVALUE).toString())
+                .setNBT("mtwapens_uses", uses)
+                .setNBT("mtwapens_grenade", grenade.getGrenadeType())
+                .setItemFlag(ItemFlag.HIDE_ATTRIBUTES)
+                .setLore(weaponLore)
+                .toItemStack();
+
+        this.player.getInventory().addItem(itemStack);
     }
 }

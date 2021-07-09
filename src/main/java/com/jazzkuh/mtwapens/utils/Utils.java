@@ -2,12 +2,10 @@ package com.jazzkuh.mtwapens.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.jazzkuh.mtwapens.Main;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +17,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,6 +113,23 @@ public class Utils {
             playerNames.add(player.getName());
         }
         return playerNames;
+    }
+
+    public static ArrayList<Block> getBlocksAroundCenter(Location loc, int radius) {
+        ArrayList<Block> blocks = new ArrayList<>();
+
+        for (int x = (loc.getBlockX()-radius); x <= (loc.getBlockX()+radius); x++) {
+            for (int y = (loc.getBlockY()-radius); y <= (loc.getBlockY()+radius); y++) {
+                for (int z = (loc.getBlockZ()-radius); z <= (loc.getBlockZ()+radius); z++) {
+                    Location l = new Location(loc.getWorld(), x, y, z);
+                    if (l.distance(loc) <= radius) {
+                        blocks.add(l.getBlock());
+                    }
+                }
+            }
+        }
+
+        return blocks;
     }
 }
 

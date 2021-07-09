@@ -12,11 +12,14 @@ public class ConfigurationFile {
     private FileConfiguration config;
     private final File file;
 
-    public ConfigurationFile(Plugin plugin, String name) {
+    public ConfigurationFile(Plugin plugin, String name, boolean hasEmbeddedFile) {
         this.file = new File(plugin.getDataFolder(), name);
 
-        if (this.file.exists())
+        if (!this.file.exists())
             try {
+                if (hasEmbeddedFile) {
+                    plugin.saveResource(name, true);
+                }
                 this.file.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();

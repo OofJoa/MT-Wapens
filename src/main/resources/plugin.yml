@@ -14,3 +14,6 @@ commands:
   mtwapens:
     aliases: [weapon, mtwapen]
     description: Open the weapon menu or reload the plugin.
+  getgrenade:
+    aliases: [givegrenade]
+    description: Get or give a grenade to a player.

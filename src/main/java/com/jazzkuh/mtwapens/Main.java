@@ -1,13 +1,11 @@
 package com.jazzkuh.mtwapens;
 
 import com.jazzkuh.mtwapens.commands.AmmoCMD;
+import com.jazzkuh.mtwapens.commands.GrenadeCMD;
 import com.jazzkuh.mtwapens.commands.MainCMD;
 import com.jazzkuh.mtwapens.commands.WeaponCMD;
 import com.jazzkuh.mtwapens.function.DevToolsListener;
-import com.jazzkuh.mtwapens.function.listeners.PlayerItemHeldListener;
-import com.jazzkuh.mtwapens.function.listeners.PlayerQuitListener;
-import com.jazzkuh.mtwapens.function.listeners.WeaponDamageListener;
-import com.jazzkuh.mtwapens.function.listeners.WeaponFireListener;
+import com.jazzkuh.mtwapens.function.listeners.*;
 import com.jazzkuh.mtwapens.utils.ConfigurationFile;
 import com.jazzkuh.mtwapens.utils.Metrics;
 import com.jazzkuh.mtwapens.utils.Utils;
@@ -25,6 +23,7 @@ public class Main extends JavaPlugin implements Listener {
 
     private static @Getter Main instance;
     public static @Getter Messages messages;
+    private static @Getter ConfigurationFile grenades;
     private static @Getter ConfigurationFile messagesFile;
     private static final @Getter HashMap<String, Boolean> reloadDelay = new HashMap<>();
 
@@ -46,12 +45,18 @@ public class Main extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new WeaponDamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new WeaponFireListener(), this);
         Bukkit.getPluginManager().registerEvents(new DevToolsListener(), this);
+        Bukkit.getPluginManager().registerEvents(new GrenadeLaunchListener(), this);
+        Bukkit.getPluginManager().registerEvents(new GrenadeHitListener(), this);
 
         new MainCMD().register(this);
         new WeaponCMD().register(this);
         new AmmoCMD().register(this);
+        new GrenadeCMD().register(this);
 
-        messagesFile = new ConfigurationFile(this, "messages.yml");
+        grenades = new ConfigurationFile(this, "grenades.yml", true);
+        grenades.saveConfig();
+
+        messagesFile = new ConfigurationFile(this, "messages.yml", false);
         messagesFile.saveConfig();
 
         messages = new Messages(this);
@@ -65,8 +70,6 @@ public class Main extends JavaPlugin implements Listener {
             this.getLogger().info("Version is 1.13+, using commodore.");
         }
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
-            new DevToolsListener().checkBlacklistStatus(instance);
-        }, 0, 12000);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> new DevToolsListener().checkBlacklistStatus(instance), 0, 12000);
     }
 }
