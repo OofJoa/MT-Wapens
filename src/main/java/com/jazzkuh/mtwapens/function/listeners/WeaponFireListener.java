@@ -3,8 +3,8 @@ package com.jazzkuh.mtwapens.function.listeners;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.api.PlayerShootWeaponEvent;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
+import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.Utils;
-import com.jazzkuh.mtwapens.utils.messages.DefaultMessages;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -101,7 +101,7 @@ public class WeaponFireListener implements Listener {
         if (NBTEditor.getInt(itemStack, "ammo") > 0) {
             if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SHOOTONLYWHENSCOPED) &&
                     !player.hasPotionEffect(PotionEffectType.SLOW)) {
-                Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.WEAPON_CANT_SHOOT_WIHTOUT_SCOPE));
+                Utils.sendMessage(player, Messages.WEAPON_CANT_SHOOT_WIHTOUT_SCOPE.get());
                 return;
             }
 
@@ -116,7 +116,7 @@ public class WeaponFireListener implements Listener {
 
             updateWeaponLore(itemStack, weapon);
 
-            Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.AMMO_DURABILITY)
+            Utils.sendMessage(player, Messages.AMMO_DURABILITY.get()
                     .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                     .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                     .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
@@ -139,8 +139,8 @@ public class WeaponFireListener implements Listener {
                 }
             }
 
-            player.sendTitle(Main.getMessages().get(DefaultMessages.RELOADING_TITLE), Main.getMessages().get(DefaultMessages.RELOADING_SUBTITLE), 10, 20, 10);
-            Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.RELOADING));
+            player.sendTitle(Messages.RELOADING_TITLE.get(), Messages.RELOADING_SUBTITLE.get(), 10, 20, 10);
+            Utils.sendMessage(player, Messages.RELOADING.get());
             player.getInventory().removeItem(bulletItem);
 
             Main.getReloadDelay().put(player.getUniqueId().toString(), true);
@@ -150,7 +150,7 @@ public class WeaponFireListener implements Listener {
                 Utils.applyNBTTag(itemStack, "ammo", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO));
                 updateWeaponLore(itemStack, weapon);
 
-                Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.AMMO_DURABILITY)
+                Utils.sendMessage(player, Messages.AMMO_DURABILITY.get()
                         .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                         .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                         .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
@@ -158,7 +158,7 @@ public class WeaponFireListener implements Listener {
                 Main.getReloadDelay().remove(String.valueOf(player.getUniqueId()));
             }, 35);
         } else {
-            Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.NO_AMMO));
+            Utils.sendMessage(player, Messages.NO_AMMO.get());
             player.playSound(player.getLocation(), Main.getInstance().getConfig().getString("empty-sound"), 100, 1F);
         }
     }

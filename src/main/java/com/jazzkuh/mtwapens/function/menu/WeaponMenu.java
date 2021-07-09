@@ -2,10 +2,10 @@ package com.jazzkuh.mtwapens.function.menu;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.menu.GUIHolder;
-import com.jazzkuh.mtwapens.utils.messages.DefaultMessages;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,7 +22,7 @@ public class WeaponMenu extends GUIHolder {
         int pageSize = 9 * 5;
 
         ArrayList<String> weapons = new ArrayList<>(Main.getWeapons().getConfig().getConfigurationSection("weapons.").getKeys(false));
-        this.inventory = Bukkit.createInventory(this, 6 * 9, Main.getMessages().get(DefaultMessages.MENU_WEAPON_TITLE));
+        this.inventory = Bukkit.createInventory(this, 6 * 9, Messages.MENU_WEAPON_TITLE.get());
 
         for (int i = 0; i < Math.min(weapons.size() - page * pageSize, pageSize); i++) {
             int index = i + page * pageSize;
@@ -38,21 +38,21 @@ public class WeaponMenu extends GUIHolder {
         }
 
         this.inventory.setItem(pageSize + 4, new ItemBuilder(Material.ARROW)
-                .setName(Main.getMessages().get(DefaultMessages.MENU_SWITCHER)
-                        .replace("<Menu>", Main.getMessages().get(DefaultMessages.MENU_AMMO_TITLE)))
+                .setName(Messages.MENU_SWITCHER.get()
+                        .replace("<Menu>", Messages.MENU_AMMO_TITLE.get()))
                 .setNBT("switcher", "true")
                 .toItemStack());
 
         if (page > 0) {
             this.inventory.setItem(pageSize + 3, new ItemBuilder(XMaterial.OAK_SIGN.parseMaterial())
-                    .setName(Main.getMessages().get(DefaultMessages.MENU_WEAPON_BUTTON_PAGE)
+                    .setName(Messages.MENU_WEAPON_BUTTON_PAGE.get()
                             .replace("<Page>", String.valueOf(page)))
                     .toItemStack());
         }
 
         if (weapons.size() - page * pageSize > pageSize) {
             this.inventory.setItem(pageSize + 5, new ItemBuilder(XMaterial.OAK_SIGN.parseMaterial())
-                    .setName(Main.getMessages().get(DefaultMessages.MENU_WEAPON_BUTTON_PAGE)
+                    .setName(Messages.MENU_WEAPON_BUTTON_PAGE.get()
                             .replace("<Page>", String.valueOf((page + 2))))
                     .toItemStack());
         }

@@ -6,7 +6,6 @@ import com.jazzkuh.mtwapens.function.menu.WeaponMenu;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.command.AbstractCommand;
 import com.jazzkuh.mtwapens.utils.command.Argument;
-import com.jazzkuh.mtwapens.utils.messages.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,13 +39,11 @@ public class MainCMD extends AbstractCommand {
                 case "reload": {
                     if (!hasPermission(getBasePermission() + ".reload", false)) return;
 
-                    Main.getMessagesFile().reloadConfig();
-                    Main.messages = new Messages(Main.getInstance());
-
                     Main.getWeapons().reloadConfig();
                     Main.getAmmo().reloadConfig();
                     Main.getGrenades().reloadConfig();
 
+                    Main.getMessages().reloadConfig();
                     Main.getInstance().reloadConfig();
                     Utils.sendMessage(player, "&aReloaded the configuration files, please check the console for any errors.");
                     break;

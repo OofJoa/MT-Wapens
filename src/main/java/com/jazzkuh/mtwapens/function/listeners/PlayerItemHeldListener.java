@@ -2,8 +2,8 @@ package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
+import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.Utils;
-import com.jazzkuh.mtwapens.utils.messages.DefaultMessages;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -54,7 +54,7 @@ public class PlayerItemHeldListener implements Listener {
         String weaponType = NBTEditor.getString(itemStack, "mtwapens_weapon");
         Weapon weapon = new Weapon(weaponType);
 
-        Utils.sendMessage(player, Main.getMessages().get(DefaultMessages.AMMO_DURABILITY)
+        Utils.sendMessage(player, Messages.AMMO_DURABILITY.get()
                 .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                 .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                 .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));

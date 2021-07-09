@@ -1,13 +1,11 @@
 package com.jazzkuh.mtwapens.function.menu;
 
 import com.cryptomorin.xseries.XMaterial;
-import com.jazzkuh.mtwapens.Main;
-import com.jazzkuh.mtwapens.commands.WeaponCMD;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
+import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.menu.GUIHolder;
-import com.jazzkuh.mtwapens.utils.messages.DefaultMessages;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,7 +21,7 @@ public class WeaponBuilderMenu extends GUIHolder {
     public WeaponBuilderMenu(String type, int durability) {
         this.type = type;
         this.durability = durability;
-        this.inventory = Bukkit.createInventory(this, 9 * 5, Main.getMessages().get(DefaultMessages.MENU_DURABILITY_TITLE)
+        this.inventory = Bukkit.createInventory(this, 9 * 5, Messages.MENU_DURABILITY_TITLE.get()
                 .replace("<WeaponType>", type));
 
         if (this.durability >= 1) {
@@ -34,7 +32,7 @@ public class WeaponBuilderMenu extends GUIHolder {
 
         this.inventory.setItem(22,
                 new ItemBuilder(XMaterial.CRAFTING_TABLE.parseMaterial())
-                        .setName(Main.getMessages().get(DefaultMessages.MENU_DURABILITY_CRAFT)
+                        .setName(Messages.MENU_DURABILITY_CRAFT.get()
                                 .replace("<Durability>", String.valueOf(this.durability)))
 
                         .setNBT("craftweapon", "true")
@@ -67,7 +65,7 @@ public class WeaponBuilderMenu extends GUIHolder {
         }
 
         return new ItemBuilder(material)
-                .setName(Main.getMessages().get(DefaultMessages.valueOf(message))
+                .setName(Messages.valueOf(message).get()
                         .replace("<Identifier>", identifier)
                         .replace("<Durability>", String.valueOf(durability)))
 

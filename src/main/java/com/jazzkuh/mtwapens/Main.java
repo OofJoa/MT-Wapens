@@ -6,11 +6,11 @@ import com.jazzkuh.mtwapens.commands.MainCMD;
 import com.jazzkuh.mtwapens.commands.WeaponCMD;
 import com.jazzkuh.mtwapens.function.DevToolsListener;
 import com.jazzkuh.mtwapens.function.listeners.*;
+import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.ConfigurationFile;
 import com.jazzkuh.mtwapens.utils.Metrics;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.menu.GUIHolder;
-import com.jazzkuh.mtwapens.utils.messages.Messages;
 import lombok.Getter;
 import me.lucko.commodore.CommodoreProvider;
 import org.bukkit.Bukkit;
@@ -22,11 +22,10 @@ import java.util.HashMap;
 public class Main extends JavaPlugin implements Listener {
 
     private static @Getter Main instance;
-    public static @Getter Messages messages;
     private static @Getter ConfigurationFile weapons;
     private static @Getter ConfigurationFile ammo;
     private static @Getter ConfigurationFile grenades;
-    private static @Getter ConfigurationFile messagesFile;
+    private static @Getter ConfigurationFile messages;
     private static final @Getter HashMap<String, Boolean> reloadDelay = new HashMap<>();
 
     @Override
@@ -64,10 +63,9 @@ public class Main extends JavaPlugin implements Listener {
         grenades = new ConfigurationFile(this, "grenades.yml", true);
         grenades.saveConfig();
 
-        messagesFile = new ConfigurationFile(this, "messages.yml", false);
-        messagesFile.saveConfig();
-
-        messages = new Messages(this);
+        messages = new ConfigurationFile(this, "messages.yml", false);
+        Messages.init();
+        messages.saveConfig();
 
         this.saveDefaultConfig();
         this.saveConfig();

@@ -1,6 +1,9 @@
-package com.jazzkuh.mtwapens.utils.messages;
+package com.jazzkuh.mtwapens.messages;
 
-public enum DefaultMessages {
+import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.utils.Utils;
+
+public enum Messages {
     NO_AMMO("Weapons.NoAmmo", "&cOut of ammo!"),
     AMMO_DURABILITY("Weapons.AmmoDurability", "&9Durability: &a<Durability>\n&9Ammo: &a<Ammo>&f/&c<MaxAmmo>"),
     RELOADING("Weapons.Reloading.Message", "&eReloading..."),
@@ -15,20 +18,34 @@ public enum DefaultMessages {
     MENU_WEAPON_BUTTON_PAGE("Weapons.Menu.Weapon.Buttons.Page", "&aPage <Page>"),
     MENU_AMMO_TITLE("Weapons.Menu.Ammo.Title", "Ammo Menu"),
     MENU_SWITCHER("Weapons.Menu.Switcher", "&aSwitch to &2<Menu>"),
-    WEAPON_CANT_SHOOT_WIHTOUT_SCOPE("Weapons.CanShootWithoutScope", "&cSorry bro, no 360 noscope for you...");
+    WEAPON_CANT_SHOOT_WIHTOUT_SCOPE("Weapons.CantShootWithoutScope", "&cSorry bro, no 360 noscope for you...");
+
 
     private final String path;
     private final String message;
-    DefaultMessages(String path, String message) {
+    Messages(String path, String message) {
         this.path = path;
         this.message = message;
     }
 
-    public String getMessage() {
+    private String getMessage() {
         return message;
     }
 
-    public String getPath() {
+    private String getPath() {
         return path;
+    }
+
+    public String get() {
+        String msg = Main.getMessages().getConfig().getString(this.getPath());
+        return Utils.color(msg);
+    }
+
+    public static void init() {
+        for (Messages msg : Messages.values()) {
+            if (Main.getMessages().getConfig().getString(msg.getPath()) == null) {
+                Main.getMessages().getConfig().set(msg.getPath(), msg.getMessage());
+            }
+        }
     }
 }
