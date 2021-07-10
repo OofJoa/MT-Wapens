@@ -1,3 +1,6 @@
+# WARNING
+Deze versie is niet meer supported en zal niet meer werken! Ga naar V3 als je nog support wilt
+
 # MT Wapens
 ![Spiget Version](https://img.shields.io/spiget/version/76350?color=red&label=version)
 ![License](https://img.shields.io/github/license/Jazzkuh/MT-Wapens)
