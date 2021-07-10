@@ -27,9 +27,8 @@ public class WeaponDamageListener implements Listener {
         event.setDamage(0D);
 
         double damage = Double.parseDouble(bullet.getName());
-        if (Main.getInstance().getConfig().getBoolean("projectileProtectionReducesDamage")) {
-            if (entity.getEquipment().getChestplate() == null ||
-                    !entity.getEquipment().getChestplate().getEnchantments().containsKey(Enchantment.PROTECTION_PROJECTILE)) return;
+        if (Main.getInstance().getConfig().getBoolean("projectileProtectionReducesDamage") && entity.getEquipment().getChestplate() != null
+                && entity.getEquipment().getChestplate().getEnchantments().containsKey(Enchantment.PROTECTION_PROJECTILE)) {
 
             int enchantmentLevel = entity.getEquipment().getChestplate().getEnchantments().get(Enchantment.PROTECTION_PROJECTILE);
             int percentage = Main.getInstance().getConfig().getInt("damageReductionPercentagePerLevel") != 0
