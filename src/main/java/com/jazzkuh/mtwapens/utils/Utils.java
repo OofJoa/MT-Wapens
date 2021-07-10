@@ -2,6 +2,7 @@ package com.jazzkuh.mtwapens.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.jazzkuh.mtwapens.Main;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -111,6 +112,7 @@ public class Utils {
             connection.setConnectTimeout(5000);
             connection.setRequestMethod(method);
             connection.setRequestProperty("User-Agent", "MTWAPENS");
+            connection.setRequestProperty("Version", Main.getInstance().getDescription().getVersion());
             connection.connect();
 
             return new JsonParser().parse(new InputStreamReader((InputStream) connection.getContent())).getAsJsonObject();
