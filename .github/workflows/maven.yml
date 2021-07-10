@@ -28,3 +28,9 @@ jobs:
       with:
        name: MT-Wapens
        path: ./build/libs/MT-Wapens-*.jar
+    - name: sends the jarfile to the discord
+      uses: sinshutu/upload-to-discord@master
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      with:
+        args: ./build/libs/MT-Wapens-*.jar
