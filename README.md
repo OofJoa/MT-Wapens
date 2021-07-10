@@ -2,6 +2,7 @@
 ![Spiget Version](https://img.shields.io/spiget/version/76350?color=red&label=version)
 ![License](https://img.shields.io/github/license/Jazzkuh/MT-Wapens)
 ![Spiget Downloads](https://img.shields.io/spiget/downloads/76350)
+[![Java CI with Maven](https://github.com/Jazzkuh/MT-Wapens/actions/workflows/maven.yml/badge.svg)](https://github.com/Jazzkuh/MT-Wapens/actions/workflows/maven.yml)
 
 Met deze plugin is het mogelijk om wapens toe te voegen aan jouw Minetopia server. Hiervoor heb je de Minetopia Texturepack nodig om de juiste textures te zien.
 
