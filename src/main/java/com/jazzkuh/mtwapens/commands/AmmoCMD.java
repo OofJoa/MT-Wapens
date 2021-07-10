@@ -32,7 +32,7 @@ public class AmmoCMD extends AbstractCommand {
         if (args.length > 0) {
             ArrayList<String> ammoTypes = new ArrayList<>(Main.getAmmo().getConfig().getConfigurationSection("ammo.").getKeys(false));
 
-            if (Main.getAmmo().getConfig().getString("weapons." + args[0] + ".name") == null) {
+            if (Main.getAmmo().getConfig().getString("ammo." + args[0] + ".name") == null) {
                 Utils.sendMessage(sender, "&cThe given ammo type is not a valid ammo type. Please choose one of the following: "
                         + StringUtils.join(ammoTypes, ", "));
                 return;
