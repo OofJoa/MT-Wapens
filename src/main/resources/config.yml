@@ -12,5 +12,6 @@ empty-sound: weapons.gunempty
 weaponCooldownPerWeapon: false
 projectileProtectionReducesDamage: false
 damageReductionPercentagePerLevel: 5
+weaponCooldownPerWeapon: false
 weapons: 'Moved to weapons.yml'
 ammo: 'Moved to ammo.yml'
