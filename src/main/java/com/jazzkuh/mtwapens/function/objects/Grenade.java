@@ -43,9 +43,11 @@ public class Grenade {
                 return config.getString(configString + "nbtvalue");
             }
             case RANGE: {
-                return config.getDouble(configString + "range") != 0D
+                double range = config.getDouble(configString + "range") != 0D
                         ? config.getDouble(configString + "range")
                         : 3D;
+
+                return Math.min(range, 16D);
             }
             case RANGED_DAMAGE: {
                 return config.getDouble(configString + "ranged-damage");

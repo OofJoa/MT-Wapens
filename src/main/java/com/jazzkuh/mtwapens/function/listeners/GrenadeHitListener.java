@@ -54,7 +54,7 @@ public class GrenadeHitListener implements Listener {
                     if (!(target instanceof LivingEntity)) continue;
 
                     LivingEntity livingEntity = (LivingEntity) target;
-                    livingEntity.damage(damage, (Entity) grenadeItem.getShooter());
+                    livingEntity.damage(damage);
                 }
                 break;
             }
