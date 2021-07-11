@@ -1,11 +1,10 @@
 package com.jazzkuh.mtwapens.function.listeners;
 
+import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.objects.Grenade;
 import com.jazzkuh.mtwapens.utils.Utils;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import de.slikey.effectlib.effect.ParticleEffect;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
@@ -15,7 +14,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
+import org.bukkit.potion.PotionEffect;
 
+import java.util.Collection;
 import java.util.Random;
 
 public class GrenadeHitListener implements Listener {
@@ -45,6 +46,28 @@ public class GrenadeHitListener implements Listener {
                     block.getWorld().spawnParticle(Particle.LAVA, block.getLocation(), 1);
                     break;
                 }
+                case EFFECT: {
+                    block.getWorld().spawnParticle(Particle.SMOKE_LARGE, block.getLocation(), 1);
+                    break;
+                }
+                case SMOKE: {
+                    int iterations = (int) grenade.getParameter(Grenade.GrenadeParameters.ITERATIONS);
+                    for (int i = 0; i <= iterations; i++) {
+                        Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+                            ParticleEffect particleEffect = new ParticleEffect(Main.getEffectManager());
+                            particleEffect.particle = Particle.SMOKE_LARGE;
+                            particleEffect.particleSize = 50;
+                            particleEffect.particleCount = 50;
+                            particleEffect.iterations = 1;
+                            particleEffect.particleOffsetX = new Random().nextInt(2);
+                            particleEffect.particleOffsetZ = new Random().nextInt(2);
+                            particleEffect.particleOffsetY = new Random().nextInt(2);
+                            particleEffect.setLocation(block.getLocation());
+                            particleEffect.start();
+                        }, 20L * i);
+                    }
+                    break;
+                }
             }
         }
 
@@ -67,6 +90,24 @@ public class GrenadeHitListener implements Listener {
 
                     if (livingEntity instanceof Player) {
                         ((Player) target).playSound(livingEntity.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 100, 1F);
+                    }
+                }
+                break;
+            }
+            case EFFECT: {
+                for (Entity target : grenadeItem.getNearbyEntities(range, range, range)) {
+                    if (!(target instanceof LivingEntity)) continue;
+
+                    LivingEntity livingEntity = (LivingEntity) target;
+
+                    if (damage != 0D) {
+                        livingEntity.damage(damage);
+                    }
+
+                    livingEntity.addPotionEffects((Collection<PotionEffect>) grenade.getParameter(Grenade.GrenadeParameters.EFFECTS));
+
+                    if (livingEntity instanceof Player) {
+                        ((Player) target).playSound(livingEntity.getLocation(), Sound.ENTITY_SPLASH_POTION_BREAK, 100, 1F);
                     }
                 }
                 break;

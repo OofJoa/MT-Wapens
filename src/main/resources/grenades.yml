@@ -36,3 +36,37 @@ grenades:
     range: 6.0
     ranged-damage: 2.0
     cooldown: 1.0
+  flashbang:
+    name: '&7Flash bang'
+    type: EFFECT
+    lore:
+      - ''
+      - 'Flash bang Uses: &f<Uses>'
+      - ''
+    material: EGG
+    nbt: mtwapens
+    nbtvalue: flashbang
+    range: 3.0
+    cooldown: 1.0
+    type-specific:
+      effects:
+        BLINDNESS:
+          duration: 30
+          amplifier: 2
+        SLOWNESS:
+          duration: 20
+          amplifier: 1
+  smokegrenade:
+    name: '&7Smoke Grenade'
+    type: SMOKE
+    lore:
+      - ''
+      - 'Smoke grenade Uses: &f<Uses>'
+      - ''
+    material: EGG
+    nbt: mtwapens
+    nbtvalue: smokegrenade
+    range: 3.0
+    cooldown: 1.0
+    type-specific:
+      iterations: 5

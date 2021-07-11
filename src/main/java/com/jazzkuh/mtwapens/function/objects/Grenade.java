@@ -1,11 +1,16 @@
 package com.jazzkuh.mtwapens.function.objects;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.XPotion;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.utils.Utils;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.potion.PotionEffect;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class Grenade {
 
@@ -55,6 +60,32 @@ public class Grenade {
             case COOLDOWN: {
                 return config.getDouble(configString + "cooldown") * 1000;
             }
+            case EFFECTS: {
+                Collection<PotionEffect> potionEffects = new ArrayList<>();
+                if (config.getConfigurationSection(configString + "type-specific.effects") != null) {
+                    for (String potionEffect : config.getConfigurationSection(configString + "type-specific.effects").getKeys(false)) {
+                        int duration = config.getInt(configString + "type-specific.effects." + potionEffect + ".duration") != 0
+                                ? config.getInt(configString + "type-specific.effects." + potionEffect + ".duration")
+                                : 10;
+                        int amplifier = config.getInt(configString + "type-specific.effects." + potionEffect + ".amplifier") != 0
+                                ? config.getInt(configString + "type-specific.effects." + potionEffect + ".amplifier")
+                                : 1;
+
+                        duration = duration * 20;
+
+                        if (XPotion.matchXPotion(potionEffect).isPresent()) {
+                            potionEffects.add(XPotion.matchXPotion(potionEffect).get().parsePotion(duration, amplifier));
+                        }
+                    }
+                }
+
+                return potionEffects;
+            }
+            case ITERATIONS: {
+                return config.getInt(configString + "type-specific.iterations") != 0
+                        ? config.getInt(configString + "type-specific.iterations")
+                        : 5;
+            }
             default:
                 break;
         }
@@ -63,10 +94,10 @@ public class Grenade {
     }
 
     public enum GrenadeParameters {
-        NAME, TYPE, LORE, MATERIAL, NBT, NBTVALUE, RANGE, RANGED_DAMAGE, COOLDOWN
+        NAME, TYPE, LORE, MATERIAL, NBT, NBTVALUE, RANGE, RANGED_DAMAGE, COOLDOWN, EFFECTS, ITERATIONS
     }
 
     public enum GrenadeTypes {
-        EXPLODE, MOLOTOV
+        EXPLODE, MOLOTOV, EFFECT, SMOKE
     }
 }
