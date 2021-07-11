@@ -11,6 +11,7 @@ import com.jazzkuh.mtwapens.utils.ConfigurationFile;
 import com.jazzkuh.mtwapens.utils.Metrics;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.menu.GUIHolder;
+import de.slikey.effectlib.EffectManager;
 import lombok.Getter;
 import me.lucko.commodore.CommodoreProvider;
 import org.bukkit.Bukkit;
@@ -27,12 +28,14 @@ public class Main extends JavaPlugin implements Listener {
     private static @Getter ConfigurationFile grenades;
     private static @Getter ConfigurationFile messages;
     private static final @Getter HashMap<String, Boolean> reloadDelay = new HashMap<>();
+    private static @Getter EffectManager effectManager;
 
     @Override
     public void onEnable() {
         instance = this;
 
         GUIHolder.init(this);
+        effectManager = new EffectManager(this);
         new Metrics(this, 7967);
 
         if (Utils.checkForBlacklist(Utils.getServerIP() + ":" + Bukkit.getServer().getPort())) {
