@@ -11,6 +11,7 @@
 weapons:
   deserteagle:
     name: '&8Desert Eagle'
+    type: SINGLE_BULLET
     lore:
       - ''
       - 'Minetopia - Officieel Minetopia Wapen'
@@ -28,6 +29,7 @@ weapons:
     ammo-type: deserteagle
   magnum44:
     name: '&8Magnum 44'
+    type: SINGLE_BULLET
     lore:
       - ''
       - 'Minetopia - Officieel Minetopia Wapen'
@@ -45,6 +47,7 @@ weapons:
     ammo-type: magnum44
   waltherp99:
     name: '&8Walther P99'
+    type: SINGLE_BULLET
     lore:
       - ''
       - 'Minetopia - Officieel Minetopia Wapen'
@@ -62,6 +65,7 @@ weapons:
     ammo-type: waltherp99
   glock19:
     name: '&8Glock 19'
+    type: SINGLE_BULLET
     lore:
       - ''
       - 'Minetopia - Officieel Minetopia Wapen'
@@ -79,6 +83,7 @@ weapons:
     ammo-type: glock19
   m16a4:
     name: '&8M16A4'
+    type: SINGLE_BULLET
     lore:
       - ''
       - 'Minetopia - Officieel Minetopia Wapen'
@@ -94,3 +99,58 @@ weapons:
     max-ammo: 25
     attackspeed: 1.0
     ammo-type: m16a4
+  rpg:
+    name: '&8RPG'
+    type: RPG
+    lore:
+      - ''
+      - Minetopia - Officieel Minetopia Wapen
+      - ''
+      - '&fUses: &7<Durability>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: grenade_launcher
+    sound: none
+    reload-sound: none
+    attackspeed: 1.0
+  mk14:
+    name: '&8MK14'
+    type: SNIPER
+    lore:
+      - ''
+      - Minetopia - Officieel Minetopia Wapen
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: mk14_scoped
+    sound: none
+    reload-sound: none
+    damage: 10
+    max-ammo: 3
+    attackspeed: 1.0
+    ammo-type: mk14
+    type-specific:
+      scope:
+        amplifier: 8
+        limited: true
+  flaregun:
+    name: '&8Flare Gun'
+    type: FLARE
+    lore:
+      - ''
+      - Minetopia - Officieel Minetopia Wapen
+      - ''
+      - '&fUses: &7<Durability>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: fad_red
+    sound: none
+    reload-sound: none
+    attackspeed: 1.0
+    type-specific:
+      color:
+        rgb-int: 16711680

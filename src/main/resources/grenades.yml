@@ -6,7 +6,6 @@
 # |_|  |_|   |_|              \_/\_/     \__,_| | .__/   \___| |_| |_| |___/
 #                                               |_|
 # Make sure to check the docs if you need any help: https://docs.mtwapens.nl/
-# For grenade textures you can use: https://cdn.jazzkuh.com/public/resourcepacks/MT-Wapens%20Grenades.zip
 #
 # #
 grenades:
@@ -17,9 +16,9 @@ grenades:
       - ''
       - 'Grenade Uses: &f<Uses>'
       - ''
-    material: EGG
-    nbt: mtwapens
-    nbtvalue: grenade
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: grenade_3
     range: 4.0
     ranged-damage: 5.0
     cooldown: 1.0
@@ -30,9 +29,9 @@ grenades:
       - ''
       - 'Molotov Uses: &f<Uses>'
       - ''
-    material: EGG
-    nbt: mtwapens
-    nbtvalue: molotov
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: grenade_4
     range: 6.0
     ranged-damage: 2.0
     cooldown: 1.0
@@ -43,9 +42,9 @@ grenades:
       - ''
       - 'Flash bang Uses: &f<Uses>'
       - ''
-    material: EGG
-    nbt: mtwapens
-    nbtvalue: flashbang
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: grenade_bol
     range: 3.0
     cooldown: 1.0
     type-specific:
@@ -63,9 +62,9 @@ grenades:
       - ''
       - 'Smoke grenade Uses: &f<Uses>'
       - ''
-    material: EGG
-    nbt: mtwapens
-    nbtvalue: smokegrenade
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: grenade_2
     range: 3.0
     cooldown: 1.0
     type-specific:

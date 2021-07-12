@@ -5,6 +5,7 @@ import com.jazzkuh.mtwapens.utils.Utils;
 
 public enum Messages {
     NO_AMMO("Weapons.NoAmmo", "&cOut of ammo!"),
+    USES("Weapons.Uses", "&9Uses: &a<Durability>"),
     AMMO_DURABILITY("Weapons.AmmoDurability", "&9Durability: &a<Durability>\n&9Ammo: &a<Ammo>&f/&c<MaxAmmo>"),
     RELOADING("Weapons.Reloading.Message", "&eReloading..."),
     RELOADING_TITLE("Weapons.Reloading.Title", "&eReloading..."),

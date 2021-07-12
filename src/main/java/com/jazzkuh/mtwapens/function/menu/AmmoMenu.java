@@ -78,7 +78,9 @@ public class AmmoMenu extends GUIHolder {
         if (NBTEditor.contains(item, "menuItem") && item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
             String type = ChatColor.stripColor(item.getItemMeta().getDisplayName());
             Ammo ammo = new Ammo(type);
-            new WeaponFactory(player).buildAmmo(ammo);
+            WeaponFactory weaponFactory = new WeaponFactory(player);
+            weaponFactory.buildAmmo(ammo);
+            weaponFactory.addToInventory();
         } else if (NBTEditor.contains(item, "switcher")) {
             new WeaponMenu(player, 0).open(player);
         } else if (item.getType() == XMaterial.OAK_SIGN.parseMaterial()) {

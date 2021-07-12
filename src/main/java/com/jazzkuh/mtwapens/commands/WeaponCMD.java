@@ -51,7 +51,9 @@ public class WeaponCMD extends AbstractCommand {
                     if (!senderIsPlayer()) return;
                     Player player = (Player) sender;
                     Weapon weapon = new Weapon(type);
-                    new WeaponFactory(player).buildWeapon(weapon, durability);
+                    WeaponFactory weaponFactory = new WeaponFactory(player);
+                    weaponFactory.buildWeapon(weapon, durability);
+                    weaponFactory.addToInventory();
                     break;
                 }
                 case 3: {
@@ -63,7 +65,9 @@ public class WeaponCMD extends AbstractCommand {
                     Player target = Bukkit.getPlayer(args[2]);
 
                     Weapon weapon = new Weapon(type);
-                    new WeaponFactory(target).buildWeapon(weapon, durability);
+                    WeaponFactory weaponFactory = new WeaponFactory(target);
+                    weaponFactory.buildWeapon(weapon, durability);
+                    weaponFactory.addToInventory();
                     Utils.sendMessage(sender, "&aSuccesfully gave " + target.getName() + " an " + type + " of " + durability + " durability.");
                     break;
                 }

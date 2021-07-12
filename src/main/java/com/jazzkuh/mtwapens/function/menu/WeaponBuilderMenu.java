@@ -25,9 +25,9 @@ public class WeaponBuilderMenu extends GUIHolder {
                 .replace("<WeaponType>", type));
 
         if (this.durability >= 1) {
-            this.inventory.setItem(11, woolItem(true, 1, XMaterial.RED_WOOL.parseMaterial()));
-            this.inventory.setItem(20, woolItem(true, 5, XMaterial.RED_WOOL.parseMaterial()));
-            this.inventory.setItem(29, woolItem(true, 10, XMaterial.RED_WOOL.parseMaterial()));
+            this.inventory.setItem(11, woolItem(true, 1, XMaterial.RED_WOOL.parseItem()));
+            this.inventory.setItem(20, woolItem(true, 5, XMaterial.RED_WOOL.parseItem()));
+            this.inventory.setItem(29, woolItem(true, 10, XMaterial.RED_WOOL.parseItem()));
         }
 
         this.inventory.setItem(22,
@@ -38,9 +38,9 @@ public class WeaponBuilderMenu extends GUIHolder {
                         .setNBT("craftweapon", "true")
                         .toItemStack());
 
-        this.inventory.setItem(15, woolItem(false, 1, XMaterial.LIME_WOOL.parseMaterial()));
-        this.inventory.setItem(24, woolItem(false, 5, XMaterial.LIME_WOOL.parseMaterial()));
-        this.inventory.setItem(33, woolItem(false, 10, XMaterial.LIME_WOOL.parseMaterial()));
+        this.inventory.setItem(15, woolItem(false, 1, XMaterial.LIME_WOOL.parseItem()));
+        this.inventory.setItem(24, woolItem(false, 5, XMaterial.LIME_WOOL.parseItem()));
+        this.inventory.setItem(33, woolItem(false, 10, XMaterial.LIME_WOOL.parseItem()));
     }
 
     public Inventory getInventory() {
@@ -55,7 +55,7 @@ public class WeaponBuilderMenu extends GUIHolder {
         return this.type;
     }
 
-    private ItemStack woolItem(boolean negative, int durability, Material material) {
+    private ItemStack woolItem(boolean negative, int durability, ItemStack itemStack) {
         String identifier = "+";
         String message = "MENU_DURABILITY_ADD";
 
@@ -64,7 +64,7 @@ public class WeaponBuilderMenu extends GUIHolder {
             message = "MENU_DURABILITY_REMOVE";
         }
 
-        return new ItemBuilder(material)
+        return new ItemBuilder(itemStack)
                 .setName(Messages.valueOf(message).get()
                         .replace("<Identifier>", identifier)
                         .replace("<Durability>", String.valueOf(durability)))
@@ -103,7 +103,9 @@ public class WeaponBuilderMenu extends GUIHolder {
                 if (event.getSlot() == 22 && item.getType().equals(XMaterial.CRAFTING_TABLE.parseMaterial())) {
                     int durability = ((WeaponBuilderMenu) inventory.getHolder()).getDurability();
                     Weapon weapon = new Weapon(type);
-                    new WeaponFactory(player).buildWeapon(weapon, durability);
+                    WeaponFactory weaponFactory = new WeaponFactory(player);
+                    weaponFactory.buildWeapon(weapon, durability);
+                    weaponFactory.addToInventory();
                     player.closeInventory();
                 }
             }

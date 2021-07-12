@@ -2,6 +2,8 @@ package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.api.PlayerShootWeaponEvent;
+import com.jazzkuh.mtwapens.function.WeaponFactory;
+import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.Utils;
@@ -9,13 +11,12 @@ import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -40,6 +41,8 @@ public class WeaponFireListener implements Listener {
     public void onPlayerInteract(final PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
+        if (event.getHand() == EquipmentSlot.OFF_HAND) return;
+
         if (player.getInventory().getItemInMainHand().getType() == Material.AIR) return;
         if (player.getInventory().getItemInMainHand().getItemMeta() == null) return;
         if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
@@ -48,6 +51,13 @@ public class WeaponFireListener implements Listener {
 
         if (!NBTEditor.contains(itemStack, "mtwapens_weapon")) return;
         String weaponType = NBTEditor.getString(itemStack, "mtwapens_weapon");
+
+        if (Main.getWeapons().getConfig().getString("weapons." + weaponType + ".name") == null) {
+            player.getInventory().removeItem(player.getInventory().getItemInMainHand());
+            Utils.sendMessage(player, "&cYour weapon has been removed from the config files and has therefore been destroyed.");
+            return;
+        }
+
         Weapon weapon = new Weapon(weaponType);
 
         switch (event.getAction()) {
@@ -63,7 +73,7 @@ public class WeaponFireListener implements Listener {
                 break;
             }
             case LEFT_CLICK_AIR: {
-                if (!(boolean) weapon.getParameter(Weapon.WeaponParameters.SCOPE)) return;
+                if (!(Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString()) == Weapon.WeaponTypes.SNIPER)) return;
 
                 if (player.hasPotionEffect(PotionEffectType.SLOW)) {
                     player.removePotionEffect(PotionEffectType.SLOW);
@@ -96,10 +106,16 @@ public class WeaponFireListener implements Listener {
             return;
         }
 
-        ItemStack bulletItem = (ItemStack) weapon.getParameter(Weapon.WeaponParameters.AMMOITEM);
+        ItemStack bulletItem = null;
+        if (weapon.isUsingAmmo()) {
+            WeaponFactory weaponFactory = new WeaponFactory(player);
+            weaponFactory.buildAmmo(new Ammo(weapon.getParameter(Weapon.WeaponParameters.AMMOTYPE).toString()));
 
-        if (NBTEditor.getInt(itemStack, "ammo") > 0) {
-            if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SHOOTONLYWHENSCOPED) &&
+            bulletItem = weaponFactory.getItemStack();
+        }
+
+        if (NBTEditor.getInt(itemStack, "ammo") > 0 || !weapon.isUsingAmmo()) {
+            if (Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString()) == Weapon.WeaponTypes.SNIPER &&
                     !player.hasPotionEffect(PotionEffectType.SLOW)) {
                 Utils.sendMessage(player, Messages.WEAPON_CANT_SHOOT_WIHTOUT_SCOPE.get());
                 return;
@@ -108,29 +124,32 @@ public class WeaponFireListener implements Listener {
             if (!weaponCooldown(cooldownId)) return;
             weaponCooldown.put(cooldownId, new Date(new Date().getTime() + (long) ((double) weapon.getParameter(Weapon.WeaponParameters.ATTACKSPEED))));
 
-            Utils.applyNBTTag(itemStack, "ammo", NBTEditor.getInt(itemStack, "ammo") - 1);
-
             if (!(boolean) weapon.getParameter(Weapon.WeaponParameters.DISABLEDURABILITY)) {
                 Utils.applyNBTTag(itemStack, "durability", NBTEditor.getInt(itemStack, "durability") - 1);
             }
 
+            if (weapon.isUsingAmmo()) {
+                Utils.applyNBTTag(itemStack, "ammo", NBTEditor.getInt(itemStack, "ammo") - 1);
+            }
+
             updateWeaponLore(itemStack, weapon);
 
-            Utils.sendMessage(player, Messages.AMMO_DURABILITY.get()
+            String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.USES.get();
+            Utils.sendMessage(player, holdingMessage
+                    .replace("<Uses>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                     .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                     .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                     .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
 
-            Snowball bullet = player.launchProjectile(Snowball.class);
-            bullet.setCustomName("" + (double) weapon.getParameter(Weapon.WeaponParameters.DAMAGE));
-            bullet.setShooter(player);
-            bullet.setVelocity(bullet.getVelocity().multiply(2D));
-            bullet.setMetadata("mtwapens_bullet", new FixedMetadataValue(Main.getInstance(), true));
+            Weapon.WeaponTypes weaponType = Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString());
+            new WeaponProjectile(weapon, weaponType).fireProjectile(player);
 
-            for (Player target : player.getLocation().getWorld().getPlayers()) {
-                if (target.getLocation().distance(player.getLocation()) <= 16D) {
-                    target.playSound(player.getLocation(), weapon.getParameter(Weapon.WeaponParameters.SOUND).toString(), 100, 1F);
-                }
+            if (player.hasPotionEffect(PotionEffectType.SLOW)) {
+                player.removePotionEffect(PotionEffectType.SLOW);
+            }
+
+            if (NBTEditor.getInt(player.getInventory().getItemInMainHand(), "durability") <= 0) {
+                player.getInventory().removeItem(player.getInventory().getItemInMainHand());
             }
         } else if (player.getInventory().containsAtLeast(bulletItem, 1) && NBTEditor.getInt(itemStack, "ammo") <= 0) {
             for (Player target : player.getLocation().getWorld().getPlayers()) {

@@ -52,9 +52,18 @@ public class PlayerItemHeldListener implements Listener {
         if (!NBTEditor.contains(itemStack, "ammo")) return;
 
         String weaponType = NBTEditor.getString(itemStack, "mtwapens_weapon");
+
+        if (Main.getWeapons().getConfig().getString("weapons." + weaponType + ".name") == null) {
+            player.getInventory().removeItem(itemStack);
+            Utils.sendMessage(player, "&cYour weapon has been removed from the config files and has therefore been destroyed.");
+            return;
+        }
+
         Weapon weapon = new Weapon(weaponType);
 
-        Utils.sendMessage(player, Messages.AMMO_DURABILITY.get()
+        String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.USES.get();
+        Utils.sendMessage(player, holdingMessage
+                .replace("<Uses>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                 .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                 .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                 .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));

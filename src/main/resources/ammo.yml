@@ -44,3 +44,10 @@ ammo:
     material: IRON_INGOT
     nbt: mtcustom
     nbtvalue: m16a4_bullets
+  mk14:
+    name: 'MK14 Ammo'
+    lore:
+      - 'Minetopia - Officieel Minetopia Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: ammo_mk14

@@ -2,14 +2,10 @@ package com.jazzkuh.mtwapens.function.objects;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
-import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.List;
 
 public class Weapon {
 
@@ -20,11 +16,28 @@ public class Weapon {
         this.weaponType = weaponType;
     }
 
+    public boolean isUsingAmmo() {
+        switch (WeaponTypes.valueOf(this.getParameter(WeaponParameters.TYPE).toString())) {
+            case RPG:
+            case FLARE:
+            case FLAME_THROWER: {
+                return false;
+            }
+            default: {
+                return true;
+            }
+        }
+    }
+
     public Object getParameter(WeaponParameters weaponParameter) {
         String configString = "weapons." + this.weaponType + ".";
         switch (weaponParameter) {
             case NAME: {
                 return config.getString(configString + "name");
+            }
+            case TYPE: {
+                return WeaponTypes.valueOf(config.getString(configString + "type") != null
+                        ? config.getString(configString + "type") : "SINGLE_BULLET");
             }
             case LORE: {
                 return Utils.color(config.getStringList(configString + "lore"));
@@ -50,10 +63,14 @@ public class Weapon {
                 return config.getString(configString + "reload-sound");
             }
             case DAMAGE: {
-                return config.getDouble(configString + "damage");
+                return config.getDouble(configString + "damage") != 0D
+                        ? config.getDouble(configString + "damage")
+                        : 0D;
             }
             case MAXAMMO: {
-                return config.getInt(configString + "max-ammo");
+                return config.getInt(configString + "max-ammo") != 0
+                        ? config.getInt(configString + "max-ammo")
+                        : 0;
             }
             case ATTACKSPEED: {
                 return config.getDouble(configString + "attackspeed") * 1000;
@@ -61,29 +78,21 @@ public class Weapon {
             case AMMOTYPE: {
                 return config.getString(configString + "ammo-type");
             }
-            case SCOPE: {
-                return config.getBoolean(configString + "scope");
+            case SCOPE_AMPLIFIER: {
+                return config.getInt("weapons." + weaponType + "type-specific.scope.amplifier") != 0
+                        ? config.getInt("weapons." + weaponType + "type-specific.scope.amplifier")
+                        : 8;
             }
-            case SCOPESIZE: {
-                int scopeSize = config.getInt("weapons." + weaponType + ".scope-size");
-                return scopeSize != 0 ? scopeSize : 8;
-            }
-            case SHOOTONLYWHENSCOPED: {
-                return config.getBoolean(configString + "canOnlyShootWhenScoped");
+            case SCOPE_LIMITED: {
+                return config.getBoolean(configString + "type-specific.scope.limited");
             }
             case DISABLEDURABILITY: {
                 return config.getBoolean(configString + "disable-durability");
             }
-            case AMMOITEM: {
-                Ammo ammoType = new Ammo(this.getParameter(Weapon.WeaponParameters.AMMOTYPE).toString());
-
-                ItemStack bulletItem = new ItemBuilder((Material) ammoType.getParameter(Ammo.AmmoParameters.MATERIAL))
-                        .setName(ammoType.getParameter(Ammo.AmmoParameters.NAME).toString())
-                        .setNBT(ammoType.getParameter(Ammo.AmmoParameters.NBT).toString(), ammoType.getParameter(Ammo.AmmoParameters.NBTVALUE).toString())
-                        .setLore((List<String>) ammoType.getParameter(Ammo.AmmoParameters.LORE))
-                        .toItemStack();
-
-                return bulletItem;
+            case COLOR: {
+                return config.getInt(configString + "type-specific.color.rgb-int") != 0
+                        ? config.getInt(configString + "type-specific.color.rgb-int")
+                        : 16711680;
             }
             default:
                 break;
@@ -93,7 +102,16 @@ public class Weapon {
     }
 
     public enum WeaponParameters {
-        NAME, LORE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
-        ATTACKSPEED, AMMOTYPE, SCOPE, SCOPESIZE, SHOOTONLYWHENSCOPED, DISABLEDURABILITY, AMMOITEM
+        NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
+        ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR
+    }
+
+    public enum WeaponTypes {
+        SINGLE_BULLET, // Single bullet, default mtwapens.
+        MULTIPLE_BULLET, // More mullets, type-specific.iterations?
+        SNIPER, // Scope
+        FLARE, // Firework rocket?
+        FLAME_THROWER, // Shoot flames?
+        RPG // Fireball
     }
 }

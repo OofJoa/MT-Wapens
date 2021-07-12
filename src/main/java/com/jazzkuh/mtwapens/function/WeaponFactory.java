@@ -5,6 +5,7 @@ import com.jazzkuh.mtwapens.function.objects.Grenade;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import com.jazzkuh.mtwapens.utils.Utils;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -15,7 +16,8 @@ import java.util.List;
 
 public class WeaponFactory {
 
-    Player player;
+    public Player player;
+    public @Getter ItemStack itemStack;
 
     public WeaponFactory(Player player) {
         this.player = player;
@@ -41,7 +43,7 @@ public class WeaponFactory {
                 .setLore(weaponLore)
                 .toItemStack();
 
-        this.player.getInventory().addItem(itemStack);
+        this.itemStack = itemStack;
     }
 
     public void buildAmmo(Ammo ammoType) {
@@ -51,7 +53,7 @@ public class WeaponFactory {
                 .setLore((List<String>) ammoType.getParameter(Ammo.AmmoParameters.LORE))
                 .toItemStack();
 
-        player.getInventory().addItem(itemStack);
+        this.itemStack = itemStack;
     }
 
     public void buildGrenade(Grenade grenade, int uses) {
@@ -71,6 +73,10 @@ public class WeaponFactory {
                 .setLore(weaponLore)
                 .toItemStack();
 
+        this.itemStack = itemStack;
+    }
+
+    public void addToInventory() {
         this.player.getInventory().addItem(itemStack);
     }
 }

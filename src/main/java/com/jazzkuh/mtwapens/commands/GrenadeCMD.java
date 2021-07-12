@@ -51,7 +51,9 @@ public class GrenadeCMD extends AbstractCommand {
                     if (!senderIsPlayer()) return;
                     Player player = (Player) sender;
                     Grenade grenade = new Grenade(type);
-                    new WeaponFactory(player).buildGrenade(grenade, uses);
+                    WeaponFactory weaponFactory = new WeaponFactory(player);
+                    weaponFactory.buildGrenade(grenade, uses);
+                    weaponFactory.addToInventory();
                     break;
                 }
                 case 3: {
@@ -63,7 +65,9 @@ public class GrenadeCMD extends AbstractCommand {
                     Player target = Bukkit.getPlayer(args[2]);
 
                     Grenade grenade = new Grenade(type);
-                    new WeaponFactory(target).buildGrenade(grenade, uses);
+                    WeaponFactory weaponFactory = new WeaponFactory(target);
+                    weaponFactory.buildGrenade(grenade, uses);
+                    weaponFactory.addToInventory();
                     Utils.sendMessage(sender, "&aSuccesfully gave " + target.getName() + " a " + type + " with " + uses + " uses.");
                     break;
                 }

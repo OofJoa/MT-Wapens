@@ -45,7 +45,9 @@ public class AmmoCMD extends AbstractCommand {
                     if (!senderIsPlayer()) return;
                     Player player = (Player) sender;
                     Ammo ammo = new Ammo(type);
-                    new WeaponFactory(player).buildAmmo(ammo);
+                    WeaponFactory weaponFactory = new WeaponFactory(player);
+                    weaponFactory.buildAmmo(ammo);
+                    weaponFactory.addToInventory();
                     break;
                 }
                 case 2: {
@@ -57,7 +59,9 @@ public class AmmoCMD extends AbstractCommand {
                     Player target = Bukkit.getPlayer(args[1]);
 
                     Ammo ammo = new Ammo(type);
-                    new WeaponFactory(target).buildAmmo(ammo);
+                    WeaponFactory weaponFactory = new WeaponFactory(target);
+                    weaponFactory.buildAmmo(ammo);
+                    weaponFactory.addToInventory();
                     Utils.sendMessage(sender, "&aSuccesfully gave " + target.getName() + " ammo type " + type + ".");
                     break;
                 }
