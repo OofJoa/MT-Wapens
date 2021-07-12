@@ -103,6 +103,11 @@ public class Weapon {
                         ? config.getInt(configString + "type-specific.range")
                         : 7;
             }
+            case ITERATIONS: {
+                return config.getInt(configString + "type-specific.iterations") != 0
+                        ? config.getInt(configString + "type-specific.iterations")
+                        : 3;
+            }
             default:
                 break;
         }
@@ -113,7 +118,7 @@ public class Weapon {
     public enum WeaponParameters {
         NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
         ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR,
-        RANGE
+        RANGE, ITERATIONS
     }
 
     public enum WeaponTypes {

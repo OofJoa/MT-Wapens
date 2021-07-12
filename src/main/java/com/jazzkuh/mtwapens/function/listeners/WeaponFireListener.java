@@ -70,7 +70,6 @@ public class WeaponFireListener implements Listener {
                 if (shootWeaponEvent.isCancelled()) return;
 
                 executeWeaponFire(event, player, weapon);
-                break;
             }
             case LEFT_CLICK_AIR: {
                 if (!(Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString()) == Weapon.WeaponTypes.SNIPER)) return;
@@ -143,6 +142,15 @@ public class WeaponFireListener implements Listener {
 
             Weapon.WeaponTypes weaponType = Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString());
             new WeaponProjectile(weapon, weaponType).fireProjectile(player);
+
+            Weapon.WeaponTypes weaponTypes = Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString());
+            if (weaponTypes == Weapon.WeaponTypes.MULTIPLE_BULLET) {
+                int iterations = (int) weapon.getParameter(Weapon.WeaponParameters.ITERATIONS) - 1;
+                for (int i = 0; i < iterations; i++) {
+                    Bukkit.getScheduler().runTaskLater(Main.getInstance(),
+                            () -> new WeaponProjectile(weapon, weaponTypes).fireProjectile(player), 8L * (i + 1));
+                }
+            }
 
             if (player.hasPotionEffect(PotionEffectType.SLOW)) {
                 player.removePotionEffect(PotionEffectType.SLOW);

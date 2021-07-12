@@ -84,6 +84,7 @@ public class WeaponProjectile {
             }
             case SNIPER:
             case SINGLE_BULLET:
+            case MULTIPLE_BULLET:
             default: {
                 Snowball bullet = player.launchProjectile(Snowball.class);
                 bullet.setCustomName("" + (double) weapon.getParameter(Weapon.WeaponParameters.DAMAGE));

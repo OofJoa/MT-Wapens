@@ -167,3 +167,23 @@ weapons:
     attackspeed: 0.1
     type-specific:
       range: 7
+  m1a:
+    name: '&8M1A'
+    type: MULTIPLE_BULLET
+    lore:
+      - ''
+      - 'Minetopia - Officieel Minetopia Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: m1a_ironsight
+    sound: none
+    reload-sound: none
+    damage: 3.2
+    max-ammo: 30
+    attackspeed: 2.0
+    ammo-type: m1a
+    type-specific:
+      iterations: 3
