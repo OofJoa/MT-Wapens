@@ -57,10 +57,14 @@ public class Weapon {
                 return config.getString(configString + "nbtvalue");
             }
             case SOUND: {
-                return config.getString(configString + "sound");
+                return config.getString(configString + "sound") != null
+                        ? config.getString(configString + "sound")
+                        : "none";
             }
             case RELOADSOUND: {
-                return config.getString(configString + "reload-sound");
+                return config.getString(configString + "reload-sound") != null
+                        ? config.getString(configString + "reload-sound")
+                        : "none";
             }
             case DAMAGE: {
                 return config.getDouble(configString + "damage") != 0D

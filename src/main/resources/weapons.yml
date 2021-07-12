@@ -112,7 +112,6 @@ weapons:
     nbt: mtcustom
     nbtvalue: grenade_launcher
     sound: none
-    reload-sound: none
     attackspeed: 1.0
   mk14:
     name: '&8MK14'
@@ -149,7 +148,6 @@ weapons:
     nbt: mtcustom
     nbtvalue: fad_red
     sound: none
-    reload-sound: none
     attackspeed: 1.0
     type-specific:
       color:
@@ -166,8 +164,6 @@ weapons:
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: flamethrower
-    sound: none
-    reload-sound: none
     attackspeed: 0.1
     type-specific:
       range: 7
