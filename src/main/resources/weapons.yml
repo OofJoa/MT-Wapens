@@ -154,3 +154,20 @@ weapons:
     type-specific:
       color:
         rgb-int: 16711680
+  flamethrower:
+    name: '&8Flame Thrower'
+    type: FLAME_THROWER
+    lore:
+      - ''
+      - Minetopia - Officieel Minetopia Wapen
+      - ''
+      - '&fUses: &7<Durability>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: flamethrower
+    sound: none
+    reload-sound: none
+    attackspeed: 0.1
+    type-specific:
+      range: 7

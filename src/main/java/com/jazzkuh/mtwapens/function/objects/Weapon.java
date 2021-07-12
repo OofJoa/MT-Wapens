@@ -94,6 +94,11 @@ public class Weapon {
                         ? config.getInt(configString + "type-specific.color.rgb-int")
                         : 16711680;
             }
+            case RANGE: {
+                return config.getInt(configString + "type-specific.range") != 0
+                        ? config.getInt(configString + "type-specific.range")
+                        : 7;
+            }
             default:
                 break;
         }
@@ -103,7 +108,8 @@ public class Weapon {
 
     public enum WeaponParameters {
         NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
-        ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR
+        ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR,
+        RANGE
     }
 
     public enum WeaponTypes {
