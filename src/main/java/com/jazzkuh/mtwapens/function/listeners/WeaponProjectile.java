@@ -3,10 +3,7 @@ package com.jazzkuh.mtwapens.function.listeners;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import lombok.Getter;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -50,6 +47,13 @@ public class WeaponProjectile {
 
                     if (vector.normalize().dot(eye.getDirection()) < 0.99D) continue;
                     entity.setFireTicks(100);
+                }
+
+                for (Player target : player.getLocation().getWorld().getPlayers()) {
+                    if (target.getLocation().distance(player.getLocation()) <= 16D) {
+                        target.playSound(player.getLocation(),
+                                Sound.ENTITY_BLAZE_SHOOT, 100, 1F);
+                    }
                 }
                 break;
             }
