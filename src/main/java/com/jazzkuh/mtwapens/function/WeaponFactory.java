@@ -1,5 +1,6 @@
 package com.jazzkuh.mtwapens.function;
 
+import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.function.objects.Grenade;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
@@ -44,7 +45,11 @@ public class WeaponFactory {
 
         int customModelData = (int) weapon.getParameter(Weapon.WeaponParameters.CUSTOMMODELDATA);
         if (customModelData > 0) {
-            itemBuilder.setCustomModelData(customModelData);
+            try {
+                itemBuilder.setCustomModelData(customModelData);
+            } catch (Exception e) {
+                Main.getInstance().getLogger().warning("Custom Model Data is not supported for your server version.");
+            }
         }
 
         this.itemStack = itemBuilder.toItemStack();
@@ -58,7 +63,11 @@ public class WeaponFactory {
 
         int customModelData = (int) ammoType.getParameter(Ammo.AmmoParameters.CUSTOMMODELDATA);
         if (customModelData > 0) {
-            itemBuilder.setCustomModelData(customModelData);
+            try {
+                itemBuilder.setCustomModelData(customModelData);
+            } catch (Exception e) {
+                Main.getInstance().getLogger().warning("Custom Model Data is not supported for your server version.");
+            }
         }
 
         this.itemStack = itemBuilder.toItemStack();
@@ -82,7 +91,11 @@ public class WeaponFactory {
 
         int customModelData = (int) grenade.getParameter(Grenade.GrenadeParameters.CUSTOMMODELDATA);
         if (customModelData > 0) {
-            itemBuilder.setCustomModelData(customModelData);
+            try {
+                itemBuilder.setCustomModelData(customModelData);
+            } catch (Exception e) {
+                Main.getInstance().getLogger().warning("Custom Model Data is not supported for your server version.");
+            }
         }
 
         this.itemStack = itemBuilder.toItemStack();
