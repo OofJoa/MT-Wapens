@@ -6,7 +6,7 @@
 
     <groupId>com.jazzkuh</groupId>
     <artifactId>MT-Wapens</artifactId>
-    <version>3.2-SNAPSHOT</version>
+    <version>3.2</version>
     <packaging>jar</packaging>
 
     <name>MT-Wapens</name>
