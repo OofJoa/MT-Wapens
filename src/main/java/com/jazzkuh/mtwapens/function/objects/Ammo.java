@@ -39,6 +39,11 @@ public class Ammo {
             case NBTVALUE: {
                 return config.getString(configString + "nbtvalue");
             }
+            case CUSTOMMODELDATA: {
+                return config.getInt(configString + "custommodeldata") != 0
+                        ? config.getInt(configString + "custommodeldata")
+                        : 0;
+            }
             default:
                 break;
         }
@@ -47,6 +52,6 @@ public class Ammo {
     }
 
     public enum AmmoParameters {
-        NAME, LORE, MATERIAL, NBT, NBTVALUE
+        NAME, LORE, MATERIAL, NBT, NBTVALUE, CUSTOMMODELDATA
     }
 }

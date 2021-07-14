@@ -33,27 +33,35 @@ public class WeaponFactory {
             weaponLore.add(string);
         }
 
-        ItemStack itemStack = new ItemBuilder((Material) weapon.getParameter(Weapon.WeaponParameters.MATERIAL))
+        ItemBuilder itemBuilder = new ItemBuilder((Material) weapon.getParameter(Weapon.WeaponParameters.MATERIAL))
                 .setName(Utils.color(weapon.getParameter(Weapon.WeaponParameters.NAME).toString()))
                 .setNBT(weapon.getParameter(Weapon.WeaponParameters.NBT).toString(), weapon.getParameter(Weapon.WeaponParameters.NBTVALUE).toString())
                 .setNBT("ammo", (int) weapon.getParameter(Weapon.WeaponParameters.MAXAMMO))
                 .setNBT("durability", durability)
                 .setNBT("mtwapens_weapon", weapon.getWeaponType())
                 .setItemFlag(ItemFlag.HIDE_ATTRIBUTES)
-                .setLore(weaponLore)
-                .toItemStack();
+                .setLore(weaponLore);
 
-        this.itemStack = itemStack;
+        int customModelData = (int) weapon.getParameter(Weapon.WeaponParameters.CUSTOMMODELDATA);
+        if (customModelData > 0) {
+            itemBuilder.setCustomModelData(customModelData);
+        }
+
+        this.itemStack = itemBuilder.toItemStack();
     }
 
     public void buildAmmo(Ammo ammoType) {
-        ItemStack itemStack = new ItemBuilder((Material) ammoType.getParameter(Ammo.AmmoParameters.MATERIAL))
+        ItemBuilder itemBuilder = new ItemBuilder((Material) ammoType.getParameter(Ammo.AmmoParameters.MATERIAL))
                 .setName(ammoType.getParameter(Ammo.AmmoParameters.NAME).toString())
                 .setNBT(ammoType.getParameter(Ammo.AmmoParameters.NBT).toString(), ammoType.getParameter(Ammo.AmmoParameters.NBTVALUE).toString())
-                .setLore((List<String>) ammoType.getParameter(Ammo.AmmoParameters.LORE))
-                .toItemStack();
+                .setLore((List<String>) ammoType.getParameter(Ammo.AmmoParameters.LORE));
 
-        this.itemStack = itemStack;
+        int customModelData = (int) ammoType.getParameter(Ammo.AmmoParameters.CUSTOMMODELDATA);
+        if (customModelData > 0) {
+            itemBuilder.setCustomModelData(customModelData);
+        }
+
+        this.itemStack = itemBuilder.toItemStack();
     }
 
     public void buildGrenade(Grenade grenade, int uses) {
@@ -64,16 +72,20 @@ public class WeaponFactory {
             weaponLore.add(string);
         }
 
-        ItemStack itemStack = new ItemBuilder((Material) grenade.getParameter(Grenade.GrenadeParameters.MATERIAL))
+        ItemBuilder itemBuilder = new ItemBuilder((Material) grenade.getParameter(Grenade.GrenadeParameters.MATERIAL))
                 .setName(Utils.color(grenade.getParameter(Grenade.GrenadeParameters.NAME).toString()))
                 .setNBT(grenade.getParameter(Grenade.GrenadeParameters.NBT).toString(), grenade.getParameter(Grenade.GrenadeParameters.NBTVALUE).toString())
                 .setNBT("mtwapens_uses", uses)
                 .setNBT("mtwapens_grenade", grenade.getGrenadeType())
                 .setItemFlag(ItemFlag.HIDE_ATTRIBUTES)
-                .setLore(weaponLore)
-                .toItemStack();
+                .setLore(weaponLore);
 
-        this.itemStack = itemStack;
+        int customModelData = (int) grenade.getParameter(Grenade.GrenadeParameters.CUSTOMMODELDATA);
+        if (customModelData > 0) {
+            itemBuilder.setCustomModelData(customModelData);
+        }
+
+        this.itemStack = itemBuilder.toItemStack();
     }
 
     public void addToInventory() {

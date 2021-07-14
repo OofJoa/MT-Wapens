@@ -56,6 +56,11 @@ public class Weapon {
             case NBTVALUE: {
                 return config.getString(configString + "nbtvalue");
             }
+            case CUSTOMMODELDATA: {
+                return config.getInt(configString + "custommodeldata") != 0
+                        ? config.getInt(configString + "custommodeldata")
+                        : 0;
+            }
             case SOUND: {
                 return config.getString(configString + "sound") != null
                         ? config.getString(configString + "sound")
@@ -118,7 +123,7 @@ public class Weapon {
     public enum WeaponParameters {
         NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
         ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR,
-        RANGE, ITERATIONS
+        RANGE, ITERATIONS, CUSTOMMODELDATA
     }
 
     public enum WeaponTypes {

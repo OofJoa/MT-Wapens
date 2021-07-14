@@ -86,6 +86,11 @@ public class Grenade {
                         ? config.getInt(configString + "type-specific.iterations")
                         : 5;
             }
+            case CUSTOMMODELDATA: {
+                return config.getInt(configString + "custommodeldata") != 0
+                        ? config.getInt(configString + "custommodeldata")
+                        : 0;
+            }
             default:
                 break;
         }
@@ -94,7 +99,7 @@ public class Grenade {
     }
 
     public enum GrenadeParameters {
-        NAME, TYPE, LORE, MATERIAL, NBT, NBTVALUE, RANGE, RANGED_DAMAGE, COOLDOWN, EFFECTS, ITERATIONS
+        NAME, TYPE, LORE, MATERIAL, NBT, NBTVALUE, RANGE, RANGED_DAMAGE, COOLDOWN, EFFECTS, ITERATIONS, CUSTOMMODELDATA
     }
 
     public enum GrenadeTypes {

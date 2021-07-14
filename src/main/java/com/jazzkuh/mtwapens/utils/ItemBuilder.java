@@ -294,6 +294,18 @@ public class ItemBuilder {
     }
 
     /**
+     * Set the Custom Model Data of an item.
+     *
+     * @param data The custom model data value.
+     */
+    public ItemBuilder setCustomModelData(Integer data) {
+        ItemMeta im = is.getItemMeta();
+        im.setCustomModelData(data);
+        is.setItemMeta(im);
+        return this;
+    }
+
+    /**
      * Retrieves the itemstack from the ItemBuilder.
      *
      * @return The itemstack created/modified by the ItemBuilder instance.
