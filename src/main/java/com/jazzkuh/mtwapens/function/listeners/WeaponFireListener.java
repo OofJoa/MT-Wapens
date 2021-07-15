@@ -70,6 +70,7 @@ public class WeaponFireListener implements Listener {
                 if (shootWeaponEvent.isCancelled()) return;
 
                 executeWeaponFire(event, player, weapon);
+                break;
             }
             case LEFT_CLICK_AIR: {
                 if (!(Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString()) == Weapon.WeaponTypes.SNIPER)) return;
