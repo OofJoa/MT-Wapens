@@ -41,7 +41,7 @@ public class AmmoMenu extends GUIHolder {
 
         this.inventory.setItem(pageSize + 4, new ItemBuilder(Material.BOW)
                 .setName(Messages.MENU_SWITCHER.get()
-                        .replace("<Menu>", Messages.MENU_WEAPON_TITLE.get()))
+                        .replace("<Menu>", Messages.MENU_GRENADE_TITLE.get()))
                 .setNBT("switcher", "true")
                 .toItemStack());
 
@@ -82,7 +82,7 @@ public class AmmoMenu extends GUIHolder {
             weaponFactory.buildAmmo(ammo);
             weaponFactory.addToInventory();
         } else if (NBTEditor.contains(item, "switcher")) {
-            new WeaponMenu(player, 0).open(player);
+            new GrenadeMenu(player, 0).open(player);
         } else if (item.getType() == XMaterial.OAK_SIGN.parseMaterial()) {
             int newPage = Integer.parseInt(ChatColor.stripColor(item.getItemMeta().getDisplayName()).replaceAll("([a-zA-Z]|\\s|§\\d)+", "")) - 1;
             new AmmoMenu(player, newPage).open(player);
