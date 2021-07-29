@@ -116,9 +116,7 @@ public class Utils {
             connection.connect();
 
             return new JsonParser().parse(new InputStreamReader((InputStream) connection.getContent())).getAsJsonObject();
-        } catch (IOException e) {
-            Bukkit.getLogger().severe("Error performing HTTPS request");
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
 
         return null;
