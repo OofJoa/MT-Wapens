@@ -9,8 +9,6 @@ Met deze plugin is het mogelijk om wapens toe te voegen aan jouw Minetopia serve
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
-
 ## Links
 [Discord](https://discord.gg/AvRpCUZ) [Spigot](https://www.spigotmc.org/resources/minetopia-wapens.76350/)
 
