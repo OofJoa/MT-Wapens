@@ -30,8 +30,6 @@ public class PlayerSneakListener implements Listener {
 
         if (!(boolean) weapon.getParameter(Weapon.WeaponParameters.SNEAKINGMODIFIESITEM)) return;
 
-        Main.getInstance().getLogger().warning("WARNING! The sneakingModifiesItem feature is experimental, use this at your own risk!");
-
         if (event.isSneaking()) {
             ItemBuilder itemBuilder = new ItemBuilder(itemStack)
                     .setNBT(weapon.getParameter(Weapon.WeaponParameters.MODIFIED_NBT).toString(), weapon.getParameter(Weapon.WeaponParameters.MODIFIED_NBTVALUE).toString());
