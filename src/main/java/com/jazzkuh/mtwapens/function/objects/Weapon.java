@@ -113,6 +113,28 @@ public class Weapon {
                         ? config.getInt(configString + "type-specific.iterations")
                         : 3;
             }
+            case SNEAKINGMODIFIESITEM: {
+                return config.getBoolean(configString + "type-specific.sneakingModifiesItem");
+            }
+            case MODIFIED_MATERIAL: {
+                if (!XMaterial.matchXMaterial(config.getString(configString + "type-specific.modifiedItem.material")).isPresent()) {
+                    return Material.STICK;
+                }
+
+                XMaterial xMaterial = XMaterial.matchXMaterial(config.getString(configString + "type-specific.modifiedItem.material")).get();
+                return xMaterial.parseMaterial();
+            }
+            case MODIFIED_NBT: {
+                return config.getString(configString + "type-specific.modifiedItem.nbt");
+            }
+            case MODIFIED_NBTVALUE: {
+                return config.getString(configString + "type-specific.modifiedItem.nbtvalue");
+            }
+            case MODIFIED_CUSTOMMODELDATA: {
+                return config.getInt(configString + "type-specific.modifiedItem.custommodeldata") != 0
+                        ? config.getInt(configString + "type-specific.modifiedItem.custommodeldata")
+                        : 0;
+            }
             default:
                 break;
         }
@@ -123,7 +145,8 @@ public class Weapon {
     public enum WeaponParameters {
         NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
         ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR,
-        RANGE, ITERATIONS, CUSTOMMODELDATA
+        RANGE, ITERATIONS, CUSTOMMODELDATA, SNEAKINGMODIFIESITEM, MODIFIED_MATERIAL, MODIFIED_NBT, MODIFIED_NBTVALUE,
+        MODIFIED_CUSTOMMODELDATA
     }
 
     public enum WeaponTypes {

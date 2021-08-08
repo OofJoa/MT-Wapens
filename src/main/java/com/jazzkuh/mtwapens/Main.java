@@ -53,6 +53,8 @@ public class Main extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new GrenadeHitListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDamageListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerSneakListener(), this);
+        Bukkit.getPluginManager().registerEvents(new WeaponRestoreModifiedListener(), this);
 
         new MainCMD().register(this);
         new WeaponCMD().register(this);
