@@ -2,6 +2,7 @@ package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.api.PlayerShootWeaponEvent;
+import com.jazzkuh.mtwapens.api.PrePlayerShootWeaponEvent;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
 import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
@@ -65,9 +66,9 @@ public class WeaponFireListener implements Listener {
             case RIGHT_CLICK_AIR: {
                 event.setCancelled(true);
 
-                PlayerShootWeaponEvent shootWeaponEvent = new PlayerShootWeaponEvent(player, weaponType);
-                Bukkit.getServer().getPluginManager().callEvent(shootWeaponEvent);
-                if (shootWeaponEvent.isCancelled()) return;
+                PrePlayerShootWeaponEvent prePlayerShootWeaponEvent = new PrePlayerShootWeaponEvent(player, weapon);
+                Bukkit.getServer().getPluginManager().callEvent(prePlayerShootWeaponEvent);
+                if (prePlayerShootWeaponEvent.isCancelled()) return;
 
                 executeWeaponFire(event, player, weapon);
                 break;
@@ -115,6 +116,10 @@ public class WeaponFireListener implements Listener {
         }
 
         if (NBTEditor.getInt(itemStack, "ammo") > 0 || !weapon.isUsingAmmo()) {
+            PlayerShootWeaponEvent shootWeaponEvent = new PlayerShootWeaponEvent(player, weapon);
+            Bukkit.getServer().getPluginManager().callEvent(shootWeaponEvent);
+            if (shootWeaponEvent.isCancelled()) return;
+
             if (Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString()) == Weapon.WeaponTypes.SNIPER &&
                     !player.hasPotionEffect(PotionEffectType.SLOW)) {
                 Utils.sendMessage(player, Messages.WEAPON_CANT_SHOOT_WIHTOUT_SCOPE.get());

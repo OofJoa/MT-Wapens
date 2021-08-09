@@ -1,9 +1,11 @@
 package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.api.PlayerLaunchGrenadeEvent;
 import com.jazzkuh.mtwapens.function.objects.Grenade;
 import com.jazzkuh.mtwapens.utils.Utils;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Player;
@@ -50,6 +52,10 @@ public class GrenadeLaunchListener implements Listener {
             case RIGHT_CLICK_BLOCK:
             case RIGHT_CLICK_AIR: {
                 event.setCancelled(true);
+
+                PlayerLaunchGrenadeEvent playerLaunchGrenadeEvent = new PlayerLaunchGrenadeEvent(player, grenade);
+                Bukkit.getServer().getPluginManager().callEvent(playerLaunchGrenadeEvent);
+                if (playerLaunchGrenadeEvent.isCancelled()) return;
 
                 if (!grenadeCooldown(player.getUniqueId())) return;
                 grenadeCooldown.put(player.getUniqueId(), new Date(new Date().getTime() + (long) ((double) grenade.getParameter(Grenade.GrenadeParameters.COOLDOWN))));
