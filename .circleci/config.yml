@@ -3,9 +3,9 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
+version: 2.1
 orbs:
   discord: antonioned/discord@0.1.0
-version: 2
 jobs:
   build:
     docker:
@@ -43,3 +43,8 @@ jobs:
       
       - store_artifacts:
           path: target
+
+      - discord/status:
+          success_message: "**${CIRCLE_USERNAME}**'s build: **${CIRCLE_JOB}** success."
+          failure_message: "**${CIRCLE_USERNAME}**'s build: **${CIRCLE_JOB}** failed."
+          webhook: "${DISCORD_STATUS_WEBHOOK}"
