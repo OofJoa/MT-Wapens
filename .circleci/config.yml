@@ -40,10 +40,8 @@ jobs:
       - run:
           name: Get artifacts
           command: |
-            filename=$(curl -X GET "https://dash.mtwapens.nl/artifactparser/$CIRCLE_BUILD_NUM/data/filename")
+            filename=$(curl -X GET "https://dash.mtwapens.nl/artifactparser/$CIRCLE_BUILD_NUM/data/version")
             echo "export ARTIFACT_NAME=$filename" >> $BASH_ENV
-            jarversion=$(curl -X GET "https://dash.mtwapens.nl/artifactparser/$CIRCLE_BUILD_NUM/data/version")
-            echo "export ARTIFACT_VERSION=$jarversion" >> $BASH_ENV
 
       - discord-orb/notify:
           success_message: "**Build:** [${CIRCLE_BUILD_NUM}](${CIRCLE_BUILD_URL}) - **Status:** [success](${CIRCLE_BUILD_URL}) - **Artifacts:** [${ARTIFACT_NAME}](https://dash.mtwapens.nl/artifactparser/${CIRCLE_BUILD_NUM})"
