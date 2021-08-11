@@ -38,7 +38,7 @@ jobs:
       - run: mvn package
 
       - discord-orb/notify:
-          success_message: ":green_circle: [${CIRCLE_BRANCH} @ BUILD-${CIRCLE_BUILD_NUM}] ${CIRCLE_JOB} job has succeeded! [Build URL](${CIRCLE_BUILD_URL}) - [Artifacts](https://circleci.com/api/v2/project/gh/MT-Wapens/MT-Wapens/${CIRCLE_BUILD_NUM}/artifacts)"
+          success_message: ":green_circle: [${CIRCLE_BRANCH} @ BUILD-${CIRCLE_BUILD_NUM}] ${CIRCLE_JOB} job has succeeded! [Build URL](${CIRCLE_BUILD_URL}) - [Artifacts](https://dash.mtwapens.nl/artifactparser/${CIRCLE_BUILD_NUM})"
       
       - store_artifacts:
           path: target
