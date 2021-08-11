@@ -44,7 +44,7 @@ jobs:
             artifacts=$(curl -X GET "https://circleci.com/api/v2/project/gh/MT-Wapens/MT-Wapens/$CIRCLE_BUILD_NUM/artifacts" \
             -H "Accept: application/json" \
             -u "$CIRCLE_API_TOKEN:")
-            echo "export ARTIFACT_RESPONSE=$artifacts[0] | jq -r '.response.content'" >> $BASH_ENV
+            echo "export ARTIFACT_RESPONSE=$artifacts[0] | jq -r '.url'" >> $BASH_ENV
 
       - discord-orb/notify:
           success_message: ":green_circle:  [${CIRCLE_BRANCH}] ${CIRCLE_JOB} job has succeeded! - ${CIRCLE_BUILD_URL} - ${ARTIFACT_RESPONSE}"
