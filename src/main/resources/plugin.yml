@@ -1,7 +1,7 @@
 name: MT-Wapens
 version: ${project.version}
 description: Add weapons to your Minecraft server
-website: https://www.spigotmc.org/resources/76350/
+website: https://mtwapens.nl
 main: com.jazzkuh.mtwapens.Main
 author: Jazzkuh
 api-version: 1.16
