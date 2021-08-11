@@ -40,7 +40,7 @@ jobs:
       - run:
           name: Get artifacts
           command: |
-            filename=$(curl -X GET "https://dash.mtwapens.nl/artifactparser/$CIRCLE_BUILD_NUM/data/filename" \
+            filename=$(curl -L GET "https://dash.mtwapens.nl/filename/$CIRCLE_BUILD_NUM" \
             -H "Accept: application/json" \
             -u "$CIRCLE_API_TOKEN:")
             echo "export ARTIFACT_NAME=$filename" >> $BASH_ENV
