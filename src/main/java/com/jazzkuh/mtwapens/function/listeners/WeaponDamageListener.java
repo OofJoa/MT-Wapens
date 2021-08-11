@@ -6,18 +6,16 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class WeaponDamageListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageByEntityEvent event) {
+        if (event.isCancelled()) return;
         if (!(event.getEntity() instanceof LivingEntity) || !(event.getDamager() instanceof Snowball)) return;
-        if (event.isCancelled()) {
-            event.setCancelled(true);
-            return;
-        }
 
         Snowball bullet = (Snowball) event.getDamager();
         if (!bullet.hasMetadata("mtwapens_bullet")) return;
