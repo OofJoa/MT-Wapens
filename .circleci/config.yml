@@ -41,11 +41,13 @@ jobs:
           name: Get artifacts
           when: on_success
           command: |
-            artifacts=$(curl -X GET "https://dash.mtwapens.nl/artifactparser/test")
-            echo "export ARTIFACT_RESPONSE=$artifacts" >> $BASH_ENV
+            filename=$(curl -X GET "https://dash.mtwapens.nl/artifactparser/${CIRCLE_BUILD_NUM}/data/filename")
+            echo "export ARTIFACT_NAME=$filename" >> $BASH_ENV
+            jarversion=$(curl -X GET "https://dash.mtwapens.nl/artifactparser/${CIRCLE_BUILD_NUM}/data/filename")
+            echo "export ARTIFACT_VERSION=$jarversion" >> $BASH_ENV
 
       - discord-orb/notify:
-          success_message: "**Build:** [${CIRCLE_BUILD_NUM}](${CIRCLE_BUILD_URL}) - **Status:** [success](${CIRCLE_BUILD_URL}) - **Artifacts:** [${ARTIFACT_RESPONSE}](https://dash.mtwapens.nl/artifactparser/${CIRCLE_BUILD_NUM})"
+          success_message: "**Build:** [${CIRCLE_BUILD_NUM}](${CIRCLE_BUILD_URL}) - **Status:** [success](${CIRCLE_BUILD_URL}) - **Artifacts:** [${ARTIFACT_NAME}](https://dash.mtwapens.nl/artifactparser/${CIRCLE_BUILD_NUM})"
           failure_message: "**Build:** [${CIRCLE_BUILD_NUM}](${CIRCLE_BUILD_URL}) - **Status:** [failure](${CIRCLE_BUILD_URL})"
       
       - store_artifacts:
