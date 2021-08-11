@@ -13,9 +13,11 @@ public class WeaponDamageListener implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
-        if (event.isCancelled()) return;
-
         if (!(event.getEntity() instanceof LivingEntity) || !(event.getDamager() instanceof Snowball)) return;
+        if (event.isCancelled()) {
+            event.setCancelled(true);
+            return;
+        }
 
         Snowball bullet = (Snowball) event.getDamager();
         if (!bullet.hasMetadata("mtwapens_bullet")) return;
