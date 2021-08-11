@@ -38,7 +38,11 @@ jobs:
       - run: mvn package
 
       - discord-orb/notify:
-          success_message: "**Build:** [${CIRCLE_BUILD_NUM}](${CIRCLE_BUILD_URL})/n**Status:** [success](${CIRCLE_BUILD_URL})/n/n**Artifacts:** - [Compiled Jar Download](https://dash.mtwapens.nl/artifactparser/${CIRCLE_BUILD_NUM})"
+          success_message: "**Build:** [${CIRCLE_BUILD_NUM}](${CIRCLE_BUILD_URL})
+          **Status:** [success](${CIRCLE_BUILD_URL})
+          
+          **Artifacts:** 
+          - [Compiled Jar Download](https://dash.mtwapens.nl/artifactparser/${CIRCLE_BUILD_NUM})"
       
       - store_artifacts:
           path: target
