@@ -39,7 +39,7 @@ jobs:
 
       - discord-orb/notify:
           success_message: "**Build:** [${CIRCLE_BUILD_NUM}](${CIRCLE_BUILD_URL}) - **Status:** [success](${CIRCLE_BUILD_URL}) - **Artifacts:** [Compiled Jar Download](https://dash.mtwapens.nl/artifactparser/${CIRCLE_BUILD_NUM})"
-          failure_message: "**Build:** [${CIRCLE_BUILD_NUM}](${CIRCLE_BUILD_URL}) - **Status:** [failed](${CIRCLE_BUILD_URL})"
+          failure_message: "**Build:** [${CIRCLE_BUILD_NUM}](${CIRCLE_BUILD_URL}) - **Status:** [failure](${CIRCLE_BUILD_URL})"
       
       - store_artifacts:
           path: target
