@@ -72,6 +72,7 @@ public class WeaponProjectile {
             }
             case RPG: {
                 Fireball fireball = player.launchProjectile(Fireball.class);
+                fireball.setMetadata("mtwapens_rpg_bullet", new FixedMetadataValue(Main.getInstance(), true));
                 fireball.setIsIncendiary(false);
 
                 for (Player target : player.getLocation().getWorld().getPlayers()) {
