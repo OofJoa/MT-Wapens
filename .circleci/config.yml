@@ -40,7 +40,7 @@ jobs:
       - run:
           name: Get artifacts
           command: |
-            filename=$(curl -X GET "https://dash.mtwapens.nl/artifactparser/$CIRCLE_BUILD_NUM/data/version")
+            filename=$(curl "https://dash.mtwapens.nl/artifactparser/$CIRCLE_BUILD_NUM/data/version")
             echo "export ARTIFACT_NAME=$filename" >> $BASH_ENV
 
       - discord-orb/notify:
