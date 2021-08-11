@@ -37,8 +37,7 @@ jobs:
 
       - run: mvn package
 
-      - discord-orb/notify:
-        webhook_url: "https://canary.discord.com/api/webhooks/874989948598636584/nLi7e7yFheE248KN6Gars8F_vtCPfAwXC8CbRbu5Pqb05dj5dIElgYODH-qvo60abbIm"
+      - discord-orb/notify
       
       - store_artifacts:
           path: target
