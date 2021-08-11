@@ -3,9 +3,9 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+version: 2.1
 orbs:
-  discord: antonioned/discord@0.1.0
+  discord-orb: tkyshm/discord-orb@0.0.8
 jobs:
   build:
     docker:
@@ -36,10 +36,9 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       - run: mvn package
+
+      - discord-orb/notify:
+        webhook_url: "https://canary.discord.com/api/webhooks/874989948598636584/nLi7e7yFheE248KN6Gars8F_vtCPfAwXC8CbRbu5Pqb05dj5dIElgYODH-qvo60abbIm"
       
       - store_artifacts:
           path: target
-
-      - discord/status:
-          success_message: "**${CIRCLE_USERNAME}**'s build: **${CIRCLE_JOB}** success."
-          failure_message: "**${CIRCLE_USERNAME}**'s build: **${CIRCLE_JOB}** failed."
