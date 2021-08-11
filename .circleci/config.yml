@@ -3,7 +3,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2.1
+version: 2
 orbs:
   discord: antonioned/discord@0.1.0
 jobs:
@@ -13,10 +13,6 @@ jobs:
       - image: circleci/openjdk:11-jdk
 
     working_directory: ~/repo
-
-    branches:
-      ignore:
-        - gh-pages
 
     environment:
       # Customize the JVM maximum heap limit
@@ -47,4 +43,3 @@ jobs:
       - discord/status:
           success_message: "**${CIRCLE_USERNAME}**'s build: **${CIRCLE_JOB}** success."
           failure_message: "**${CIRCLE_USERNAME}**'s build: **${CIRCLE_JOB}** failed."
-          webhook: "${DISCORD_STATUS_WEBHOOK}"
