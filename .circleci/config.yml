@@ -47,7 +47,7 @@ jobs:
             echo "export ARTIFACT_RESPONSE=$artifacts" >> $BASH_ENV
 
       - discord-orb/notify:
-          success_message: ":green_circle:  [${CIRCLE_BRANCH}] ${CIRCLE_JOB} job has succeeded! - ${CIRCLE_BUILD_URL} - ${ARTIFACT_RESPONSE}"
+          success_message: ":green_circle:  [${CIRCLE_BRANCH}] ${CIRCLE_JOB} job has succeeded! - ${CIRCLE_BUILD_URL} - ${ARTIFACT_RESPONSE[0].url}"
       
       - store_artifacts:
           path: target
