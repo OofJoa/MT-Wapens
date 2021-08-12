@@ -5,6 +5,8 @@
 [![Build Status](http://jenkins.jazzkuh.com:8080/job/MTWapens/badge/icon)](http://jenkins.jazzkuh.com:8080/job/MTWapens/)
 ![Lines](https://img.shields.io/tokei/lines/github/MT-Wapens/MT-Wapens)
 
+![image](https://user-images.githubusercontent.com/32953684/129263279-5ab8ebb4-5137-4473-a383-62068cb9e21d.png)
+
 Met deze plugin is het mogelijk om wapens toe te voegen aan jouw Minetopia server. Hiervoor heb je de Minetopia Texturepack nodig om de juiste textures te zien.
 
 ## Contributing
