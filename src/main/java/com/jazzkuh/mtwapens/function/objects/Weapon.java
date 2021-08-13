@@ -79,7 +79,7 @@ public class Weapon {
             case WEAPON_RANGE: {
                 return config.getDouble(configString + "range") != 0
                         ? config.getDouble(configString + "range")
-                        : 16D;
+                        : 30D;
             }
             case MAXAMMO: {
                 return config.getInt(configString + "max-ammo") != 0
