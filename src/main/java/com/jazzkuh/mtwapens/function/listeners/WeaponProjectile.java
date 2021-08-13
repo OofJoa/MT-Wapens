@@ -2,11 +2,14 @@ package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
+import com.jazzkuh.mtwapens.utils.ProjectileTrajectory;
+import com.jazzkuh.mtwapens.utils.datawatcher.DataWatcher;
 import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class WeaponProjectile {
@@ -87,10 +90,16 @@ public class WeaponProjectile {
             case SINGLE_BULLET:
             case MULTIPLE_BULLET:
             default: {
+                Location playerLocation = player.getLocation();
                 Snowball bullet = player.launchProjectile(Snowball.class);
                 bullet.setCustomName("" + (double) weapon.getParameter(Weapon.WeaponParameters.DAMAGE));
                 bullet.setShooter(player);
-                bullet.setVelocity(bullet.getVelocity().multiply(2D));
+                //bullet.setVelocity(bullet.getVelocity().multiply(2D));
+                bullet.setVelocity(player.getLocation().getDirection().multiply(4.1D));
+
+                ProjectileTrajectory projectileTrajectory = new ProjectileTrajectory(bullet, bullet.getVelocity());
+                projectileTrajectory.start();
+
                 bullet.setMetadata("mtwapens_bullet", new FixedMetadataValue(Main.getInstance(), true));
 
                 for (Player target : player.getLocation().getWorld().getPlayers()) {
@@ -99,6 +108,17 @@ public class WeaponProjectile {
                                 weapon.getParameter(Weapon.WeaponParameters.SOUND).toString(), 100, 1F);
                     }
                 }
+
+                // setup a async datawatcher that runs every tick
+                DataWatcher<Location> locationDataWatcher = new DataWatcher<>(Main.getInstance(), false, 1);
+                locationDataWatcher.setFeeder(bullet::getLocation);
+                locationDataWatcher.setTask((bulletLocation) -> {
+                    if (playerLocation.distance(bulletLocation) >= (double) weapon.getParameter(Weapon.WeaponParameters.WEAPON_RANGE)) {
+                        projectileTrajectory.cancelTask();
+                        bullet.remove();
+                        locationDataWatcher.stop();
+                    }
+                });
                 break;
             }
         }

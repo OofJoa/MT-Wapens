@@ -76,6 +76,11 @@ public class Weapon {
                         ? config.getDouble(configString + "damage")
                         : 0D;
             }
+            case WEAPON_RANGE: {
+                return config.getDouble(configString + "range") != 0
+                        ? config.getDouble(configString + "range")
+                        : 16D;
+            }
             case MAXAMMO: {
                 return config.getInt(configString + "max-ammo") != 0
                         ? config.getInt(configString + "max-ammo")
@@ -146,7 +151,7 @@ public class Weapon {
         NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
         ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR,
         RANGE, ITERATIONS, CUSTOMMODELDATA, SNEAKINGMODIFIESITEM, MODIFIED_MATERIAL, MODIFIED_NBT, MODIFIED_NBTVALUE,
-        MODIFIED_CUSTOMMODELDATA
+        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE
     }
 
     public enum WeaponTypes {
