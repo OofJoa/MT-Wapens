@@ -140,6 +140,11 @@ public class Weapon {
                         ? config.getInt(configString + "type-specific.modifiedItem.custommodeldata")
                         : 0;
             }
+            case HEADSHOT_DAMAGE: {
+                return config.getDouble(configString + "headshot-damage") != 0D
+                        ? config.getDouble(configString + "headshot-damage")
+                        : 0D;
+            }
             default:
                 break;
         }
@@ -151,7 +156,7 @@ public class Weapon {
         NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
         ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR,
         RANGE, ITERATIONS, CUSTOMMODELDATA, SNEAKINGMODIFIESITEM, MODIFIED_MATERIAL, MODIFIED_NBT, MODIFIED_NBTVALUE,
-        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE
+        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE, HEADSHOT_DAMAGE
     }
 
     public enum WeaponTypes {

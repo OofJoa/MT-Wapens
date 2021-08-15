@@ -132,7 +132,8 @@ weapons:
     nbtvalue: mk14_scoped
     sound: none
     reload-sound: none
-    damage: 10
+    damage: 10.0
+    headshot-damage: 15.0
     range: 100.0
     max-ammo: 3
     attackspeed: 1.0

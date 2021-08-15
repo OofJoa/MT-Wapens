@@ -100,7 +100,7 @@ public class WeaponProjectile {
                 ProjectileTrajectory projectileTrajectory = new ProjectileTrajectory(bullet, bullet.getVelocity());
                 projectileTrajectory.start();
 
-                bullet.setMetadata("mtwapens_bullet", new FixedMetadataValue(Main.getInstance(), true));
+                bullet.setMetadata("mtwapens_bullet", new FixedMetadataValue(Main.getInstance(), weapon.getWeaponType()));
 
                 for (Player target : player.getLocation().getWorld().getPlayers()) {
                     if (target.getLocation().distance(player.getLocation()) <= 16D) {

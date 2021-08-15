@@ -1,6 +1,8 @@
 package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.function.objects.Weapon;
+import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -23,6 +25,9 @@ public class WeaponDamageListener implements Listener {
         if (!(bullet.getShooter() instanceof Player)) return;
         Player attacker = (Player) bullet.getShooter();
 
+        // Probably not the best way but it works.
+        Weapon weapon = new Weapon(bullet.getMetadata("mtwapens_bullet").get(0).asString());
+
         LivingEntity entity = (LivingEntity) event.getEntity();
         event.setDamage(0D);
 
@@ -38,10 +43,18 @@ public class WeaponDamageListener implements Listener {
             damage = damage - ((damage / 100 * percentage) * enchantmentLevel);
         }
 
+        double bulletYLoc = bullet.getLocation().getY();
+        double victimYLoc = entity.getLocation().getY();
+        boolean isHeadshot = bulletYLoc - victimYLoc > 1.35D;
+
         if (damage > entity.getHealth()) {
             entity.setHealth(0D);
         } else {
-            entity.setHealth(entity.getHealth() - damage);
+            double finalDamage = isHeadshot && (double) weapon.getParameter(Weapon.WeaponParameters.HEADSHOT_DAMAGE) != 0D
+                    ? (double) weapon.getParameter(Weapon.WeaponParameters.HEADSHOT_DAMAGE)
+                    : damage;
+            
+            entity.setHealth(entity.getHealth() - finalDamage);
         }
     }
 }
