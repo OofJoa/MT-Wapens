@@ -1,9 +1,12 @@
 package com.jazzkuh.mtwapens.function.objects;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.google.common.base.Enums;
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.function.enums.Recoil;
 import com.jazzkuh.mtwapens.utils.Utils;
 import lombok.Getter;
+import org.apache.commons.lang.enums.EnumUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -145,6 +148,14 @@ public class Weapon {
                         ? config.getDouble(configString + "headshot-damage")
                         : 0D;
             }
+            case RECOIL_ENABLED: {
+                return config.getBoolean(configString + "type-specific.recoil.enabled");
+            }
+            case RECOIL_AMOUNT: {
+                return config.getString(configString + "type-specific.recoil.setting") != null && Enums.getIfPresent(Recoil.class, config.getString(configString + "type-specific.recoil.setting").toUpperCase()).isPresent()
+                        ? Recoil.valueOf(config.getString(configString + "type-specific.recoil.setting").toUpperCase())
+                        : Recoil.LOW;
+            }
             default:
                 break;
         }
@@ -156,7 +167,7 @@ public class Weapon {
         NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
         ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR,
         RANGE, ITERATIONS, CUSTOMMODELDATA, SNEAKINGMODIFIESITEM, MODIFIED_MATERIAL, MODIFIED_NBT, MODIFIED_NBTVALUE,
-        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE, HEADSHOT_DAMAGE
+        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE, HEADSHOT_DAMAGE, RECOIL_ENABLED, RECOIL_AMOUNT
     }
 
     public enum WeaponTypes {

@@ -3,7 +3,9 @@ package com.jazzkuh.mtwapens.function.listeners;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.api.PlayerShootWeaponEvent;
 import com.jazzkuh.mtwapens.api.PrePlayerShootWeaponEvent;
+import com.jazzkuh.mtwapens.function.RecoilUtils;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
+import com.jazzkuh.mtwapens.function.enums.Recoil;
 import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.messages.Messages;
@@ -147,6 +149,10 @@ public class WeaponFireListener implements Listener {
                     .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
 
             Weapon.WeaponTypes weaponType = Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString());
+
+            if ((boolean) weapon.getParameter(Weapon.WeaponParameters.RECOIL_ENABLED)) {
+                new RecoilUtils(weapon, (Recoil) weapon.getParameter(Weapon.WeaponParameters.RECOIL_AMOUNT)).performRecoil(player);
+            }
             new WeaponProjectile(weapon, weaponType).fireProjectile(player);
 
             Weapon.WeaponTypes weaponTypes = Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString());
