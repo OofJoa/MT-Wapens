@@ -148,13 +148,10 @@ public class Weapon {
                         ? config.getDouble(configString + "headshot-damage")
                         : 0D;
             }
-            case RECOIL_ENABLED: {
-                return config.getBoolean(configString + "type-specific.recoil.enabled");
-            }
-            case RECOIL_AMOUNT: {
-                return config.getString(configString + "type-specific.recoil.setting") != null && Enums.getIfPresent(Recoil.class, config.getString(configString + "type-specific.recoil.setting").toUpperCase()).isPresent()
-                        ? Recoil.valueOf(config.getString(configString + "type-specific.recoil.setting").toUpperCase())
-                        : Recoil.LOW;
+            case RECOIL: {
+                return config.getString(configString + "recoil") != null && Enums.getIfPresent(Recoil.class, config.getString(configString + "recoil").toUpperCase()).isPresent()
+                        ? Recoil.valueOf(config.getString(configString + "recoil").toUpperCase())
+                        : null;
             }
             default:
                 break;
@@ -167,7 +164,7 @@ public class Weapon {
         NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
         ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR,
         RANGE, ITERATIONS, CUSTOMMODELDATA, SNEAKINGMODIFIESITEM, MODIFIED_MATERIAL, MODIFIED_NBT, MODIFIED_NBTVALUE,
-        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE, HEADSHOT_DAMAGE, RECOIL_ENABLED, RECOIL_AMOUNT
+        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE, HEADSHOT_DAMAGE, RECOIL
     }
 
     public enum WeaponTypes {

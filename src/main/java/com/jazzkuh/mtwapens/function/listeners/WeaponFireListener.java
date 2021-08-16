@@ -150,8 +150,8 @@ public class WeaponFireListener implements Listener {
 
             Weapon.WeaponTypes weaponType = Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString());
 
-            if ((boolean) weapon.getParameter(Weapon.WeaponParameters.RECOIL_ENABLED)) {
-                new RecoilUtils(weapon, (Recoil) weapon.getParameter(Weapon.WeaponParameters.RECOIL_AMOUNT)).performRecoil(player);
+            if (weapon.getParameter(Weapon.WeaponParameters.RECOIL) != null) {
+                new RecoilUtils(weapon, (Recoil) weapon.getParameter(Weapon.WeaponParameters.RECOIL)).performRecoil(player);
             }
             new WeaponProjectile(weapon, weaponType).fireProjectile(player);
 
