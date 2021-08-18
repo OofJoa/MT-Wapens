@@ -51,6 +51,15 @@ public class PlayerSneakListener implements Listener {
             ItemBuilder itemBuilder = new ItemBuilder(itemStack)
                     .setNBT(weapon.getParameter(Weapon.WeaponParameters.NBT).toString(), weapon.getParameter(Weapon.WeaponParameters.NBTVALUE).toString());
 
+            int customModelData = (int) weapon.getParameter(Weapon.WeaponParameters.CUSTOMMODELDATA);
+            if (customModelData > 0) {
+                try {
+                    itemBuilder.setCustomModelData(customModelData);
+                } catch (Exception e) {
+                    Main.getInstance().getLogger().warning("Custom Model Data is not supported for your server version.");
+                }
+            }
+
             ItemStack is = itemBuilder.toItemStack();
             is.setType((Material) weapon.getParameter(Weapon.WeaponParameters.MATERIAL));
             ItemMeta im = is.getItemMeta();
