@@ -2,6 +2,7 @@ package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
+import org.bukkit.Effect;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
@@ -46,6 +47,10 @@ public class WeaponDamageListener implements Listener {
         double bulletYLoc = bullet.getLocation().getY();
         double victimYLoc = entity.getLocation().getY();
         boolean isHeadshot = bulletYLoc - victimYLoc > 1.35D;
+
+        if (entity.getLocation().getWorld() != null) {
+            entity.getLocation().getWorld().playEffect(entity.getLocation().add(0.0D, 1.0D, 0.0D), Effect.STEP_SOUND, 152);
+        }
 
         if (damage > entity.getHealth()) {
             entity.setHealth(0D);
