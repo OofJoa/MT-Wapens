@@ -52,13 +52,14 @@ public class WeaponDamageListener implements Listener {
             entity.getLocation().getWorld().playEffect(entity.getLocation().add(0.0D, 1.0D, 0.0D), Effect.STEP_SOUND, 152);
         }
 
-        if (damage > entity.getHealth()) {
+        double finalDamage = isHeadshot && (double) weapon.getParameter(Weapon.WeaponParameters.HEADSHOT_DAMAGE) != 0D
+                ? (double) weapon.getParameter(Weapon.WeaponParameters.HEADSHOT_DAMAGE)
+                : damage;
+
+
+        if (finalDamage > entity.getHealth()) {
             entity.setHealth(0D);
         } else {
-            double finalDamage = isHeadshot && (double) weapon.getParameter(Weapon.WeaponParameters.HEADSHOT_DAMAGE) != 0D
-                    ? (double) weapon.getParameter(Weapon.WeaponParameters.HEADSHOT_DAMAGE)
-                    : damage;
-            
             entity.setHealth(entity.getHealth() - finalDamage);
         }
     }
