@@ -2,6 +2,7 @@ package com.jazzkuh.mtwapens.function.enums;
 
 import lombok.Getter;
 
+@SuppressWarnings("unused")
 public enum Recoil {
     LOW(0.8D, 0.1D),
     MEDIUM(1.5D, 0.2D),
