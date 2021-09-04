@@ -4,6 +4,8 @@ import com.jazzkuh.mtwapens.commands.AmmoCMD;
 import com.jazzkuh.mtwapens.commands.GrenadeCMD;
 import com.jazzkuh.mtwapens.commands.MainCMD;
 import com.jazzkuh.mtwapens.commands.WeaponCMD;
+import com.jazzkuh.mtwapens.compatibility.CompatibilityLayer;
+import com.jazzkuh.mtwapens.compatibility.CompatibilityManager;
 import com.jazzkuh.mtwapens.function.DevToolsListener;
 import com.jazzkuh.mtwapens.function.listeners.*;
 import com.jazzkuh.mtwapens.messages.Messages;
@@ -29,6 +31,7 @@ public class Main extends JavaPlugin implements Listener {
     private static @Getter ConfigurationFile messages;
     private static final @Getter HashMap<String, Boolean> reloadDelay = new HashMap<>();
     private static @Getter EffectManager effectManager;
+    private static @Getter CompatibilityLayer compatibilityLayer;
 
     @Override
     public void onEnable() {
@@ -37,6 +40,14 @@ public class Main extends JavaPlugin implements Listener {
         GUIHolder.init(this);
         effectManager = new EffectManager(this);
         new Metrics(this, 7967);
+
+        compatibilityLayer = new CompatibilityManager().registerCompatibilityLayer();
+        if (compatibilityLayer == null) {
+            this.getLogger().warning("This server is using an unsupported server version. NMS functions are disabled.");
+        } else {
+            this.getLogger().info("This server is running " + Bukkit.getServer().getVersion() + ". Now using CompatbilityLayer version " + new CompatibilityManager().getVersion());
+            Bukkit.getPluginManager().registerEvents(new ProjectileHitListener(), this);
+        }
 
         if (Utils.checkForBlacklist(Utils.getServerIP() + ":" + Bukkit.getServer().getPort())) {
             Bukkit.getLogger().severe("MT Wapens is geblacklist van deze server omdat de desbetreffende server zich niet heeft gehouden aan de terms of service die staan aangegeven op de spigot pagina.");

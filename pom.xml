@@ -73,6 +73,10 @@
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
+        <repository>
+            <id>Craftbukkit</id>
+            <url>https://nexus.funkemunky.cc/content/repositories/releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -109,6 +113,43 @@
             <artifactId>EffectLib</artifactId>
             <version>9.0</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.github.spigot</groupId>
+            <artifactId>1.12.2</artifactId>
+            <version>1.12.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.github.spigot</groupId>
+            <artifactId>1.13.2</artifactId>
+            <version>1.13.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.github.spigot</groupId>
+            <artifactId>1.14.3</artifactId>
+            <version>1.14.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.github.spigot</groupId>
+            <artifactId>1.15.2</artifactId>
+            <version>1.15.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.github.spigot</groupId>
+            <artifactId>1.16.4</artifactId>
+            <version>1.16.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.github.spigot</groupId>
+            <artifactId>1.17</artifactId>
+            <version>1.17</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
