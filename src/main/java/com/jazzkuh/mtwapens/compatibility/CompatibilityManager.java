@@ -26,9 +26,6 @@ public class CompatibilityManager {
             case "v1_16_R3": {
                 return new v1_16_4();
             }
-            case "v1_17_R1": {
-                return new v1_17();
-            }
             default: {
                 return null;
             }
