@@ -93,9 +93,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.BananaPuncher714</groupId>
-            <artifactId>NBTEditor</artifactId>
-            <version>master-07c240621d-1</version>
+            <groupId>io.github.bananapuncher714</groupId>
+            <artifactId>nbteditor</artifactId>
+            <version>7.17.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
