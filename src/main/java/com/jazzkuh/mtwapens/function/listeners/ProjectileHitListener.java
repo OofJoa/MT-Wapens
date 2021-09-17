@@ -1,5 +1,7 @@
 package com.jazzkuh.mtwapens.function.listeners;
 
+import com.cryptomorin.xseries.XBlock;
+import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.Main;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Snowball;
@@ -18,6 +20,7 @@ public class ProjectileHitListener implements Listener {
         Block block = event.getHitBlock();
 
         if (!bullet.hasMetadata("mtwapens_bullet")) return;
+        if (XBlock.isCrop(XMaterial.matchXMaterial(block.getType())) || XBlock.isContainer(block) || XBlock.isCake(block.getType())) return;
         Main.getCompatibilityLayer().sendBlockBreakPacket(block);
     }
 }
