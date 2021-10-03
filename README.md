@@ -14,6 +14,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Links
 [Discord](https://discord.gg/AvRpCUZ) [Spigot](https://www.spigotmc.org/resources/minetopia-wapens.76350/) [Javadocs](https://api.mtwapens.nl/) [Docs](https://docs.mtwapens.nl)
+
 ![Discord](https://discord.com/api/guilds/697454470249971833/widget.png?style=banner3)
 
 ## License
