@@ -164,7 +164,11 @@ public class WeaponFireListener implements Listener {
                 int iterations = (int) weapon.getParameter(Weapon.WeaponParameters.ITERATIONS) - 1;
                 for (int i = 0; i < iterations; i++) {
                     Bukkit.getScheduler().runTaskLater(Main.getInstance(),
-                            () -> new WeaponProjectile(weapon, weaponTypes).fireProjectile(player), 8L * (i + 1));
+                            () -> {
+                                if (NBTEditor.getInt(itemStack, "ammo") < 1) return;
+                                Utils.applyNBTTag(itemStack, "ammo", NBTEditor.getInt(itemStack, "ammo") - 1);
+                                new WeaponProjectile(weapon, weaponTypes).fireProjectile(player);
+                            }, 8L * (i + 1));
                 }
             }
 
