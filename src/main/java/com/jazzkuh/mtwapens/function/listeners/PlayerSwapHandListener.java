@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class PlayerSwapHandListener implements Listener {
@@ -32,7 +31,7 @@ public class PlayerSwapHandListener implements Listener {
 
         event.setCancelled(true);
 
-        if (Main.getReloadDelay().containsKey(String.valueOf(player.getUniqueId()))) return;
+        if (Main.getReloadDelay().containsKey(player.getUniqueId())) return;
 
         if (NBTEditor.getInt(player.getInventory().getItemInMainHand(), "durability") <= 0) {
             player.getInventory().removeItem(player.getInventory().getItemInMainHand());
@@ -71,7 +70,7 @@ public class PlayerSwapHandListener implements Listener {
             Utils.sendMessage(player, Messages.RELOADING.get());
             player.getInventory().removeItem(bulletItem);
 
-            Main.getReloadDelay().put(player.getUniqueId().toString(), true);
+            Main.getReloadDelay().put(player.getUniqueId(), true);
 
             Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                 Utils.applyNBTTag(itemStack, "ammo", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO));
@@ -82,7 +81,7 @@ public class PlayerSwapHandListener implements Listener {
                         .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                         .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
 
-                Main.getReloadDelay().remove(String.valueOf(player.getUniqueId()));
+                Main.getReloadDelay().remove(player.getUniqueId());
             }, 35);
         } else {
             Utils.sendMessage(player, Messages.NO_AMMO.get());
