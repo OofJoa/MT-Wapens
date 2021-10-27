@@ -153,6 +153,9 @@ public class Weapon {
                         ? Recoil.valueOf(config.getString(configString + "recoil").toUpperCase())
                         : null;
             }
+            case SOULBOUND: {
+                return config.getBoolean(configString + "soulbound");
+            }
             default:
                 break;
         }
@@ -164,7 +167,7 @@ public class Weapon {
         NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
         ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR,
         RANGE, ITERATIONS, CUSTOMMODELDATA, SNEAKINGMODIFIESITEM, MODIFIED_MATERIAL, MODIFIED_NBT, MODIFIED_NBTVALUE,
-        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE, HEADSHOT_DAMAGE, RECOIL
+        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE, HEADSHOT_DAMAGE, RECOIL, SOULBOUND
     }
 
     public enum WeaponTypes {
