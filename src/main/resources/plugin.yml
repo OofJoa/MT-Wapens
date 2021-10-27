@@ -5,6 +5,7 @@ website: https://mtwapens.nl
 main: com.jazzkuh.mtwapens.Main
 author: Jazzkuh
 api-version: 1.16
+softdepend: [WorldEdit, WorldGuard]
 commands:
   getweapon:
     aliases: [giveweapon]

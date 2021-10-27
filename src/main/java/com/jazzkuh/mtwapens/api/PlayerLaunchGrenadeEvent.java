@@ -11,6 +11,7 @@ public final class PlayerLaunchGrenadeEvent extends Event implements Cancellable
     private final Player shooter;
     private boolean cancelled;
     private final HandlerList handlers = new HandlerList();
+    private static final HandlerList HANDLERS_LIST = new HandlerList();
 
     public PlayerLaunchGrenadeEvent(Player shooter, Grenade grenade) {
         this.grenade = grenade;
@@ -34,6 +35,10 @@ public final class PlayerLaunchGrenadeEvent extends Event implements Cancellable
     @Override
     public HandlerList getHandlers() {
         return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
     }
 
     @Override

@@ -18,7 +18,8 @@ public enum Messages {
     MENU_AMMO_TITLE("Weapons.Menu.Ammo.Title", "Ammo Menu"),
     MENU_SWITCHER("Weapons.Menu.Switcher", "&aSwitch to &2<Menu>"),
     MENU_GRENADE_TITLE("Weapons.Menu.Grenade.Title", "Grenade Menu"),
-    WEAPON_CANT_SHOOT_WIHTOUT_SCOPE("Weapons.CantShootWithoutScope", "&cSorry bro, no 360 noscope for you...");
+    WEAPON_CANT_SHOOT_WIHTOUT_SCOPE("Weapons.CantShootWithoutScope", "&cSorry bro, no 360 noscope for you..."),
+    WEAPON_CANT_SHOOT_IN_REGION("Weapons.CantShootInRegion", "&cThe use of weapons has been disabled in this region.");
 
 
     private final String path;

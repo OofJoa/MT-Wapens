@@ -14,9 +14,11 @@ import com.jazzkuh.mtwapens.utils.ConfigurationFile;
 import com.jazzkuh.mtwapens.utils.Metrics;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.menu.GUIHolder;
+import com.sk89q.worldguard.protection.flags.BooleanFlag;
 import de.slikey.effectlib.EffectManager;
 import lombok.Getter;
 import me.lucko.commodore.CommodoreProvider;
+import nl.mrwouter.worldguard_core.WorldGuard;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,6 +36,9 @@ public class Main extends JavaPlugin implements Listener {
     private static final @Getter HashMap<UUID, Boolean> reloadDelay = new HashMap<>();
     private static @Getter EffectManager effectManager;
     private static @Getter CompatibilityLayer compatibilityLayer;
+    private static @Getter WorldGuard worldGuardLayer;
+    private static @Getter BooleanFlag useWeaponsFlag = new BooleanFlag("can-use-weapons");
+
 
     @Override
     public void onEnable() {
@@ -100,5 +105,14 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> new DevToolsListener().checkBlacklistStatus(instance), 0, 12000);
+    }
+
+    @Override
+    public void onLoad() {
+        if (Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
+            worldGuardLayer = new CompatibilityManager().registerWorldGuardLayer();
+            worldGuardLayer.getFlagRegistry().register(Main.getUseWeaponsFlag());
+            this.getLogger().info("This server is running " + Bukkit.getServer().getVersion() + ". Now using WorldGuard version " + new CompatibilityManager().getWorldGuardVersion());
+        }
     }
 }

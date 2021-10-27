@@ -11,6 +11,7 @@ import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.Utils;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -72,6 +73,15 @@ public class WeaponFireListener implements Listener {
                 PrePlayerShootWeaponEvent prePlayerShootWeaponEvent = new PrePlayerShootWeaponEvent(player, weapon);
                 Bukkit.getServer().getPluginManager().callEvent(prePlayerShootWeaponEvent);
                 if (prePlayerShootWeaponEvent.isCancelled()) return;
+
+                if (Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
+                    List<ProtectedRegion> regions = Main.getWorldGuardLayer().getRegions(player.getLocation());
+                    if (regions != null && Main.getWorldGuardLayer().getValidRegions(regions, true).size() > 0
+                            && !Main.getWorldGuardLayer().getValidRegions(regions, true).get(0).getFlag(Main.getUseWeaponsFlag())) {
+                        Utils.sendMessage(player, Messages.WEAPON_CANT_SHOOT_IN_REGION.get());
+                        return;
+                    }
+                }
 
                 executeWeaponFire(event, player, weapon);
                 break;
