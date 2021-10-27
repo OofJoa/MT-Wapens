@@ -21,6 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -29,7 +30,7 @@ public class Main extends JavaPlugin implements Listener {
     private static @Getter ConfigurationFile ammo;
     private static @Getter ConfigurationFile grenades;
     private static @Getter ConfigurationFile messages;
-    private static final @Getter HashMap<String, Boolean> reloadDelay = new HashMap<>();
+    private static final @Getter HashMap<UUID, Boolean> reloadDelay = new HashMap<>();
     private static @Getter EffectManager effectManager;
     private static @Getter CompatibilityLayer compatibilityLayer;
 

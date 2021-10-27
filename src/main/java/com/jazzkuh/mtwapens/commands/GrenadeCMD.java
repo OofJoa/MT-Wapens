@@ -20,9 +20,8 @@ import java.util.List;
 public class GrenadeCMD extends AbstractCommand {
 
     public GrenadeCMD() {
-        super("getgrenade", ImmutableList.builder()
-                .add(new Argument("<grenadeType> <uses> [player]", "Grab a grenade from the config files."))
-                .build());
+        super("getgrenade",
+                new Argument("<grenadeType> <uses> [player]", "Grab a grenade from the config files."));
     }
 
     @Override

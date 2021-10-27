@@ -17,10 +17,9 @@ import java.util.List;
 public class MainCMD extends AbstractCommand {
 
     public MainCMD() {
-        super("mtwapens", ImmutableList.builder()
-                .add(new Argument("reload", "Reload the plugin."))
-                .add(new Argument("menu", "Grab ammo and weapons from a menu."))
-                .build());
+        super("mtwapens",
+                new Argument("reload", "Reload the plugin."),
+                new Argument("menu", "Grab ammo and weapons from a menu."));
     }
 
     @Override

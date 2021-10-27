@@ -98,7 +98,7 @@ public class WeaponFireListener implements Listener {
         if (!NBTEditor.contains(itemStack, "mtwapens_weapon")) return;
         if (!NBTEditor.contains(itemStack, "ammo")) return;
 
-        if (Main.getReloadDelay().containsKey(String.valueOf(player.getUniqueId()))) return;
+        if (Main.getReloadDelay().containsKey(player.getUniqueId())) return;
 
         String cooldownId = Main.getInstance().getConfig().getBoolean("weaponCooldownPerWeapon")
                 ? player.getUniqueId() + "-" + event.getPlayer().getInventory().getHeldItemSlot()
@@ -182,7 +182,7 @@ public class WeaponFireListener implements Listener {
             Utils.sendMessage(player, Messages.RELOADING.get());
             player.getInventory().removeItem(bulletItem);
 
-            Main.getReloadDelay().put(player.getUniqueId().toString(), true);
+            Main.getReloadDelay().put(player.getUniqueId(), true);
             weaponCooldown.put(cooldownId, new Date(new Date().getTime() + (long) ((double) weapon.getParameter(Weapon.WeaponParameters.ATTACKSPEED))));
 
             Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
@@ -194,7 +194,7 @@ public class WeaponFireListener implements Listener {
                         .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                         .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
 
-                Main.getReloadDelay().remove(String.valueOf(player.getUniqueId()));
+                Main.getReloadDelay().remove(player.getUniqueId());
             }, 35);
         } else {
             Utils.sendMessage(player, Messages.NO_AMMO.get());
@@ -202,6 +202,7 @@ public class WeaponFireListener implements Listener {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void updateWeaponLore(ItemStack itemStack, Weapon weapon) {
         ItemMeta im = itemStack.getItemMeta();
         ArrayList<String> weaponLore = new ArrayList<>();

@@ -20,9 +20,8 @@ import java.util.List;
 public class WeaponCMD extends AbstractCommand {
 
     public WeaponCMD() {
-        super("getweapon", ImmutableList.builder()
-                .add(new Argument("<weaponType> <durability> [player]", "Grab a weapon from the config files."))
-                .build());
+        super("getweapon",
+                new Argument("<weaponType> <durability> [player]", "Grab a weapon from the config files."));
     }
 
     @Override

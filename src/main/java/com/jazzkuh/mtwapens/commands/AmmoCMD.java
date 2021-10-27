@@ -20,9 +20,8 @@ import java.util.List;
 public class AmmoCMD extends AbstractCommand {
 
     public AmmoCMD() {
-        super("getammo", ImmutableList.builder()
-                .add(new Argument("<ammoType> [player]", "Grab ammo from the config files."))
-                .build());
+        super("getammo",
+                new Argument("<ammoType> [player]", "Grab ammo from the config files."));
     }
 
     @Override

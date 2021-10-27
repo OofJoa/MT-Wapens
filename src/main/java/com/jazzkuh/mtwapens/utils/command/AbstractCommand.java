@@ -24,14 +24,14 @@ public abstract class AbstractCommand implements TabExecutor {
     public CommandSender sender;
     public Command command;
     public String commandName;
-    public ImmutableList<Object> arguments;
+    public Argument[] arguments;
 
     public AbstractCommand(String commandName) {
         this.commandName = commandName;
-        this.arguments = ImmutableList.builder().build();
+        this.arguments = new Argument[]{};
     }
 
-    public AbstractCommand(String commandName, ImmutableList<Object> arguments) {
+    public AbstractCommand(String commandName, Argument... arguments) {
         this.commandName = commandName;
         this.arguments = arguments;
     }
@@ -93,11 +93,7 @@ public abstract class AbstractCommand implements TabExecutor {
     protected void sendNotEnoughArguments(AbstractCommand command) {
         sender.sendMessage(Utils.color("&8 ----------------------------------------------"));
         sender.sendMessage(Utils.color("&8| &2Commands:"));
-        for (Object arg : this.arguments) {
-            if (!(arg instanceof Argument)) return;
-
-            Argument argument = (Argument) arg;
-
+        for (Argument argument : this.arguments) {
             if (argument.getPermission() == null || sender.hasPermission(argument.getPermission())) {
                 sender.sendMessage(Utils.color("&8|  &a/" + command.command.getName() + " " + argument.getArguments() + "&8 - &7" + argument.getDescription()));
             }
