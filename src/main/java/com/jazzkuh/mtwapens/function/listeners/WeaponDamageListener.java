@@ -32,35 +32,44 @@ public class WeaponDamageListener implements Listener {
         LivingEntity entity = (LivingEntity) event.getEntity();
         event.setDamage(0D);
 
-        double damage = Double.parseDouble(bullet.getName());
-        if (Main.getInstance().getConfig().getBoolean("projectileProtectionReducesDamage") && entity.getEquipment().getChestplate() != null
-                && entity.getEquipment().getChestplate().getEnchantments().containsKey(Enchantment.PROTECTION_PROJECTILE)) {
-
-            int enchantmentLevel = entity.getEquipment().getChestplate().getEnchantments().get(Enchantment.PROTECTION_PROJECTILE);
-            int percentage = Main.getInstance().getConfig().getInt("damageReductionPercentagePerLevel") != 0
-                    ? Main.getInstance().getConfig().getInt("damageReductionPercentagePerLevel")
-                    : 5;
-
-            damage = damage - ((damage / 100 * percentage) * enchantmentLevel);
-        }
-
         double bulletYLoc = bullet.getLocation().getY();
         double victimYLoc = entity.getLocation().getY();
         boolean isHeadshot = bulletYLoc - victimYLoc > 1.35D;
+
+        double damage = isHeadshot && (double) weapon.getParameter(Weapon.WeaponParameters.HEADSHOT_DAMAGE) != 0D
+                ? (double) weapon.getParameter(Weapon.WeaponParameters.HEADSHOT_DAMAGE)
+                : Double.parseDouble(bullet.getName());
+
+        if (Main.getInstance().getConfig().getBoolean("projectileProtectionReducesDamage") && entity.getEquipment() != null) {
+            if (isHeadshot && entity.getEquipment().getHelmet() != null
+                    && entity.getEquipment().getHelmet().getEnchantments().containsKey(Enchantment.PROTECTION_PROJECTILE)) {
+
+                int enchantmentLevel = entity.getEquipment().getHelmet().getEnchantments().get(Enchantment.PROTECTION_PROJECTILE);
+                int percentage = Main.getInstance().getConfig().getInt("damageReductionPercentagePerLevel") != 0
+                        ? Main.getInstance().getConfig().getInt("damageReductionPercentagePerLevel")
+                        : 5;
+
+                damage = damage - ((damage / 100 * percentage) * enchantmentLevel);
+            } else if (entity.getEquipment().getChestplate() != null
+                    && entity.getEquipment().getChestplate().getEnchantments().containsKey(Enchantment.PROTECTION_PROJECTILE)) {
+
+                int enchantmentLevel = entity.getEquipment().getChestplate().getEnchantments().get(Enchantment.PROTECTION_PROJECTILE);
+                int percentage = Main.getInstance().getConfig().getInt("damageReductionPercentagePerLevel") != 0
+                        ? Main.getInstance().getConfig().getInt("damageReductionPercentagePerLevel")
+                        : 5;
+
+                damage = damage - ((damage / 100 * percentage) * enchantmentLevel);
+            }
+        }
 
         if (entity.getLocation().getWorld() != null) {
             entity.getLocation().getWorld().playEffect(entity.getLocation().add(0.0D, 1.0D, 0.0D), Effect.STEP_SOUND, 152);
         }
 
-        double finalDamage = isHeadshot && (double) weapon.getParameter(Weapon.WeaponParameters.HEADSHOT_DAMAGE) != 0D
-                ? (double) weapon.getParameter(Weapon.WeaponParameters.HEADSHOT_DAMAGE)
-                : damage;
-
-
-        if (finalDamage > entity.getHealth()) {
+        if (damage > entity.getHealth()) {
             entity.setHealth(0D);
         } else {
-            entity.setHealth(entity.getHealth() - finalDamage);
+            entity.setHealth(entity.getHealth() - damage);
         }
     }
 }
