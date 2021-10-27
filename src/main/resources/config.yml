@@ -15,3 +15,4 @@ damageReductionPercentagePerLevel: 5
 weapons: 'Moved to weapons.yml'
 ammo: 'Moved to ammo.yml'
 resourcePackURL: none
+showDurability: BOTH # Can be SHOOT, SWITCH, BOTH, NONE

@@ -6,6 +6,7 @@ import com.jazzkuh.mtwapens.api.PrePlayerShootWeaponEvent;
 import com.jazzkuh.mtwapens.function.RecoilUtils;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
 import com.jazzkuh.mtwapens.function.enums.Recoil;
+import com.jazzkuh.mtwapens.function.enums.ShowDurability;
 import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.messages.Messages;
@@ -141,12 +142,15 @@ public class WeaponFireListener implements Listener {
 
             updateWeaponLore(itemStack, weapon);
 
-            String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.USES.get();
-            Utils.sendMessage(player, holdingMessage
-                    .replace("<Uses>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
-                    .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
-                    .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
-                    .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
+            String showDurability = Main.getInstance().getConfig().getString("showDurability");
+            if (ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.SHOOT || ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.BOTH) {
+                String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.USES.get();
+                Utils.sendMessage(player, holdingMessage
+                        .replace("<Uses>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
+                        .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
+                        .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
+                        .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
+            }
 
             Weapon.WeaponTypes weaponType = Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString());
 
@@ -189,10 +193,13 @@ public class WeaponFireListener implements Listener {
                 Utils.applyNBTTag(itemStack, "ammo", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO));
                 updateWeaponLore(itemStack, weapon);
 
-                Utils.sendMessage(player, Messages.AMMO_DURABILITY.get()
-                        .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
-                        .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
-                        .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
+                String showDurability = Main.getInstance().getConfig().getString("showDurability");
+                if (ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.SHOOT || ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.BOTH) {
+                    Utils.sendMessage(player, Messages.AMMO_DURABILITY.get()
+                            .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
+                            .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
+                            .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
+                }
 
                 Main.getReloadDelay().remove(player.getUniqueId());
             }, 35);

@@ -1,6 +1,7 @@
 package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.function.enums.ShowDurability;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.Utils;
@@ -61,11 +62,14 @@ public class PlayerItemHeldListener implements Listener {
 
         Weapon weapon = new Weapon(weaponType);
 
-        String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.USES.get();
-        Utils.sendMessage(player, holdingMessage
-                .replace("<Uses>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
-                .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
-                .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
-                .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
+        String showDurability = Main.getInstance().getConfig().getString("showDurability");
+        if (ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.SWITCH || ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.BOTH) {
+            String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.USES.get();
+            Utils.sendMessage(player, holdingMessage
+                    .replace("<Uses>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
+                    .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
+                    .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
+                    .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
+        }
     }
 }

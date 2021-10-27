@@ -7,6 +7,7 @@ import com.jazzkuh.mtwapens.commands.WeaponCMD;
 import com.jazzkuh.mtwapens.compatibility.CompatibilityLayer;
 import com.jazzkuh.mtwapens.compatibility.CompatibilityManager;
 import com.jazzkuh.mtwapens.function.DevToolsListener;
+import com.jazzkuh.mtwapens.function.enums.ShowDurability;
 import com.jazzkuh.mtwapens.function.listeners.*;
 import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.ConfigurationFile;
@@ -41,6 +42,7 @@ public class Main extends JavaPlugin implements Listener {
         GUIHolder.init(this);
         effectManager = new EffectManager(this);
         new Metrics(this, 7967);
+        new ShowDurability();
 
         compatibilityLayer = new CompatibilityManager().registerCompatibilityLayer();
         if (compatibilityLayer == null) {
