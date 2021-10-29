@@ -20,7 +20,7 @@ public class ProjectileHitListener implements Listener {
         Block block = event.getHitBlock();
 
         if (!bullet.hasMetadata("mtwapens_bullet")) return;
-        if (XBlock.isCrop(XMaterial.matchXMaterial(block.getType())) || XBlock.isContainer(block) || XBlock.isCake(block.getType())) return;
+        if (XBlock.isType(block, XMaterial.GRASS) || XBlock.isType(block, XMaterial.TALL_GRASS) || block.getType().name().toLowerCase().contains("flower") || XBlock.isContainer(block) || XBlock.isCake(block.getType())) return;
         Main.getCompatibilityLayer().sendBlockBreakPacket(block);
     }
 }

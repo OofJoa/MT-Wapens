@@ -182,3 +182,26 @@ weapons:
     ammo-type: m1a
     type-specific:
       iterations: 3
+  ballista:
+    name: '&9Ballista'
+    type: SNIPER
+    lore:
+      - '&6Officieel Minetopia Wapen.'
+      - ''
+      - '&7Ammo: &f<Ammo>&8/&f<MaxAmmo>'
+      - '&7Durability: &f<Durability>'
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: ballista_scoped
+    sound: none
+    reload-sound: none
+    damage: 14.0
+    headshot-damage: 18.0
+    range: 100.0
+    max-ammo: 1
+    attackspeed: 3.0
+    ammo-type: ballista
+    type-specific:
+      scope:
+        amplifier: 8
+        limited: true

@@ -55,7 +55,7 @@ public class WeaponFactory {
 
         this.itemStack = itemBuilder.toItemStack();
         double attackspeed = -1.27D * (((double) weapon.getParameter(Weapon.WeaponParameters.ATTACKSPEED) / 1000) * 2D);
-        Utils.applyAttackSpeed(itemStack, attackspeed);
+        Utils.applyAttackSpeed(itemStack, Math.max(Math.min(attackspeed, -2.87D), -3.87D));
     }
 
     public void buildAmmo(Ammo ammoType) {

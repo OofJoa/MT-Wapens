@@ -11,9 +11,12 @@ import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.Utils;
+import de.slikey.effectlib.effect.ParticleEffect;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,10 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class WeaponFireListener implements Listener {
     private final HashMap<String, Date> weaponCooldown = new HashMap<>();
@@ -143,7 +143,9 @@ public class WeaponFireListener implements Listener {
             updateWeaponLore(itemStack, weapon);
 
             String showDurability = Main.getInstance().getConfig().getString("showDurability");
-            if (ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.SHOOT || ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.BOTH) {
+            if (NBTEditor.getInt(itemStack, "ammo") < 1) {
+                Utils.sendMessage(player, Messages.SHOT_LAST_BULLET.get());
+            } else if (ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.SHOOT || ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.BOTH) {
                 String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.DURABILITY.get();
                 Utils.sendMessage(player, holdingMessage
                         .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
@@ -157,6 +159,17 @@ public class WeaponFireListener implements Listener {
             if (weapon.getParameter(Weapon.WeaponParameters.RECOIL) != null) {
                 new RecoilUtils(weapon, (Recoil) weapon.getParameter(Weapon.WeaponParameters.RECOIL)).performRecoil(player);
             }
+
+            ParticleEffect particleEffect = new ParticleEffect(Main.getEffectManager());
+            particleEffect.particle = Particle.FLAME;
+            particleEffect.particleSize = 1;
+            particleEffect.particleCount = 8;
+            particleEffect.iterations = 1;
+            particleEffect.particleOffsetX = 0.3F;
+            particleEffect.particleOffsetY = 0.3F;
+            particleEffect.particleOffsetZ = 0.3F;
+            particleEffect.setLocation(Utils.getRightSide(player.getEyeLocation(), 0.55).subtract(0, .5, 0));
+            particleEffect.start();
             new WeaponProjectile(weapon, weaponType).fireProjectile(player);
 
             Weapon.WeaponTypes weaponTypes = Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString());
@@ -227,8 +240,5 @@ public class WeaponFireListener implements Listener {
         }
         im.setLore(weaponLore);
         itemStack.setItemMeta(im);
-
-        double attackspeed = -1.27D * (((double) weapon.getParameter(Weapon.WeaponParameters.ATTACKSPEED) / 1000) * 2D);
-        Utils.applyAttackSpeed(itemStack, attackspeed);
     }
 }

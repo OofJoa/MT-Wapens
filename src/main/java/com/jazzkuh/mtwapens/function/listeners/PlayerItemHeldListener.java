@@ -68,7 +68,6 @@ public class PlayerItemHeldListener implements Listener {
             String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.DURABILITY.get();
             Utils.sendMessage(player, holdingMessage
                     .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
-                    .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                     .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                     .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
         }

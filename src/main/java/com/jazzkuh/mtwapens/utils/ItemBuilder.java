@@ -305,13 +305,6 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setAttackSpeed(Double amount) {
-        ItemMeta im = is.getItemMeta();
-        im.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "Attack Speed", amount, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
-        is.setItemMeta(im);
-        return this;
-    }
-
     /**
      * Retrieves the itemstack from the ItemBuilder.
      *

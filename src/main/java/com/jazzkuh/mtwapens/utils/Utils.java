@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -99,7 +100,7 @@ public class Utils {
     public static void applyAttackSpeed(ItemStack itemStack, Double amount) {
         NBTEditor.NBTCompound compound = NBTEditor.getNBTCompound(itemStack);
         compound.set("generic.attackSpeed", "tag", "AttributeModifiers", null, "AttributeName");
-        compound.set("Attack Speed", "tag", "AttributeModifiers", 0, "Name");
+        compound.set("AttackSpeed", "tag", "AttributeModifiers", 0, "Name");
         compound.set("mainhand", "tag", "AttributeModifiers", 0, "Slot");
         compound.set(0, "tag", "AttributeModifiers", 0, "Operation");
         compound.set(amount, "tag", "AttributeModifiers", 0, "Amount");
@@ -110,6 +111,19 @@ public class Utils {
         ItemStack is = NBTEditor.getItemFromTag(compound);
         ItemMeta itemMeta = is.getItemMeta();
         itemStack.setItemMeta(itemMeta);
+    }
+
+    /**
+     * Returns a location with a specified distance away from the right side of
+     * a location.
+     *
+     * @param location The origin location
+     * @param distance The distance to the right
+     * @return the location of the distance to the right
+     */
+    public static Location getRightSide(Location location, double distance) {
+        float angle = location.getYaw() / 60;
+        return location.clone().subtract(new Vector(Math.cos(angle), 0, Math.sin(angle)).normalize().multiply(distance));
     }
 
     public static String getServerIP() {

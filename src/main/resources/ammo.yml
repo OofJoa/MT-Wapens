@@ -58,3 +58,10 @@ ammo:
     material: IRON_INGOT
     nbt: mtcustom
     nbtvalue: ammo_m1a
+  ballista:
+    name: '&aBallista Ammo'
+    lore:
+      - '&6Officieel Minetopia Ammo.'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: ammo_ballista

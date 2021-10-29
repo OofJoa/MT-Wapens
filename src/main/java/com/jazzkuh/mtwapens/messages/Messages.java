@@ -4,7 +4,7 @@ import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.utils.Utils;
 
 public enum Messages {
-    NO_AMMO("messages.outOfAmmo", "&cOut of ammo!"),
+    NO_AMMO("messages.outOfAmmo", "&cJe geweer is leeg!"),
     SHOT_LAST_BULLET("messages.shotLastBullet","&cJe hebt je laatste kogel uit je magazijn geschoten."),
     DURABILITY("messages.durability","&aDurability: &f<Durability>"),
     AMMO_DURABILITY("messages.ammoDurability", "&aDurability: &f<Durability>\n&aAmmo: &7<Ammo>&8/&7<MaxAmmo>"),
@@ -16,7 +16,7 @@ public enum Messages {
     MENU_WEAPON_BUTTON_PAGE("messages.menu.button.page", "&aPage <Page>"),
     MENU_AMMO_TITLE("messages.menu.ammo.title", "Ammo Menu"),
     MENU_GRENADE_TITLE("messages.menu.grenade.title", "Grenade Menu"),
-    MENU_MELEE_TITLE("messages.menu.grenade.title", "Melee Weapon Menu"),
+    MENU_MELEE_TITLE("messages.menu.melee.title", "Melee Weapon Menu"),
     WEAPON_CANT_SHOOT_WIHTOUT_SCOPE("messages.weapon.cantShootWithoutScope", "&cSorry bro, no 360 noscope for you...");
 
 

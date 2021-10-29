@@ -18,4 +18,34 @@ melee:
     material: GOLD_SWORD
     nbt: mtcustom
     nbtvalue: lama_pickaxe
-    damage: 3.0
+    damage: 5.0
+  knuppel_birch:
+    name: '&9Knuppel Birch'
+    lore:
+      - '&6Officieel Minetopia Wapen.'
+      - ''
+      - '&7Durability: &f<Durability>'
+    material: FERMENTED_SPIDER_EYE
+    nbt: mtcustom
+    nbtvalue: knuppel_birch
+    damage: 6.0
+  zakmes:
+    name: '&9Knuppel Birch'
+    lore:
+      - '&6Officieel Minetopia Wapen.'
+      - ''
+      - '&7Durability: &f<Durability>'
+    material: WOODEN_SWORD
+    nbt: mtcustom
+    nbtvalue: zakmes
+    damage: 5.0
+  boksbeugel:
+    name: '&9Boksbeugel'
+    lore:
+      - '&6Officieel Minetopia Wapen.'
+      - ''
+      - '&7Durability: &f<Durability>'
+    material: WOODEN_SWORD
+    nbt: mtcustom
+    nbtvalue: boksbeugel
+    damage: 4.0
