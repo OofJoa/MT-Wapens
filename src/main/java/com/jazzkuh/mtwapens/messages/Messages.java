@@ -4,22 +4,20 @@ import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.utils.Utils;
 
 public enum Messages {
-    NO_AMMO("Weapons.NoAmmo", "&cOut of ammo!"),
-    USES("Weapons.Uses", "&9Uses: &a<Durability>"),
-    AMMO_DURABILITY("Weapons.AmmoDurability", "&9Durability: &a<Durability>\n&9Ammo: &a<Ammo>&f/&c<MaxAmmo>"),
-    RELOADING("Weapons.Reloading.Message", "&eReloading..."),
-    RELOADING_TITLE("Weapons.Reloading.Title", "&eReloading..."),
-    RELOADING_SUBTITLE("Weapons.Reloading.Subtitle", "&7Clickerdy click."),
-    MENU_DURABILITY_CRAFT("Weapons.Menu.Durability.Craft", "&aCraft <Type>: &2<Durability> &a<DurabilityPhrase>"),
-    MENU_DURABILITY_TITLE("Weapons.Menu.Durability.Title", "Weapon Builder <WeaponType>"),
-    MENU_WEAPON_TITLE("Weapons.Menu.Weapon.Title", "Weapon Menu"),
-    MENU_WEAPON_BUTTON_CLOSE("Weapons.Menu.Weapon.Buttons.Close", "&cClose"),
-    MENU_WEAPON_BUTTON_PAGE("Weapons.Menu.Weapon.Buttons.Page", "&aPage <Page>"),
-    MENU_AMMO_TITLE("Weapons.Menu.Ammo.Title", "Ammo Menu"),
-    MENU_SWITCHER("Weapons.Menu.Switcher", "&aSwitch to &2<Menu>"),
-    MENU_GRENADE_TITLE("Weapons.Menu.Grenade.Title", "Grenade Menu"),
-    WEAPON_CANT_SHOOT_WIHTOUT_SCOPE("Weapons.CantShootWithoutScope", "&cSorry bro, no 360 noscope for you..."),
-    WEAPON_CANT_SHOOT_IN_REGION("Weapons.CantShootInRegion", "&cThe use of weapons has been disabled in this region.");
+    NO_AMMO("messages.outOfAmmo", "&cOut of ammo!"),
+    SHOT_LAST_BULLET("messages.shotLastBullet","&cJe hebt je laatste kogel uit je magazijn geschoten."),
+    DURABILITY("messages.durability","&aDurability: &f<Durability>"),
+    AMMO_DURABILITY("messages.ammoDurability", "&aDurability: &f<Durability>\n&aAmmo: &7<Ammo>&8/&7<MaxAmmo>"),
+    RELOADING_START("messages.reloading.start", "&aJe wapen is nu aan het herladen..."),
+    RELOADING_FINISHED("messages.reloading.finished", "&aJe wapen is herladen."),
+    MENU_BUILDER_CRAFT("messages.menu.builder.craft", "&aCraft <Type>: &2<Durability> &aDurability"),
+    MENU_SWITCHER("messages.menu.button.switch", "&aSwitch to &2<Menu>"),
+    MENU_WEAPON_TITLE("messages.menu.weapon.title", "Weapon Menu"),
+    MENU_WEAPON_BUTTON_PAGE("messages.menu.button.page", "&aPage <Page>"),
+    MENU_AMMO_TITLE("messages.menu.ammo.title", "Ammo Menu"),
+    MENU_GRENADE_TITLE("messages.menu.grenade.title", "Grenade Menu"),
+    MENU_MELEE_TITLE("messages.menu.grenade.title", "Melee Weapon Menu"),
+    WEAPON_CANT_SHOOT_WIHTOUT_SCOPE("messages.weapon.cantShootWithoutScope", "&cSorry bro, no 360 noscope for you...");
 
 
     private final String path;

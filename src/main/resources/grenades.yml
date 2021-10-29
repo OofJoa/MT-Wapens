@@ -13,8 +13,9 @@ grenades:
     name: '&8Grenade'
     type: EXPLODE
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - 'Grenade Uses: &f<Uses>'
+      - '&7Durability: &f<Durability>'
       - ''
     material: IRON_INGOT
     nbt: mtcustom
@@ -26,8 +27,9 @@ grenades:
     name: '&cMolotov'
     type: MOLOTOV
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - 'Molotov Uses: &f<Uses>'
+      - '&7Durability: &f<Durability>'
       - ''
     material: IRON_INGOT
     nbt: mtcustom
@@ -39,8 +41,9 @@ grenades:
     name: '&7Flash bang'
     type: EFFECT
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - 'Flash bang Uses: &f<Uses>'
+      - '&7Durability: &f<Durability>'
       - ''
     material: IRON_INGOT
     nbt: mtcustom
@@ -59,8 +62,9 @@ grenades:
     name: '&7Smoke Grenade'
     type: SMOKE
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - 'Smoke grenade Uses: &f<Uses>'
+      - '&7Durability: &f<Durability>'
       - ''
     material: IRON_INGOT
     nbt: mtcustom

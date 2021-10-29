@@ -1,9 +1,6 @@
 package com.jazzkuh.mtwapens;
 
-import com.jazzkuh.mtwapens.commands.AmmoCMD;
-import com.jazzkuh.mtwapens.commands.GrenadeCMD;
-import com.jazzkuh.mtwapens.commands.MainCMD;
-import com.jazzkuh.mtwapens.commands.WeaponCMD;
+import com.jazzkuh.mtwapens.commands.*;
 import com.jazzkuh.mtwapens.compatibility.CompatibilityLayer;
 import com.jazzkuh.mtwapens.compatibility.CompatibilityManager;
 import com.jazzkuh.mtwapens.function.DevToolsListener;
@@ -14,11 +11,9 @@ import com.jazzkuh.mtwapens.utils.ConfigurationFile;
 import com.jazzkuh.mtwapens.utils.Metrics;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.menu.GUIHolder;
-import com.sk89q.worldguard.protection.flags.BooleanFlag;
 import de.slikey.effectlib.EffectManager;
 import lombok.Getter;
 import me.lucko.commodore.CommodoreProvider;
-import nl.mrwouter.worldguard_core.WorldGuard;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,13 +27,11 @@ public class Main extends JavaPlugin implements Listener {
     private static @Getter ConfigurationFile weapons;
     private static @Getter ConfigurationFile ammo;
     private static @Getter ConfigurationFile grenades;
+    private static @Getter ConfigurationFile melee;
     private static @Getter ConfigurationFile messages;
     private static final @Getter HashMap<UUID, Boolean> reloadDelay = new HashMap<>();
     private static @Getter EffectManager effectManager;
     private static @Getter CompatibilityLayer compatibilityLayer;
-    private static @Getter WorldGuard worldGuardLayer;
-    private static @Getter BooleanFlag useWeaponsFlag = new BooleanFlag("can-use-weapons");
-
 
     @Override
     public void onEnable() {
@@ -76,11 +69,13 @@ public class Main extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new WeaponRestoreModifiedListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerSwapHandListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerDeathListener(), this);
+        Bukkit.getPluginManager().registerEvents(new MeleeDamageListener(), this);
 
         new MainCMD().register(this);
         new WeaponCMD().register(this);
         new AmmoCMD().register(this);
         new GrenadeCMD().register(this);
+        new MeleeCMD().register(this);
 
         weapons = new ConfigurationFile(this, "weapons.yml", true);
         weapons.saveConfig();
@@ -90,6 +85,9 @@ public class Main extends JavaPlugin implements Listener {
 
         grenades = new ConfigurationFile(this, "grenades.yml", true);
         grenades.saveConfig();
+
+        melee = new ConfigurationFile(this, "melee.yml", true);
+        melee.saveConfig();
 
         messages = new ConfigurationFile(this, "messages.yml", false);
         Messages.init();
@@ -105,14 +103,5 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> new DevToolsListener().checkBlacklistStatus(instance), 0, 12000);
-    }
-
-    @Override
-    public void onLoad() {
-        if (Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
-            worldGuardLayer = new CompatibilityManager().registerWorldGuardLayer();
-            worldGuardLayer.getFlagRegistry().register(Main.getUseWeaponsFlag());
-            this.getLogger().info("This server is running " + Bukkit.getServer().getVersion() + ". Now using WorldGuard version " + new CompatibilityManager().getWorldGuardVersion());
-        }
     }
 }

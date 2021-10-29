@@ -44,7 +44,7 @@ public class GrenadeLaunchListener implements Listener {
         ItemStack itemStack = player.getInventory().getItemInMainHand();
 
         if (!NBTEditor.contains(itemStack, "mtwapens_grenade")) return;
-        if (!NBTEditor.contains(itemStack, "mtwapens_uses")) return;
+        if (!NBTEditor.contains(itemStack, "durability")) return;
         String grenadeType = NBTEditor.getString(itemStack, "mtwapens_grenade");
         Grenade grenade = new Grenade(grenadeType);
 
@@ -60,12 +60,12 @@ public class GrenadeLaunchListener implements Listener {
                 if (!grenadeCooldown(player.getUniqueId())) return;
                 grenadeCooldown.put(player.getUniqueId(), new Date(new Date().getTime() + (long) ((double) grenade.getParameter(Grenade.GrenadeParameters.COOLDOWN))));
 
-                if (NBTEditor.getInt(player.getInventory().getItemInMainHand(), "mtwapens_uses") <= 0) {
+                if (NBTEditor.getInt(player.getInventory().getItemInMainHand(), "durability") <= 0) {
                     player.getInventory().removeItem(player.getInventory().getItemInMainHand());
                     return;
                 }
 
-                Utils.applyNBTTag(itemStack, "mtwapens_uses", NBTEditor.getInt(itemStack, "mtwapens_uses") - 1);
+                Utils.applyNBTTag(itemStack, "durability", NBTEditor.getInt(itemStack, "durability") - 1);
                 updateGrenadeLore(itemStack, grenade);
 
                 Egg grenadeItem = player.launchProjectile(Egg.class);
@@ -85,7 +85,7 @@ public class GrenadeLaunchListener implements Listener {
         ArrayList<String> weaponLore = new ArrayList<>();
         for (String string : (List<String>) grenade.getParameter(Grenade.GrenadeParameters.LORE)) {
             string = string.replace("<Ranged-Damage>", grenade.getParameter(Grenade.GrenadeParameters.RANGED_DAMAGE).toString())
-                    .replace("<Uses>", String.valueOf(NBTEditor.getInt(itemStack, "mtwapens_uses")));
+                    .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")));
             weaponLore.add(string);
         }
         im.setLore(weaponLore);

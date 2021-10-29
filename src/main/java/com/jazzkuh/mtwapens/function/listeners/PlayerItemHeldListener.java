@@ -2,6 +2,7 @@ package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.enums.ShowDurability;
+import com.jazzkuh.mtwapens.function.objects.Melee;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.Utils;
@@ -64,12 +65,40 @@ public class PlayerItemHeldListener implements Listener {
 
         String showDurability = Main.getInstance().getConfig().getString("showDurability");
         if (ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.SWITCH || ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.BOTH) {
-            String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.USES.get();
+            String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.DURABILITY.get();
             Utils.sendMessage(player, holdingMessage
-                    .replace("<Uses>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
+                    .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                     .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                     .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                     .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
+        }
+    }
+
+    @EventHandler
+    public void onMeleeHold(PlayerItemHeldEvent event) {
+        Player player = event.getPlayer();
+
+        if (event.getPlayer().getInventory().getItem(event.getNewSlot()) == null) return;
+
+        ItemStack itemStack = event.getPlayer().getInventory().getItem(event.getNewSlot());
+
+        if (itemStack == null) return;
+        if (!NBTEditor.contains(itemStack, "mtwapens_melee")) return;
+
+        String meleeType = NBTEditor.getString(itemStack, "mtwapens_melee");
+
+        if (Main.getMelee().getConfig().getString("melee." + meleeType + ".name") == null) {
+            player.getInventory().removeItem(itemStack);
+            Utils.sendMessage(player, "&cYour melee weapon has been removed from the config files and has therefore been destroyed.");
+            return;
+        }
+
+        Melee melee = new Melee(meleeType);
+
+        String showDurability = Main.getInstance().getConfig().getString("showDurability");
+        if (ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.SWITCH || ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.BOTH) {
+            Utils.sendMessage(player, Messages.DURABILITY.get()
+                    .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability"))));
         }
     }
 }

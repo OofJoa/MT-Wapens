@@ -67,8 +67,7 @@ public class PlayerSwapHandListener implements Listener {
                 }
             }
 
-            player.sendTitle(Messages.RELOADING_TITLE.get(), Messages.RELOADING_SUBTITLE.get(), 10, 20, 10);
-            Utils.sendMessage(player, Messages.RELOADING.get());
+            Utils.sendMessage(player, Messages.RELOADING_START.get());
             player.getInventory().removeItem(bulletItem);
 
             Main.getReloadDelay().put(player.getUniqueId(), true);
@@ -86,6 +85,7 @@ public class PlayerSwapHandListener implements Listener {
                 }
 
                 Main.getReloadDelay().remove(player.getUniqueId());
+                Utils.sendMessage(player, Messages.RELOADING_FINISHED.get());
             }, 35);
         } else {
             Utils.sendMessage(player, Messages.NO_AMMO.get());

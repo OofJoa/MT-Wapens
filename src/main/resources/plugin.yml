@@ -5,7 +5,6 @@ website: https://mtwapens.nl
 main: com.jazzkuh.mtwapens.Main
 author: Jazzkuh
 api-version: 1.16
-softdepend: [WorldEdit, WorldGuard]
 commands:
   getweapon:
     aliases: [giveweapon]
@@ -18,3 +17,6 @@ commands:
   getgrenade:
     aliases: [givegrenade]
     description: Get or give a grenade to a player.
+  getmelee:
+    aliases: [givemelee]
+    description: Get or give a melee weapon to a player.

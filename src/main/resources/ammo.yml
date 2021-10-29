@@ -10,51 +10,51 @@
 # #
 ammo:
   deserteagle:
-    name: 'Desert Eagle Ammo'
+    name: '&aDesert Eagle Ammo'
     lore:
-      - 'Minetopia - Officieel Minetopia Bullet'
+      - '&6Officieel Minetopia Ammo.'
     material: IRON_INGOT
     nbt: mtcustom
     nbtvalue: deserteagle_bullets
   magnum44:
-    name: 'Magnum 44 Ammo'
+    name: '&aMagnum 44 Ammo'
     lore:
-      - 'Minetopia - Officieel Minetopia Bullet'
+      - '&6Officieel Minetopia Ammo.'
     material: IRON_INGOT
     nbt: mtcustom
     nbtvalue: magnum44_bullets
   waltherp99:
-    name: 'Walther P99 Ammo'
+    name: '&aWalther P99 Ammo'
     lore:
-      - 'Minetopia - Officieel Minetopia Bullet'
+      - '&6Officieel Minetopia Ammo.'
     material: IRON_INGOT
     nbt: mtcustom
     nbtvalue: waltherp99_bullets
   glock19:
-    name: 'Glock 19 Ammo'
+    name: '&aGlock 19 Ammo'
     lore:
-      - 'Minetopia - Officieel Minetopia Bullet'
+      - '&6Officieel Minetopia Ammo.'
     material: IRON_INGOT
     nbt: mtcustom
     nbtvalue: glock19_bullets
   m16a4:
-    name: 'M16A4 Ammo'
+    name: '&aM16A4 Ammo'
     lore:
-      - 'Minetopia - Officieel Minetopia Bullet'
+      - '&6Officieel Minetopia Ammo.'
     material: IRON_INGOT
     nbt: mtcustom
     nbtvalue: m16a4_bullets
   mk14:
-    name: 'MK14 Ammo'
+    name: '&aMK14 Ammo'
     lore:
-      - 'Minetopia - Officieel Minetopia Bullet'
+      - '&6Officieel Minetopia Ammo.'
     material: IRON_INGOT
     nbt: mtcustom
     nbtvalue: ammo_mk14
   m1a:
-    name: 'M1A Ammo'
+    name: '&aM1A Ammo'
     lore:
-      - 'Minetopia - Officieel Minetopia Bullet'
+      - '&6Officieel Minetopia Ammo.'
     material: IRON_INGOT
     nbt: mtcustom
     nbtvalue: ammo_m1a

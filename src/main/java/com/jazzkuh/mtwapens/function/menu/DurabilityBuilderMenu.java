@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.google.common.collect.ImmutableMap;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
 import com.jazzkuh.mtwapens.function.objects.Grenade;
+import com.jazzkuh.mtwapens.function.objects.Melee;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.ItemBuilder;
@@ -40,20 +41,13 @@ public class DurabilityBuilderMenu extends GUIHolder {
         String title = WordUtils.capitalize(builderType.name().toLowerCase()) + " Builder " + type;
         this.inventory = Bukkit.createInventory(this, 9, title);
 
-        String durabilityPhrase;
-        if (builderType == BuilderType.GRENADE) {
-            durabilityPhrase = "Uses";
-        } else {
-            durabilityPhrase = "Durability";
-        }
-
         if (this.durability >= 1) {
             for (Object index : descendingItems.keySet()) {
                 int itemIndex = Integer.parseInt(index.toString());
                 int durabilityIndex = Integer.parseInt(descendingItems.get(index).toString());
 
                 this.inventory.setItem(itemIndex, new ItemBuilder(XMaterial.RED_WOOL.parseItem())
-                        .setColoredName("&c-" + durabilityIndex + " " + durabilityPhrase)
+                        .setColoredName("&c-" + durabilityIndex + " Durability")
                         .setNBT("durability", String.valueOf(durabilityIndex))
                         .setNBT("isNegative", "true")
                         .toItemStack());
@@ -62,8 +56,7 @@ public class DurabilityBuilderMenu extends GUIHolder {
 
         this.inventory.setItem(4,
                 new ItemBuilder(XMaterial.CRAFTING_TABLE.parseMaterial())
-                        .setName(Messages.MENU_DURABILITY_CRAFT.get()
-                                .replace("<DurabilityPhrase>", durabilityPhrase)
+                        .setName(Messages.MENU_BUILDER_CRAFT.get()
                                 .replace("<Type>", WordUtils.capitalize(builderType.name().toLowerCase()))
                                 .replace("<Durability>", String.valueOf(this.durability)))
                         .setNBT("buildItem", "true")
@@ -74,7 +67,7 @@ public class DurabilityBuilderMenu extends GUIHolder {
             int durabilityIndex = Integer.parseInt(ascendingItems.get(index).toString());
 
             this.inventory.setItem(itemIndex, new ItemBuilder(XMaterial.LIME_WOOL.parseItem())
-                    .setColoredName("&a+" + durabilityIndex + " " + durabilityPhrase)
+                    .setColoredName("&a+" + durabilityIndex + " Durability")
                     .setNBT("durability", String.valueOf(durabilityIndex))
                     .setNBT("isNegative", "false")
                     .toItemStack());
@@ -137,12 +130,19 @@ public class DurabilityBuilderMenu extends GUIHolder {
                     weaponFactory.addToInventory();
                     break;
                 }
+                case MELEE: {
+                    Melee melee = new Melee(type);
+                    WeaponFactory weaponFactory = new WeaponFactory(player);
+                    weaponFactory.buildMelee(melee, durability);
+                    weaponFactory.addToInventory();
+                    break;
+                }
             }
             player.closeInventory();
         }
     }
 
     public enum BuilderType {
-        WEAPON, GRENADE
+        WEAPON, GRENADE, MELEE
     }
 }

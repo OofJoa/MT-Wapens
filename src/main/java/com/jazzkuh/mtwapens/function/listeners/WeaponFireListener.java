@@ -11,7 +11,6 @@ import com.jazzkuh.mtwapens.function.objects.Ammo;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.messages.Messages;
 import com.jazzkuh.mtwapens.utils.Utils;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -73,15 +72,6 @@ public class WeaponFireListener implements Listener {
                 PrePlayerShootWeaponEvent prePlayerShootWeaponEvent = new PrePlayerShootWeaponEvent(player, weapon);
                 Bukkit.getServer().getPluginManager().callEvent(prePlayerShootWeaponEvent);
                 if (prePlayerShootWeaponEvent.isCancelled()) return;
-
-                if (Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
-                    List<ProtectedRegion> regions = Main.getWorldGuardLayer().getRegions(player.getLocation());
-                    if (regions != null && Main.getWorldGuardLayer().getValidRegions(regions, true).size() > 0
-                            && !Main.getWorldGuardLayer().getValidRegions(regions, true).get(0).getFlag(Main.getUseWeaponsFlag())) {
-                        Utils.sendMessage(player, Messages.WEAPON_CANT_SHOOT_IN_REGION.get());
-                        return;
-                    }
-                }
 
                 executeWeaponFire(event, player, weapon);
                 break;
@@ -154,9 +144,9 @@ public class WeaponFireListener implements Listener {
 
             String showDurability = Main.getInstance().getConfig().getString("showDurability");
             if (ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.SHOOT || ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.BOTH) {
-                String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.USES.get();
+                String holdingMessage = weapon.isUsingAmmo() ? Messages.AMMO_DURABILITY.get() : Messages.DURABILITY.get();
                 Utils.sendMessage(player, holdingMessage
-                        .replace("<Uses>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
+                        .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                         .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")))
                         .replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
                         .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString()));
@@ -196,8 +186,7 @@ public class WeaponFireListener implements Listener {
                 }
             }
 
-            player.sendTitle(Messages.RELOADING_TITLE.get(), Messages.RELOADING_SUBTITLE.get(), 10, 20, 10);
-            Utils.sendMessage(player, Messages.RELOADING.get());
+            Utils.sendMessage(player, Messages.RELOADING_START.get());
             player.getInventory().removeItem(bulletItem);
 
             Main.getReloadDelay().put(player.getUniqueId(), true);
@@ -216,6 +205,7 @@ public class WeaponFireListener implements Listener {
                 }
 
                 Main.getReloadDelay().remove(player.getUniqueId());
+                Utils.sendMessage(player, Messages.RELOADING_FINISHED.get());
             }, 35);
         } else {
             Utils.sendMessage(player, Messages.NO_AMMO.get());
@@ -237,5 +227,8 @@ public class WeaponFireListener implements Listener {
         }
         im.setLore(weaponLore);
         itemStack.setItemMeta(im);
+
+        double attackspeed = -1.27D * (((double) weapon.getParameter(Weapon.WeaponParameters.ATTACKSPEED) / 1000) * 2D);
+        Utils.applyAttackSpeed(itemStack, attackspeed);
     }
 }

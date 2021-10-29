@@ -96,6 +96,22 @@ public class Utils {
         itemStack.setItemMeta(itemMeta);
     }
 
+    public static void applyAttackSpeed(ItemStack itemStack, Double amount) {
+        NBTEditor.NBTCompound compound = NBTEditor.getNBTCompound(itemStack);
+        compound.set("generic.attackSpeed", "tag", "AttributeModifiers", null, "AttributeName");
+        compound.set("Attack Speed", "tag", "AttributeModifiers", 0, "Name");
+        compound.set("mainhand", "tag", "AttributeModifiers", 0, "Slot");
+        compound.set(0, "tag", "AttributeModifiers", 0, "Operation");
+        compound.set(amount, "tag", "AttributeModifiers", 0, "Amount");
+        compound.set(new int[] { 0, 0, 0, 0 }, "tag", "AttributeModifiers", 0, "UUID");
+        compound.set(99L, "tag", "AttributeModifiers", 0, "UUIDMost");
+        compound.set(77530600L, "tag", "AttributeModifiers", 0, "UUIDLeast");
+
+        ItemStack is = NBTEditor.getItemFromTag(compound);
+        ItemMeta itemMeta = is.getItemMeta();
+        itemStack.setItemMeta(itemMeta);
+    }
+
     public static String getServerIP() {
         JsonObject root = getJSON("https://verify.minetopiasdb.nl/reqip.php", "POST");
         return root == null ? "-1" : root.get("message").getAsString();

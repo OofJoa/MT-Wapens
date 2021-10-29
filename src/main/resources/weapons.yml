@@ -10,14 +10,13 @@
 # #
 weapons:
   deserteagle:
-    name: '&8Desert Eagle'
+    name: '&9Desert Eagle'
     type: SINGLE_BULLET
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - 'Minetopia - Officieel Minetopia Wapen'
-      - ''
-      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
-      - ''
+      - '&7Ammo: &f<Ammo>&8/&f<MaxAmmo>'
+      - '&7Durability: &f<Durability>'
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: deserteagle_fullmodel
@@ -29,14 +28,13 @@ weapons:
     attackspeed: 1.0
     ammo-type: deserteagle
   magnum44:
-    name: '&8Magnum 44'
+    name: '&9Magnum 44'
     type: SINGLE_BULLET
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - 'Minetopia - Officieel Minetopia Wapen'
-      - ''
-      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
-      - ''
+      - '&7Ammo: &f<Ammo>&8/&f<MaxAmmo>'
+      - '&7Durability: &f<Durability>'
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: magnum44_fullmodel
@@ -48,14 +46,13 @@ weapons:
     attackspeed: 1.0
     ammo-type: magnum44
   waltherp99:
-    name: '&8Walther P99'
+    name: '&9Walther P99'
     type: SINGLE_BULLET
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - 'Minetopia - Officieel Minetopia Wapen'
-      - ''
-      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
-      - ''
+      - '&7Ammo: &f<Ammo>&8/&f<MaxAmmo>'
+      - '&7Durability: &f<Durability>'
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: waltherp99_fullmodel
@@ -67,14 +64,13 @@ weapons:
     attackspeed: 1.0
     ammo-type: waltherp99
   glock19:
-    name: '&8Glock 19'
+    name: '&9Glock 19'
     type: SINGLE_BULLET
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - 'Minetopia - Officieel Minetopia Wapen'
-      - ''
-      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
-      - ''
+      - '&7Ammo: &f<Ammo>&8/&f<MaxAmmo>'
+      - '&7Durability: &f<Durability>'
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: glock19_fullmodel
@@ -86,14 +82,13 @@ weapons:
     attackspeed: 1.0
     ammo-type: glock19
   m16a4:
-    name: '&8M16A4'
+    name: '&9M16A4'
     type: SINGLE_BULLET
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - 'Minetopia - Officieel Minetopia Wapen'
-      - ''
-      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
-      - ''
+      - '&7Ammo: &f<Ammo>&8/&f<MaxAmmo>'
+      - '&7Durability: &f<Durability>'
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: m16a4_fullmodel
@@ -105,28 +100,25 @@ weapons:
     attackspeed: 1.0
     ammo-type: m16a4
   rpg:
-    name: '&8RPG'
+    name: '&9RPG'
     type: RPG
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - Minetopia - Officieel Minetopia Wapen
-      - ''
-      - '&fUses: &7<Durability>'
-      - ''
+      - '&7Durability: &f<Durability>'
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: grenade_launcher
     sound: none
     attackspeed: 1.0
   mk14:
-    name: '&8MK14'
+    name: '&9MK14'
     type: SNIPER
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - Minetopia - Officieel Minetopia Wapen
-      - ''
-      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
-      - ''
+      - '&7Ammo: &f<Ammo>&8/&f<MaxAmmo>'
+      - '&7Durability: &f<Durability>'
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: mk14_scoped
@@ -143,14 +135,12 @@ weapons:
         amplifier: 8
         limited: true
   flaregun:
-    name: '&8Flare Gun'
+    name: '&9Flare Gun'
     type: FLARE
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - Minetopia - Officieel Minetopia Wapen
-      - ''
-      - '&fUses: &7<Durability>'
-      - ''
+      - '&7Durability: &f<Durability>'
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: fad_red
@@ -160,14 +150,12 @@ weapons:
       color:
         rgb-int: 16711680
   flamethrower:
-    name: '&8Flame Thrower'
+    name: '&9Flame Thrower'
     type: FLAME_THROWER
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - Minetopia - Officieel Minetopia Wapen
-      - ''
-      - '&fUses: &7<Durability>'
-      - ''
+      - '&7Durability: &f<Durability>'
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: flamethrower
@@ -175,14 +163,13 @@ weapons:
     type-specific:
       range: 7
   m1a:
-    name: '&8M1A'
+    name: '&9M1A'
     type: MULTIPLE_BULLET
     lore:
+      - '&6Officieel Minetopia Wapen.'
       - ''
-      - 'Minetopia - Officieel Minetopia Wapen'
-      - ''
-      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
-      - ''
+      - '&7Ammo: &f<Ammo>&8/&f<MaxAmmo>'
+      - '&7Durability: &f<Durability>'
     material: WOOD_HOE
     nbt: mtcustom
     nbtvalue: m1a_ironsight

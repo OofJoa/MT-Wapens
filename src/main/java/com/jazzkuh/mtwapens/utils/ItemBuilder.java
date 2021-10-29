@@ -3,16 +3,16 @@ package com.jazzkuh.mtwapens.utils;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Easily create itemstacks, without messing your hands. <i>Note that if you do
@@ -301,6 +301,13 @@ public class ItemBuilder {
     public ItemBuilder setCustomModelData(Integer data) {
         ItemMeta im = is.getItemMeta();
         im.setCustomModelData(data);
+        is.setItemMeta(im);
+        return this;
+    }
+
+    public ItemBuilder setAttackSpeed(Double amount) {
+        ItemMeta im = is.getItemMeta();
+        im.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "Attack Speed", amount, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
         is.setItemMeta(im);
         return this;
     }

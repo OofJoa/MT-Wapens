@@ -1,9 +1,8 @@
 package com.jazzkuh.mtwapens.commands;
 
-import com.google.common.collect.ImmutableList;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.WeaponFactory;
-import com.jazzkuh.mtwapens.function.objects.Grenade;
+import com.jazzkuh.mtwapens.function.objects.Melee;
 import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.command.AbstractCommand;
 import com.jazzkuh.mtwapens.utils.command.Argument;
@@ -17,11 +16,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GrenadeCMD extends AbstractCommand {
+public class MeleeCMD extends AbstractCommand {
 
-    public GrenadeCMD() {
-        super("getgrenade",
-                new Argument("<grenadeType> <Durability> [player]", "Grab a grenade from the config files."));
+    public MeleeCMD() {
+        super("getmelee",
+                new Argument("<meleeType> <durability> [player]", "Grab a melee weapon from the config files."));
     }
 
     @Override
@@ -29,11 +28,11 @@ public class GrenadeCMD extends AbstractCommand {
         if (!hasPermission(getBasePermission(), false)) return;
 
         if (args.length > 1) {
-            ArrayList<String> grenadeTypes = new ArrayList<>(Main.getGrenades().getConfig().getConfigurationSection("grenades.").getKeys(false));
+            ArrayList<String> meleeTypes = new ArrayList<>(Main.getMelee().getConfig().getConfigurationSection("melee.").getKeys(false));
 
-            if (Main.getGrenades().getConfig().getString("grenades." + args[0] + ".name") == null) {
-                Utils.sendMessage(sender, "&cThe given grenade type is not a valid grenade. Please choose one of the following: "
-                        + StringUtils.join(grenadeTypes, ", "));
+            if (Main.getMelee().getConfig().getString("melee." + args[0] + ".name") == null) {
+                Utils.sendMessage(sender, "&cThe given melee weapon type is not a valid melee weapon. Please choose one of the following: "
+                        + StringUtils.join(meleeTypes, ", "));
                 return;
             }
 
@@ -49,9 +48,9 @@ public class GrenadeCMD extends AbstractCommand {
                 case 2: {
                     if (!senderIsPlayer()) return;
                     Player player = (Player) sender;
-                    Grenade grenade = new Grenade(type);
+                    Melee melee = new Melee(type);
                     WeaponFactory weaponFactory = new WeaponFactory(player);
-                    weaponFactory.buildGrenade(grenade, durability);
+                    weaponFactory.buildMelee(melee, durability);
                     weaponFactory.addToInventory();
                     break;
                 }
@@ -63,9 +62,9 @@ public class GrenadeCMD extends AbstractCommand {
 
                     Player target = Bukkit.getPlayer(args[2]);
 
-                    Grenade grenade = new Grenade(type);
+                    Melee melee = new Melee(type);
                     WeaponFactory weaponFactory = new WeaponFactory(target);
-                    weaponFactory.buildGrenade(grenade, durability);
+                    weaponFactory.buildMelee(melee, durability);
                     weaponFactory.addToInventory();
                     Utils.sendMessage(sender, "&aSuccesfully gave " + target.getName() + " a " + type + " with " + durability + " durability.");
                     break;
@@ -86,7 +85,7 @@ public class GrenadeCMD extends AbstractCommand {
 
         if (args.length == 1) {
             return getApplicableTabCompleters(args[0],
-                    Main.getGrenades().getConfig().getConfigurationSection("grenades.").getKeys(false));
+                    Main.getMelee().getConfig().getConfigurationSection("melee.").getKeys(false));
         }
 
         if (args.length == 3) {

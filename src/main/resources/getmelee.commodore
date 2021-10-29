@@ -1,0 +1,7 @@
+getmelee {
+  melee brigadier:string single_word {
+    uses brigadier:integer {
+      player brigadier:string single_word;
+    }
+  }
+}
