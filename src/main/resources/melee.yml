@@ -30,7 +30,7 @@ melee:
     nbtvalue: knuppel_birch
     damage: 6.0
   zakmes:
-    name: '&9Knuppel Birch'
+    name: '&9Zakmes'
     lore:
       - '&6Officieel Minetopia Wapen.'
       - ''
