@@ -95,7 +95,7 @@ public class WeaponProjectile {
                 bullet.setCustomName("" + (double) weapon.getParameter(Weapon.WeaponParameters.DAMAGE));
                 bullet.setShooter(player);
                 //bullet.setVelocity(bullet.getVelocity().multiply(2D));
-                bullet.setVelocity(player.getLocation().getDirection().multiply(5.0D));
+                bullet.setVelocity(player.getLocation().getDirection().multiply(4.6D));
 
                 ProjectileTrajectory projectileTrajectory = new ProjectileTrajectory(bullet, bullet.getVelocity());
                 projectileTrajectory.start();
