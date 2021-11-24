@@ -1,0 +1,17 @@
+name: OofArsenal
+version: ${project.version}
+main: me.oofjoa.oofarsenal.Main
+author: OofJoa
+api-version: 1.16
+commands:
+  getweapon:
+    aliases: [giveweapon]
+    description: Get or give a weapon to a player.
+  getammo:
+    description: Get or give ammo to a player.
+  oofarsenal:
+    aliases: [weapon, mtwapen]
+    description: Open the weapon menu or reload the plugin.
+  getgrenade:
+    aliases: [givegrenade]
+    description: Get or give a grenade to a player.

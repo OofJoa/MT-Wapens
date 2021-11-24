@@ -1,0 +1,63 @@
+# OofArsenal - Weapon Plugin
+# Made by OofJoa
+grenades:
+  grenade:
+    name: '&8Grenade'
+    type: EXPLODE
+    lore:
+      - ''
+      - 'Grenade Uses: &f<Uses>'
+      - ''
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: grenade_3
+    range: 4.0
+    ranged-damage: 5.0
+    cooldown: 1.0
+  molotov:
+    name: '&cMolotov'
+    type: MOLOTOV
+    lore:
+      - ''
+      - 'Molotov Uses: &f<Uses>'
+      - ''
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: grenade_4
+    range: 6.0
+    ranged-damage: 2.0
+    cooldown: 1.0
+  flashbang:
+    name: '&7Flash bang'
+    type: EFFECT
+    lore:
+      - ''
+      - 'Flash bang Uses: &f<Uses>'
+      - ''
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: grenade_bol
+    range: 3.0
+    cooldown: 1.0
+    type-specific:
+      effects:
+        BLINDNESS:
+          duration: 30
+          amplifier: 2
+        SLOWNESS:
+          duration: 20
+          amplifier: 1
+  smokegrenade:
+    name: '&7Smoke Grenade'
+    type: SMOKE
+    lore:
+      - ''
+      - 'Smoke grenade Uses: &f<Uses>'
+      - ''
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: grenade_2
+    range: 3.0
+    cooldown: 1.0
+    type-specific:
+      iterations: 5

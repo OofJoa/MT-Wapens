@@ -1,0 +1,189 @@
+# OofArsenal - Weapon Plugin
+# Made by OofJoa
+weapons:
+  deserteagle:
+    name: '&8Desert Eagle'
+    type: SINGLE_BULLET
+    lore:
+      - ''
+      - 'MTGangs Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: deserteagle_fullmodel
+    sound: none
+    reload-sound: none
+    damage: 2.0
+    range: 30.0
+    max-ammo: 7
+    attackspeed: 1.0
+    ammo-type: deserteagle
+  magnum44:
+    name: '&8Magnum 44'
+    type: SINGLE_BULLET
+    lore:
+      - ''
+      - 'MTGangs Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: magnum44_fullmodel
+    sound: none
+    reload-sound: none
+    damage: 2.5
+    range: 30.0
+    max-ammo: 8
+    attackspeed: 1.0
+    ammo-type: magnum44
+  waltherp99:
+    name: '&8Walther P99'
+    type: SINGLE_BULLET
+    lore:
+      - ''
+      - 'MTGangs Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: waltherp99_fullmodel
+    sound: none
+    reload-sound: none
+    damage: 3.0
+    range: 30.0
+    max-ammo: 10
+    attackspeed: 1.0
+    ammo-type: waltherp99
+  glock19:
+    name: '&8Glock 19'
+    type: SINGLE_BULLET
+    lore:
+      - ''
+      - 'MTGangs Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: glock19_fullmodel
+    sound: none
+    reload-sound: none
+    damage: 3.3
+    range: 30.0
+    max-ammo: 10
+    attackspeed: 1.0
+    ammo-type: glock19
+  m16a4:
+    name: '&8M16A4'
+    type: SINGLE_BULLET
+    lore:
+      - ''
+      - 'MTGangs Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: m16a4_fullmodel
+    sound: none
+    reload-sound: none
+    damage: 3.7
+    range: 30.0
+    max-ammo: 25
+    attackspeed: 1.0
+    ammo-type: m16a4
+  rpg:
+    name: '&8RPG'
+    type: RPG
+    lore:
+      - ''
+      - MTGangs Wapen
+      - ''
+      - '&fUses: &7<Durability>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: grenade_launcher
+    sound: none
+    attackspeed: 1.0
+  mk14:
+    name: '&8MK14'
+    type: SNIPER
+    lore:
+      - ''
+      - MTGangs Wapen
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: mk14_scoped
+    sound: none
+    reload-sound: none
+    damage: 10.0
+    headshot-damage: 15.0
+    range: 100.0
+    max-ammo: 3
+    attackspeed: 1.0
+    ammo-type: mk14
+    type-specific:
+      scope:
+        amplifier: 8
+        limited: true
+  flaregun:
+    name: '&8Flare Gun'
+    type: FLARE
+    lore:
+      - ''
+      - MTGangs Wapen
+      - ''
+      - '&fUses: &7<Durability>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: fad_red
+    sound: none
+    attackspeed: 1.0
+    type-specific:
+      color:
+        rgb-int: 16711680
+  flamethrower:
+    name: '&8Flame Thrower'
+    type: FLAME_THROWER
+    lore:
+      - ''
+      - MTGangs Wapen
+      - ''
+      - '&fUses: &7<Durability>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: flamethrower
+    attackspeed: 0.1
+    type-specific:
+      range: 7
+  m1a:
+    name: '&8M1A'
+    type: MULTIPLE_BULLET
+    lore:
+      - ''
+      - 'MTGangs Wapen'
+      - ''
+      - '&fAmmo: &7<Ammo>&f/&7<MaxAmmo>'
+      - ''
+    material: WOOD_HOE
+    nbt: mtcustom
+    nbtvalue: m1a_ironsight
+    sound: none
+    reload-sound: none
+    damage: 3.2
+    range: 30.0
+    max-ammo: 30
+    attackspeed: 2.0
+    ammo-type: m1a
+    type-specific:
+      iterations: 3

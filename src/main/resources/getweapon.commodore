@@ -1,0 +1,7 @@
+getweapon {
+  weapon brigadier:string single_word {
+    durability brigadier:integer {
+      player brigadier:string single_word;
+    }
+  }
+}

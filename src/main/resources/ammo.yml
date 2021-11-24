@@ -1,0 +1,52 @@
+# OofArsenal - Weapon Plugin
+# Made by OofJoa
+ammo:
+  deserteagle:
+    name: 'Desert Eagle Ammo'
+    lore:
+      - 'MTGangs - MTGangs Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: deserteagle_bullets
+  magnum44:
+    name: 'Magnum 44 Ammo'
+    lore:
+      - 'MTGangs - MTGangs Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: magnum44_bullets
+  waltherp99:
+    name: 'Walther P99 Ammo'
+    lore:
+      - 'MTGangs - MTGangs Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: waltherp99_bullets
+  glock19:
+    name: 'Glock 19 Ammo'
+    lore:
+      - 'MTGangs - MTGangs Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: glock19_bullets
+  m16a4:
+    name: 'M16A4 Ammo'
+    lore:
+      - 'MTGangs - MTGangs Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: m16a4_bullets
+  mk14:
+    name: 'MK14 Ammo'
+    lore:
+      - 'MTGangs - MTGangs Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: ammo_mk14
+  m1a:
+    name: 'M1A Ammo'
+    lore:
+      - 'MTGangs - MTGangs Bullet'
+    material: IRON_INGOT
+    nbt: mtcustom
+    nbtvalue: ammo_m1a
