@@ -142,7 +142,7 @@ public class WeaponProjectile {
                 }
 
                 // setup a async datawatcher that runs every tick
-                DataWatcher<Location> locationDataWatcher = new DataWatcher<>(Main.getInstance(), false, 1);
+                DataWatcher<Location> locationDataWatcher = new DataWatcher<>(Main.getInstance(), true, 1);
                 locationDataWatcher.setFeeder(bullet::getLocation);
                 locationDataWatcher.setTask((bulletLocation) -> {
                     if (playerLocation.distance(bulletLocation) >= (double) weapon.getParameter(Weapon.WeaponParameters.WEAPON_RANGE)) {
