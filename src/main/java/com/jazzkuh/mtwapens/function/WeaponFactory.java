@@ -67,8 +67,13 @@ public class WeaponFactory {
             weaponLore.add(string);
         }
 
+        String name = weapon.getParameter(Weapon.WeaponParameters.NAME).toString().replace("<Ammo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString())
+                .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString())
+                .replace("<Damage>", weapon.getParameter(Weapon.WeaponParameters.DAMAGE).toString())
+                .replace("<Durability>", String.valueOf(durability));
+
         ItemBuilder itemBuilder = new ItemBuilder((Material) weapon.getParameter(Weapon.WeaponParameters.MATERIAL))
-                .setName(Utils.color(weapon.getParameter(Weapon.WeaponParameters.NAME).toString()))
+                .setColoredName(name)
                 .setNBT(weapon.getParameter(Weapon.WeaponParameters.NBT).toString(), weapon.getParameter(Weapon.WeaponParameters.NBTVALUE).toString())
                 .setNBT("ammo", (int) weapon.getParameter(Weapon.WeaponParameters.MAXAMMO))
                 .setNBT("durability", durability)

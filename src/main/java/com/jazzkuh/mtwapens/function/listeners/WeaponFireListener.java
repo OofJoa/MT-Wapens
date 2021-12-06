@@ -46,7 +46,6 @@ import com.jazzkuh.mtwapens.utils.Utils;
 import de.slikey.effectlib.effect.ParticleEffect;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -172,7 +171,7 @@ public class WeaponFireListener implements Listener {
                 Utils.applyNBTTag(itemStack, "ammo", NBTEditor.getInt(itemStack, "ammo") - 1);
             }
 
-            updateWeaponLore(itemStack, weapon);
+            updateWeaponMeta(itemStack, weapon);
 
             String showDurability = Main.getInstance().getConfig().getString("showDurability");
             if (NBTEditor.getInt(itemStack, "ammo") < 1) {
@@ -239,7 +238,7 @@ public class WeaponFireListener implements Listener {
 
             Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                 Utils.applyNBTTag(itemStack, "ammo", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO));
-                updateWeaponLore(itemStack, weapon);
+                updateWeaponMeta(itemStack, weapon);
 
                 String showDurability = Main.getInstance().getConfig().getString("showDurability");
                 if (ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.SHOOT || ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.BOTH) {
@@ -259,7 +258,12 @@ public class WeaponFireListener implements Listener {
     }
 
     @SuppressWarnings("unchecked")
-    private void updateWeaponLore(ItemStack itemStack, Weapon weapon) {
+    private void updateWeaponMeta(ItemStack itemStack, Weapon weapon) {
+        String name = weapon.getParameter(Weapon.WeaponParameters.NAME).toString().replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
+                .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString())
+                .replace("<Damage>", weapon.getParameter(Weapon.WeaponParameters.DAMAGE).toString())
+                .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")));
+
         ItemMeta im = itemStack.getItemMeta();
         ArrayList<String> weaponLore = new ArrayList<>();
         for (String string : (List<String>) weapon.getParameter(Weapon.WeaponParameters.LORE)) {
@@ -270,6 +274,7 @@ public class WeaponFireListener implements Listener {
 
             weaponLore.add(string);
         }
+        im.setDisplayName(Utils.color(name));
         im.setLore(weaponLore);
         itemStack.setItemMeta(im);
     }
