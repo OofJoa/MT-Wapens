@@ -153,5 +153,11 @@
             <version>1.16.4</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.github.spigot</groupId>
+            <artifactId>1.17.1</artifactId>
+            <version>1.17.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

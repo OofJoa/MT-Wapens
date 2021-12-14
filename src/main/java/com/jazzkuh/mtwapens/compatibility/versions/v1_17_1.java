@@ -30,40 +30,26 @@
  *     USA
  */
 
-package com.jazzkuh.mtwapens.compatibility;
+package com.jazzkuh.mtwapens.compatibility.versions;
 
-import com.jazzkuh.mtwapens.compatibility.versions.*;
-import lombok.Getter;
+import com.jazzkuh.mtwapens.compatibility.CompatibilityLayer;
+import net.minecraft.core.BlockPosition;
+import net.minecraft.network.protocol.game.PacketPlayOutBlockBreakAnimation;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
-public class CompatibilityManager {
+import java.util.Random;
 
-    private final String bukkitVersion = Bukkit.getServer().getClass().getPackage().getName();
-    private final @Getter String version = bukkitVersion.substring(bukkitVersion.lastIndexOf('.') + 1);
+public class v1_17_1 implements CompatibilityLayer {
 
-    public CompatibilityLayer registerCompatibilityLayer() {
-        switch (this.version) {
-            case "v1_12_R1": {
-                return new v1_12_2();
-            }
-            case "v1_13_R2": {
-                return new v1_13_2();
-            }
-            case "v1_14_R1": {
-                return new v1_14_3();
-            }
-            case "v1_15_R1": {
-                return new v1_15_2();
-            }
-            case "v1_16_R3": {
-                return new v1_16_4();
-            }
-            case "v1_17_R1": {
-                return new v1_17_1();
-            }
-            default: {
-                return null;
-            }
+    @Override
+    public void sendBlockBreakPacket(Block target) {
+        PacketPlayOutBlockBreakAnimation packet = new PacketPlayOutBlockBreakAnimation(new Random().nextInt(Integer.MAX_VALUE), new BlockPosition(target.getX(), target.getY(), target.getZ()), 9);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            CraftPlayer craftPlayer = (CraftPlayer) player;
+            craftPlayer.getHandle().b.sendPacket(packet);
         }
     }
 }
