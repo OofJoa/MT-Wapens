@@ -55,9 +55,8 @@ import java.util.List;
 
 public class MeleeDamageListener implements Listener {
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityDamage(EntityDamageByEntityEvent event) {
-        if (event.isCancelled()) return;
         if (!(event.getEntity() instanceof LivingEntity) || !(event.getDamager() instanceof Player)) return;
 
         Player player = (Player) event.getDamager();
