@@ -73,6 +73,7 @@ public class MainCMD extends AbstractCommand {
                     Main.getWeapons().reloadConfig();
                     Main.getAmmo().reloadConfig();
                     Main.getGrenades().reloadConfig();
+                    Main.getMelee().reloadConfig();
 
                     Main.getMessages().reloadConfig();
                     Main.getInstance().reloadConfig();
