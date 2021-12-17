@@ -92,17 +92,11 @@
             <version>1.9</version>
             <scope>compile</scope>
         </dependency>
-        <!--<dependency>
+
+        <dependency>
             <groupId>io.github.bananapuncher714</groupId>
             <artifactId>nbteditor</artifactId>
-            <version>7.17.0</version>
-        </dependency>-->
-
-        <!-- Too lazy to wait for NBTEditor -->
-        <dependency>
-            <groupId>com.github.LOOHP</groupId>
-            <artifactId>NBTEditor</artifactId>
-            <version>ccd9570058</version>
+            <version>7.18.0</version>
         </dependency>
 
         <dependency>
