@@ -34,7 +34,6 @@ package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import org.bukkit.GameRule;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -52,7 +51,7 @@ public class PlayerDeathListener implements Listener {
         Iterator<ItemStack> items = event.getDrops().iterator();
         ArrayList<ItemStack> soulboundItems = new ArrayList<>();
 
-        if (event.getEntity().getWorld().getGameRuleValue(GameRule.KEEP_INVENTORY)) return;
+        if (event.getKeepInventory()) return;
 
         while (items.hasNext()) {
             ItemStack itemStack = items.next();
