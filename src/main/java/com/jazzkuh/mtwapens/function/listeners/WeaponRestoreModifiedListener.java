@@ -73,6 +73,10 @@ public class WeaponRestoreModifiedListener implements Listener {
         if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SNEAKINGMODIFIESITEM)) {
             restoreWeapon(weapon, itemStack);
         }
+
+        if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SCOPE_PUMPKIN_EFFECT)) {
+            Main.getCompatibilityLayer().sendPumpkinBlur(player, true);
+        }
     }
 
     @EventHandler
@@ -94,6 +98,10 @@ public class WeaponRestoreModifiedListener implements Listener {
 
         if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SNEAKINGMODIFIESITEM)) {
             restoreWeapon(weapon, itemStack);
+        }
+
+        if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SCOPE_PUMPKIN_EFFECT)) {
+            Main.getCompatibilityLayer().sendPumpkinBlur(player, true);
         }
     }
 
@@ -118,6 +126,10 @@ public class WeaponRestoreModifiedListener implements Listener {
         if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SNEAKINGMODIFIESITEM)) {
             restoreWeapon(weapon, itemStack);
         }
+
+        if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SCOPE_PUMPKIN_EFFECT)) {
+            Main.getCompatibilityLayer().sendPumpkinBlur(player, true);
+        }
     }
 
     @EventHandler
@@ -140,6 +152,10 @@ public class WeaponRestoreModifiedListener implements Listener {
 
         if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SNEAKINGMODIFIESITEM)) {
             restoreWeapon(weapon, itemStack);
+        }
+
+        if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SCOPE_PUMPKIN_EFFECT)) {
+            Main.getCompatibilityLayer().sendPumpkinBlur(player, true);
         }
     }
 

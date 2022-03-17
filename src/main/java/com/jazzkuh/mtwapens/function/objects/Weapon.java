@@ -135,6 +135,9 @@ public class Weapon {
             case SCOPE_LIMITED: {
                 return config.getBoolean(configString + "type-specific.scope.limited");
             }
+            case SCOPE_PUMPKIN_EFFECT: {
+                return config.getBoolean(configString + "type-specific.scope.pumpkin-effect");
+            }
             case DISABLEDURABILITY: {
                 return config.getBoolean(configString + "disable-durability");
             }
@@ -199,7 +202,7 @@ public class Weapon {
         NAME, LORE, TYPE, MATERIAL, NBT, NBTVALUE, SOUND, RELOADSOUND, DAMAGE, MAXAMMO,
         ATTACKSPEED, AMMOTYPE, SCOPE_AMPLIFIER, SCOPE_LIMITED, DISABLEDURABILITY, COLOR,
         RANGE, ITERATIONS, CUSTOMMODELDATA, SNEAKINGMODIFIESITEM, MODIFIED_MATERIAL, MODIFIED_NBT, MODIFIED_NBTVALUE,
-        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE, HEADSHOT_DAMAGE, RECOIL, SOULBOUND
+        MODIFIED_CUSTOMMODELDATA, WEAPON_RANGE, HEADSHOT_DAMAGE, RECOIL, SOULBOUND, SCOPE_PUMPKIN_EFFECT
     }
 
     public enum WeaponTypes {

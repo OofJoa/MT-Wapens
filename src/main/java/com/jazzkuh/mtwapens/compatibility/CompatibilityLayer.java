@@ -32,10 +32,10 @@
 
 package com.jazzkuh.mtwapens.compatibility;
 
-import com.jazzkuh.mtwapens.utils.ItemBuilder;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.Player;
 
 public interface CompatibilityLayer {
     void sendBlockBreakPacket(Block target);
+    void sendPumpkinBlur(Player player, boolean remove);
 }

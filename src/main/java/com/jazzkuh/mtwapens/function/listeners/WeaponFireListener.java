@@ -116,6 +116,10 @@ public class WeaponFireListener implements Listener {
                     int scopeSize = Main.getInstance().getConfig().getInt("weapons." + weaponType + ".scope-size");
                     int amplifier =  scopeSize != 0 ? scopeSize : 8;
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1000000, amplifier, true));
+
+                    if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SCOPE_PUMPKIN_EFFECT)) {
+                        Main.getCompatibilityLayer().sendPumpkinBlur(player, false);
+                    }
                 }
                 break;
             }

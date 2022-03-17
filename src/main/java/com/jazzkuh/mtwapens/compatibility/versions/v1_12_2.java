@@ -32,13 +32,19 @@
 
 package com.jazzkuh.mtwapens.compatibility.versions;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.compatibility.CompatibilityLayer;
+import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.v1_12_R1.BlockPosition;
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockBreakAnimation;
+import net.minecraft.server.v1_12_R1.PacketPlayOutSetSlot;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;
 
@@ -51,5 +57,16 @@ public class v1_12_2 implements CompatibilityLayer {
             CraftPlayer craftPlayer = (CraftPlayer) player;
             craftPlayer.getHandle().playerConnection.sendPacket(packet);
         }
+    }
+
+    @Override
+    public void sendPumpkinBlur(Player player, boolean remove) {
+        CraftPlayer craftPlayer = (CraftPlayer) player;
+        ItemStack itemStack = new ItemStack(Material.AIR);
+        if (!remove) {
+            itemStack = new ItemStack(XMaterial.matchXMaterial(Material.CARVED_PUMPKIN).parseMaterial());
+        }
+
+        craftPlayer.getHandle().playerConnection.sendPacket(new PacketPlayOutSetSlot(0, 5, CraftItemStack.asNMSCopy(itemStack)));
     }
 }
