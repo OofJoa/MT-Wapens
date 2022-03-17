@@ -42,9 +42,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -210,6 +212,22 @@ public class Utils {
         }
 
         return blocks;
+    }
+
+    public static Block getTarget(Location from, int distance) {
+        BlockIterator itr = new BlockIterator(from, 0, distance);
+        while (itr.hasNext()) {
+            Block block = itr.next();
+            if (!block.getType().isOccluding()) {
+                continue;
+            }
+            return block;
+        }
+        return null;
+    }
+
+    public static boolean canSee(LivingEntity from, Location to) {
+        return getTarget(from.getEyeLocation(), (int) Math.ceil(from.getLocation().distance(to))) == null;
     }
 }
 

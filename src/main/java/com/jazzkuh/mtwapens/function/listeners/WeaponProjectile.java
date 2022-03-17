@@ -35,6 +35,7 @@ package com.jazzkuh.mtwapens.function.listeners;
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
 import com.jazzkuh.mtwapens.utils.ProjectileTrajectory;
+import com.jazzkuh.mtwapens.utils.Utils;
 import com.jazzkuh.mtwapens.utils.datawatcher.DataWatcher;
 import lombok.Getter;
 import org.bukkit.*;
@@ -71,6 +72,8 @@ public class WeaponProjectile {
                     player.getWorld().spawnParticle(Particle.FLAME, location, 0,
                             offsetLocation.getX(), offsetLocation.getY(), offsetLocation.getZ(), 0.1);
                 }
+
+                if (!Utils.canSee(player, location)) return;
 
                 int range = (int) weapon.getParameter(Weapon.WeaponParameters.RANGE);
                 for (Entity entity : player.getNearbyEntities(range, range, range)){

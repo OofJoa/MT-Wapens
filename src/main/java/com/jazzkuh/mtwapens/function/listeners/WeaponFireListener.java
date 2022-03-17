@@ -201,6 +201,7 @@ public class WeaponFireListener implements Listener {
             particleEffect.particleOffsetZ = 0.3F;
             particleEffect.setLocation(Utils.getRightSide(player.getEyeLocation(), 0.55).subtract(0, .5, 0));
             particleEffect.start();
+
             new WeaponProjectile(weapon, weaponType).fireProjectile(player);
 
             Weapon.WeaponTypes weaponTypes = Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString());
