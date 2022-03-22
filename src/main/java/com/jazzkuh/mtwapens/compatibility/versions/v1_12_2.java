@@ -64,7 +64,7 @@ public class v1_12_2 implements CompatibilityLayer {
         CraftPlayer craftPlayer = (CraftPlayer) player;
         ItemStack itemStack = new ItemStack(Material.AIR);
         if (!remove) {
-            itemStack = new ItemStack(XMaterial.matchXMaterial(Material.CARVED_PUMPKIN).parseMaterial());
+            itemStack = new ItemStack(XMaterial.matchXMaterial("PUMPKIN").get().parseMaterial());
         }
 
         craftPlayer.getHandle().playerConnection.sendPacket(new PacketPlayOutSetSlot(0, 5, CraftItemStack.asNMSCopy(itemStack)));
