@@ -2,7 +2,6 @@
 ![Spiget Version](https://img.shields.io/spiget/version/76350?color=red&label=version)
 ![License](https://img.shields.io/github/license/MT-Wapens/MT-Wapens)
 ![Spiget Downloads](https://img.shields.io/spiget/downloads/76350)
-[![Build Status](https://jenkins.jazzkuh.com/job/MTWapens/badge/icon)](https://jenkins.jazzkuh.com/job/MTWapens/)
 ![Lines](https://img.shields.io/tokei/lines/github/MT-Wapens/MT-Wapens)
 
 ![image](https://user-images.githubusercontent.com/32953684/129263279-5ab8ebb4-5137-4473-a383-62068cb9e21d.png)
