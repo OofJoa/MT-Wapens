@@ -60,55 +60,56 @@ public class WeaponCMD extends AbstractCommand {
     public void execute(CommandSender sender, Command command, String label, String[] args) {
         if (!hasPermission(getBasePermission(), false)) return;
 
-        if (args.length > 1) {
-            ArrayList<String> weaponTypes = new ArrayList<>(Main.getWeapons().getConfig().getConfigurationSection("weapons.").getKeys(false));
-
-            if (Main.getWeapons().getConfig().getString("weapons." + args[0] + ".name") == null) {
-                Utils.sendMessage(sender, "&cThe given weapon type is not a valid weapon. Please choose one of the following: "
-                        + StringUtils.join(weaponTypes, ", "));
-                return;
-            }
-
-            if (!Utils.isInt(args[1]) || Integer.parseInt(args[1]) < 0) {
-                Utils.sendMessage(sender, "&cThe given durability is not a valid integer.");
-                return;
-            }
-
-            String type = args[0];
-            int durability = Integer.parseInt(args[1]);
-
-            switch (args.length) {
-                case 2: {
-                    if (!senderIsPlayer()) return;
-                    Player player = (Player) sender;
-                    Weapon weapon = new Weapon(type);
-                    WeaponFactory weaponFactory = new WeaponFactory(player);
-                    weaponFactory.buildWeapon(weapon, durability);
-                    weaponFactory.addToInventory();
-                    break;
-                }
-                case 3: {
-                    if (Bukkit.getPlayer(args[2]) == null) {
-                        Utils.sendMessage(sender, "&cJe hebt geen geldige speler opgegeven.");
-                        return;
-                    }
-
-                    Player target = Bukkit.getPlayer(args[2]);
-
-                    Weapon weapon = new Weapon(type);
-                    WeaponFactory weaponFactory = new WeaponFactory(target);
-                    weaponFactory.buildWeapon(weapon, durability);
-                    weaponFactory.addToInventory();
-                    Utils.sendMessage(sender, "&aSuccesfully gave " + target.getName() + " an " + type + " of " + durability + " durability.");
-                    break;
-                }
-                default: {
-                    sendNotEnoughArguments(this);
-                    break;
-                }
-            }
-        } else {
+        if (args.length < 2) {
             sendNotEnoughArguments(this);
+            return;
+        }
+
+        ArrayList<String> weaponTypes = new ArrayList<>(Main.getWeapons().getConfig().getConfigurationSection("weapons.").getKeys(false));
+
+        if (Main.getWeapons().getConfig().getString("weapons." + args[0] + ".name") == null) {
+            Utils.sendMessage(sender, "&cThe given weapon type is not a valid weapon. Please choose one of the following: "
+                    + StringUtils.join(weaponTypes, ", "));
+            return;
+        }
+
+        if (!Utils.isInt(args[1]) || Integer.parseInt(args[1]) < 0) {
+            Utils.sendMessage(sender, "&cThe given durability is not a valid integer.");
+            return;
+        }
+
+        String type = args[0];
+        int durability = Integer.parseInt(args[1]);
+
+        switch (args.length) {
+            case 2: {
+                if (!senderIsPlayer()) return;
+                Player player = (Player) sender;
+                Weapon weapon = new Weapon(type);
+                WeaponFactory weaponFactory = new WeaponFactory(player);
+                weaponFactory.buildWeapon(weapon, durability);
+                weaponFactory.addToInventory();
+                break;
+            }
+            case 3: {
+                if (Bukkit.getPlayer(args[2]) == null) {
+                    Utils.sendMessage(sender, "&cJe hebt geen geldige speler opgegeven.");
+                    return;
+                }
+
+                Player target = Bukkit.getPlayer(args[2]);
+
+                Weapon weapon = new Weapon(type);
+                WeaponFactory weaponFactory = new WeaponFactory(target);
+                weaponFactory.buildWeapon(weapon, durability);
+                weaponFactory.addToInventory();
+                Utils.sendMessage(sender, "&aSuccesfully gave " + target.getName() + " an " + type + " of " + durability + " durability.");
+                break;
+            }
+            default: {
+                sendNotEnoughArguments(this);
+                break;
+            }
         }
     }
 

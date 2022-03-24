@@ -60,55 +60,56 @@ public class GrenadeCMD extends AbstractCommand {
     public void execute(CommandSender sender, Command command, String label, String[] args) {
         if (!hasPermission(getBasePermission(), false)) return;
 
-        if (args.length > 1) {
-            ArrayList<String> grenadeTypes = new ArrayList<>(Main.getGrenades().getConfig().getConfigurationSection("grenades.").getKeys(false));
-
-            if (Main.getGrenades().getConfig().getString("grenades." + args[0] + ".name") == null) {
-                Utils.sendMessage(sender, "&cThe given grenade type is not a valid grenade. Please choose one of the following: "
-                        + StringUtils.join(grenadeTypes, ", "));
-                return;
-            }
-
-            if (!Utils.isInt(args[1]) || Integer.parseInt(args[1]) < 0) {
-                Utils.sendMessage(sender, "&cThe given durability is not a valid integer.");
-                return;
-            }
-
-            String type = args[0];
-            int durability = Integer.parseInt(args[1]);
-
-            switch (args.length) {
-                case 2: {
-                    if (!senderIsPlayer()) return;
-                    Player player = (Player) sender;
-                    Grenade grenade = new Grenade(type);
-                    WeaponFactory weaponFactory = new WeaponFactory(player);
-                    weaponFactory.buildGrenade(grenade, durability);
-                    weaponFactory.addToInventory();
-                    break;
-                }
-                case 3: {
-                    if (Bukkit.getPlayer(args[2]) == null) {
-                        Utils.sendMessage(sender, "&cJe hebt geen geldige speler opgegeven.");
-                        return;
-                    }
-
-                    Player target = Bukkit.getPlayer(args[2]);
-
-                    Grenade grenade = new Grenade(type);
-                    WeaponFactory weaponFactory = new WeaponFactory(target);
-                    weaponFactory.buildGrenade(grenade, durability);
-                    weaponFactory.addToInventory();
-                    Utils.sendMessage(sender, "&aSuccesfully gave " + target.getName() + " a " + type + " with " + durability + " durability.");
-                    break;
-                }
-                default: {
-                    sendNotEnoughArguments(this);
-                    break;
-                }
-            }
-        } else {
+        if (args.length < 2) {
             sendNotEnoughArguments(this);
+            return;
+        }
+
+        ArrayList<String> grenadeTypes = new ArrayList<>(Main.getGrenades().getConfig().getConfigurationSection("grenades.").getKeys(false));
+
+        if (Main.getGrenades().getConfig().getString("grenades." + args[0] + ".name") == null) {
+            Utils.sendMessage(sender, "&cThe given grenade type is not a valid grenade. Please choose one of the following: "
+                    + StringUtils.join(grenadeTypes, ", "));
+            return;
+        }
+
+        if (!Utils.isInt(args[1]) || Integer.parseInt(args[1]) < 0) {
+            Utils.sendMessage(sender, "&cThe given durability is not a valid integer.");
+            return;
+        }
+
+        String type = args[0];
+        int durability = Integer.parseInt(args[1]);
+
+        switch (args.length) {
+            case 2: {
+                if (!senderIsPlayer()) return;
+                Player player = (Player) sender;
+                Grenade grenade = new Grenade(type);
+                WeaponFactory weaponFactory = new WeaponFactory(player);
+                weaponFactory.buildGrenade(grenade, durability);
+                weaponFactory.addToInventory();
+                break;
+            }
+            case 3: {
+                if (Bukkit.getPlayer(args[2]) == null) {
+                    Utils.sendMessage(sender, "&cJe hebt geen geldige speler opgegeven.");
+                    return;
+                }
+
+                Player target = Bukkit.getPlayer(args[2]);
+
+                Grenade grenade = new Grenade(type);
+                WeaponFactory weaponFactory = new WeaponFactory(target);
+                weaponFactory.buildGrenade(grenade, durability);
+                weaponFactory.addToInventory();
+                Utils.sendMessage(sender, "&aSuccesfully gave " + target.getName() + " a " + type + " with " + durability + " durability.");
+                break;
+            }
+            default: {
+                sendNotEnoughArguments(this);
+                break;
+            }
         }
     }
 

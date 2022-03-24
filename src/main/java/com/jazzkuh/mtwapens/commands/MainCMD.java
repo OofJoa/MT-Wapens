@@ -65,33 +65,34 @@ public class MainCMD extends AbstractCommand {
 
         Player player = (Player) sender;
 
-        if (args.length > 0) {
-            switch (args[0]) {
-                case "reload": {
-                    if (!hasPermission(getBasePermission() + ".reload", false)) return;
-
-                    Main.getWeapons().reloadConfig();
-                    Main.getAmmo().reloadConfig();
-                    Main.getGrenades().reloadConfig();
-                    Main.getMelee().reloadConfig();
-
-                    Main.getMessages().reloadConfig();
-                    Main.getInstance().reloadConfig();
-                    Utils.sendMessage(player, "&aReloaded the configuration files, please check the console for any errors.");
-                    break;
-                }
-                case "menu": {
-                    if (!hasPermission(getBasePermission() + ".menu", false)) return;
-                    new WeaponMenu(player, 0).open(player);
-                    break;
-                }
-                default: {
-                    sendNotEnoughArguments(this);
-                    break;
-                }
-            }
-        } else {
+        if (args.length < 1) {
             sendNotEnoughArguments(this);
+            return;
+        }
+
+        switch (args[0]) {
+            case "reload": {
+                if (!hasPermission(getBasePermission() + ".reload", false)) return;
+
+                Main.getWeapons().reloadConfig();
+                Main.getAmmo().reloadConfig();
+                Main.getGrenades().reloadConfig();
+                Main.getMelee().reloadConfig();
+
+                Main.getMessages().reloadConfig();
+                Main.getInstance().reloadConfig();
+                Utils.sendMessage(player, "&aReloaded the configuration files, please check the console for any errors.");
+                break;
+            }
+            case "menu": {
+                if (!hasPermission(getBasePermission() + ".menu", false)) return;
+                new WeaponMenu(player, 0).open(player);
+                break;
+            }
+            default: {
+                sendNotEnoughArguments(this);
+                break;
+            }
         }
     }
 
