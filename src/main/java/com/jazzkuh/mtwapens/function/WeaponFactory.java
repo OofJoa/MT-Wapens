@@ -174,4 +174,8 @@ public class WeaponFactory {
     public void addToInventory() {
         this.player.getInventory().addItem(itemStack);
     }
+
+    public ItemStack getItemStack() {
+        return this.itemStack;
+    }
 }
