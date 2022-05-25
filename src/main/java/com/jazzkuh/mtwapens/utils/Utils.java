@@ -35,6 +35,8 @@ package com.jazzkuh.mtwapens.utils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.function.WeaponFactory;
+import com.jazzkuh.mtwapens.function.objects.Weapon;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;

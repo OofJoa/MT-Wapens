@@ -34,6 +34,7 @@ package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
 import com.jazzkuh.mtwapens.function.objects.Weapon;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
@@ -43,6 +44,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 public class WeaponDamageListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -96,10 +98,15 @@ public class WeaponDamageListener implements Listener {
             entity.getLocation().getWorld().playEffect(entity.getLocation().add(0.0D, 1.0D, 0.0D), Effect.STEP_SOUND, 152);
         }
 
+        EntityDamageByEntityEvent entityDamageEvent = new EntityDamageByEntityEvent(attacker, entity, EntityDamageEvent.DamageCause.VOID, entity.getHealth());
+        event.getEntity().setLastDamageCause(entityDamageEvent);
+
         if (damage > entity.getHealth()) {
             entity.setHealth(0D);
         } else {
             entity.setHealth(entity.getHealth() - damage);
         }
+
+        Bukkit.getServer().getPluginManager().callEvent(event);
     }
 }
