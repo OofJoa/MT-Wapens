@@ -103,9 +103,5 @@ public class WeaponDamageListener implements Listener {
         } else {
             entity.setHealth(entity.getHealth() - damage);
         }
-
-        EntityDamageByEntityEvent entityDamageEvent = new EntityDamageByEntityEvent(attacker, entity, EntityDamageEvent.DamageCause.VOID, entity.getHealth());
-        event.getEntity().setLastDamageCause(entityDamageEvent);
-        Bukkit.getServer().getPluginManager().callEvent(event);
     }
 }
