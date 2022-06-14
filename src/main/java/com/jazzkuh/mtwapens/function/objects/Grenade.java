@@ -106,7 +106,7 @@ public class Grenade {
                         duration = duration * 20;
 
                         if (XPotion.matchXPotion(potionEffect).isPresent()) {
-                            potionEffects.add(XPotion.matchXPotion(potionEffect).get().parsePotion(duration, amplifier));
+                            potionEffects.add(XPotion.matchXPotion(potionEffect).get().buildPotionEffect(duration, amplifier));
                         }
                     }
                 }

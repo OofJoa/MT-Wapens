@@ -34,27 +34,27 @@ package com.jazzkuh.mtwapens.compatibility.versions;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.jazzkuh.mtwapens.compatibility.CompatibilityLayer;
-import net.minecraft.server.v1_15_R1.PacketPlayOutSetSlot;
-import net.minecraft.server.v1_15_R1.BlockPosition;
-import net.minecraft.server.v1_15_R1.PacketPlayOutBlockBreakAnimation;
+import net.minecraft.core.BlockPosition;
+import net.minecraft.network.protocol.game.PacketPlayOutBlockBreakAnimation;
+import net.minecraft.network.protocol.game.PacketPlayOutSetSlot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;
 
-public class v1_15_2 implements CompatibilityLayer {
+public class v1_19_0 implements CompatibilityLayer {
 
     @Override
     public void sendBlockBreakPacket(Block target) {
         PacketPlayOutBlockBreakAnimation packet = new PacketPlayOutBlockBreakAnimation(new Random().nextInt(Integer.MAX_VALUE), new BlockPosition(target.getX(), target.getY(), target.getZ()), 9);
         for (Player player : Bukkit.getOnlinePlayers()) {
             CraftPlayer craftPlayer = (CraftPlayer) player;
-            craftPlayer.getHandle().playerConnection.sendPacket(packet);
+            craftPlayer.getHandle().b.sendPacket(packet);
         }
     }
 
@@ -66,6 +66,6 @@ public class v1_15_2 implements CompatibilityLayer {
             itemStack = new ItemStack(XMaterial.matchXMaterial("CARVED_PUMPKIN").get().parseMaterial());
         }
 
-        craftPlayer.getHandle().playerConnection.sendPacket(new PacketPlayOutSetSlot(0, 5, CraftItemStack.asNMSCopy(itemStack)));
+        craftPlayer.getHandle().b.sendPacket(new PacketPlayOutSetSlot(0, 0, 5, CraftItemStack.asNMSCopy(itemStack)));
     }
 }
