@@ -30,59 +30,42 @@
  *     USA
  */
 
-package com.jazzkuh.mtwapens.utils.datawatcher;
+package com.jazzkuh.mtwapens.compatibility.versions;
 
+import com.cryptomorin.xseries.XMaterial;
+import com.jazzkuh.mtwapens.compatibility.CompatibilityLayer;
+import net.minecraft.core.BlockPosition;
+import net.minecraft.network.protocol.game.PacketPlayOutBlockBreakAnimation;
+import net.minecraft.network.protocol.game.PacketPlayOutSetSlot;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R1.inventory.CraftItemStack;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.function.Consumer;
+import java.util.Random;
 
-/**
- * @author Mindgamesnl
- */
+public class v1_19_0 implements CompatibilityLayer {
 
-public class DataWatcher<T> {
+    @Override
+    public void sendBlockBreakPacket(Block target) {
+        PacketPlayOutBlockBreakAnimation packet = new PacketPlayOutBlockBreakAnimation(new Random().nextInt(Integer.MAX_VALUE), new BlockPosition(target.getX(), target.getY(), target.getZ()), 9);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            CraftPlayer craftPlayer = (CraftPlayer) player;
+            craftPlayer.getHandle().b.sendPacket(packet);
+        }
+    }
 
-    private T value;
-    private final int task;
-    private Feeder<T> dataFeeder;
-    private Consumer<T> callback;
-    private Boolean isRunning = false;
-
-    public DataWatcher(JavaPlugin plugin, Boolean sync, int delayTicks) {
-        Runnable executor = () -> {
-            if (this.dataFeeder == null || this.callback == null) return;
-            T newValue = dataFeeder.feed();
-            if (this.value != null && !newValue.equals(this.value)) this.callback.accept(newValue);
-            this.value = newValue;
-        };
-
-        if (sync) {
-            this.task = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, executor, delayTicks, delayTicks);
-        } else {
-            this.task = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, executor, delayTicks, delayTicks);
+    @Override
+    public void sendPumpkinBlur(Player player, boolean remove) {
+        CraftPlayer craftPlayer = (CraftPlayer) player;
+        ItemStack itemStack = new ItemStack(Material.AIR);
+        if (!remove) {
+            itemStack = new ItemStack(XMaterial.matchXMaterial("CARVED_PUMPKIN").get().parseMaterial());
         }
 
-        isRunning = true;
+        craftPlayer.getHandle().b.sendPacket(new PacketPlayOutSetSlot(0, 0, 5, CraftItemStack.asNMSCopy(itemStack)));
     }
-
-    public DataWatcher setFeeder(Feeder<T> feeder) {
-        this.dataFeeder = feeder;
-        return this;
-    }
-
-    public DataWatcher setTask(Consumer<T> task) {
-        this.callback = task;
-        return this;
-    }
-
-    public Boolean isRunning() {
-        return this.isRunning;
-    }
-
-    public void stop() {
-        Bukkit.getScheduler().cancelTask(this.task);
-        this.isRunning = false;
-    }
-
 }

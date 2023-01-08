@@ -1,3 +1,35 @@
+/*
+ *     MT-Wapens
+ *     Copyright © 2021 Jazzkuh. All rights reserved.
+ *
+ *     “Commons Clause” License Condition v1.0
+ *
+ *    The Software is provided to you by the Licensor under the License, as defined below, subject to the following condition.
+ *
+ *     Without limiting other conditions in the License, the grant of rights under the License will not include, and the License does not grant to you, the right to Sell the Software.
+ *
+ *     For purposes of the foregoing, “Sell” means practicing any or all of the  rights granted to you under the License to provide to third parties, for a fee  or other consideration (including without limitation fees for hosting or  consulting/ support services related to the Software), a product or service  whose value derives, entirely or substantially, from the functionality of the  Software. Any license notice or attribution required by the License must also  include this Commons Clause License Condition notice.
+ *
+ *     Software: MT-Wapens
+ *     License: GNU-LGPL v2.1 with Commons Clause
+ *     Licensor: [Jazzkuh](https://github.com/Jazzkuh)
+ *
+ *     This library is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU Lesser General Public
+ *     License as published by the Free Software Foundation; either
+ *     version 2.1 of the License, or (at your option) any later version.
+ *
+ *     This library is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *     Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public
+ *     License along with this library; if not, write to the Free Software
+ *     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
+ *     USA
+ */
+
 package com.jazzkuh.mtwapens.function.listeners;
 
 import com.jazzkuh.mtwapens.Main;
@@ -14,7 +46,6 @@ import com.jazzkuh.mtwapens.utils.Utils;
 import de.slikey.effectlib.effect.ParticleEffect;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -81,10 +112,17 @@ public class WeaponFireListener implements Listener {
 
                 if (player.hasPotionEffect(PotionEffectType.SLOW)) {
                     player.removePotionEffect(PotionEffectType.SLOW);
+                    if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SCOPE_PUMPKIN_EFFECT)) {
+                        Main.getCompatibilityLayer().sendPumpkinBlur(player, true);
+                    }
                 } else {
                     int scopeSize = Main.getInstance().getConfig().getInt("weapons." + weaponType + ".scope-size");
                     int amplifier =  scopeSize != 0 ? scopeSize : 8;
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1000000, amplifier, true));
+
+                    if ((boolean) weapon.getParameter(Weapon.WeaponParameters.SCOPE_PUMPKIN_EFFECT)) {
+                        Main.getCompatibilityLayer().sendPumpkinBlur(player, false);
+                    }
                 }
                 break;
             }
@@ -140,7 +178,7 @@ public class WeaponFireListener implements Listener {
                 Utils.applyNBTTag(itemStack, "ammo", NBTEditor.getInt(itemStack, "ammo") - 1);
             }
 
-            updateWeaponLore(itemStack, weapon);
+            updateWeaponMeta(itemStack, weapon);
 
             String showDurability = Main.getInstance().getConfig().getString("showDurability");
             if (NBTEditor.getInt(itemStack, "ammo") < 1) {
@@ -170,6 +208,7 @@ public class WeaponFireListener implements Listener {
             particleEffect.particleOffsetZ = 0.3F;
             particleEffect.setLocation(Utils.getRightSide(player.getEyeLocation(), 0.55).subtract(0, .5, 0));
             particleEffect.start();
+
             new WeaponProjectile(weapon, weaponType).fireProjectile(player);
 
             Weapon.WeaponTypes weaponTypes = Weapon.WeaponTypes.valueOf(weapon.getParameter(Weapon.WeaponParameters.TYPE).toString());
@@ -207,7 +246,7 @@ public class WeaponFireListener implements Listener {
 
             Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                 Utils.applyNBTTag(itemStack, "ammo", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO));
-                updateWeaponLore(itemStack, weapon);
+                updateWeaponMeta(itemStack, weapon);
 
                 String showDurability = Main.getInstance().getConfig().getString("showDurability");
                 if (ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.SHOOT || ShowDurability.getInstance().isDurabilityShown(showDurability) == ShowDurability.Options.BOTH) {
@@ -227,7 +266,12 @@ public class WeaponFireListener implements Listener {
     }
 
     @SuppressWarnings("unchecked")
-    private void updateWeaponLore(ItemStack itemStack, Weapon weapon) {
+    private void updateWeaponMeta(ItemStack itemStack, Weapon weapon) {
+        String name = weapon.getParameter(Weapon.WeaponParameters.NAME).toString().replace("<Ammo>", String.valueOf(NBTEditor.getInt(itemStack, "ammo")))
+                .replace("<MaxAmmo>", weapon.getParameter(Weapon.WeaponParameters.MAXAMMO).toString())
+                .replace("<Damage>", weapon.getParameter(Weapon.WeaponParameters.DAMAGE).toString())
+                .replace("<Durability>", String.valueOf(NBTEditor.getInt(itemStack, "durability")));
+
         ItemMeta im = itemStack.getItemMeta();
         ArrayList<String> weaponLore = new ArrayList<>();
         for (String string : (List<String>) weapon.getParameter(Weapon.WeaponParameters.LORE)) {
@@ -238,6 +282,7 @@ public class WeaponFireListener implements Listener {
 
             weaponLore.add(string);
         }
+        im.setDisplayName(Utils.color(name));
         im.setLore(weaponLore);
         itemStack.setItemMeta(im);
     }

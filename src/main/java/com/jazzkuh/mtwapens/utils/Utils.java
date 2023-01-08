@@ -1,8 +1,42 @@
+/*
+ *     MT-Wapens
+ *     Copyright © 2021 Jazzkuh. All rights reserved.
+ *
+ *     “Commons Clause” License Condition v1.0
+ *
+ *    The Software is provided to you by the Licensor under the License, as defined below, subject to the following condition.
+ *
+ *     Without limiting other conditions in the License, the grant of rights under the License will not include, and the License does not grant to you, the right to Sell the Software.
+ *
+ *     For purposes of the foregoing, “Sell” means practicing any or all of the  rights granted to you under the License to provide to third parties, for a fee  or other consideration (including without limitation fees for hosting or  consulting/ support services related to the Software), a product or service  whose value derives, entirely or substantially, from the functionality of the  Software. Any license notice or attribution required by the License must also  include this Commons Clause License Condition notice.
+ *
+ *     Software: MT-Wapens
+ *     License: GNU-LGPL v2.1 with Commons Clause
+ *     Licensor: [Jazzkuh](https://github.com/Jazzkuh)
+ *
+ *     This library is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU Lesser General Public
+ *     License as published by the Free Software Foundation; either
+ *     version 2.1 of the License, or (at your option) any later version.
+ *
+ *     This library is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *     Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public
+ *     License along with this library; if not, write to the Free Software
+ *     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
+ *     USA
+ */
+
 package com.jazzkuh.mtwapens.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jazzkuh.mtwapens.Main;
+import com.jazzkuh.mtwapens.function.WeaponFactory;
+import com.jazzkuh.mtwapens.function.objects.Weapon;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -10,9 +44,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -98,19 +134,22 @@ public class Utils {
     }
 
     public static void applyAttackSpeed(ItemStack itemStack, Double amount) {
-        NBTEditor.NBTCompound compound = NBTEditor.getNBTCompound(itemStack);
-        compound.set("generic.attackSpeed", "tag", "AttributeModifiers", null, "AttributeName");
-        compound.set("AttackSpeed", "tag", "AttributeModifiers", 0, "Name");
-        compound.set("mainhand", "tag", "AttributeModifiers", 0, "Slot");
-        compound.set(0, "tag", "AttributeModifiers", 0, "Operation");
-        compound.set(amount, "tag", "AttributeModifiers", 0, "Amount");
-        compound.set(new int[] { 0, 0, 0, 0 }, "tag", "AttributeModifiers", 0, "UUID");
-        compound.set(99L, "tag", "AttributeModifiers", 0, "UUIDMost");
-        compound.set(77530600L, "tag", "AttributeModifiers", 0, "UUIDLeast");
+        try {
+            NBTEditor.NBTCompound compound = NBTEditor.getNBTCompound(itemStack);
+            compound.set("generic.attackSpeed", "tag", "AttributeModifiers", null, "AttributeName");
+            compound.set("AttackSpeed", "tag", "AttributeModifiers", 0, "Name");
+            compound.set("mainhand", "tag", "AttributeModifiers", 0, "Slot");
+            compound.set(0, "tag", "AttributeModifiers", 0, "Operation");
+            compound.set(amount, "tag", "AttributeModifiers", 0, "Amount");
+            compound.set(new int[]{0, 0, 0, 0}, "tag", "AttributeModifiers", 0, "UUID");
+            compound.set(99L, "tag", "AttributeModifiers", 0, "UUIDMost");
+            compound.set(77530600L, "tag", "AttributeModifiers", 0, "UUIDLeast");
 
-        ItemStack is = NBTEditor.getItemFromTag(compound);
-        ItemMeta itemMeta = is.getItemMeta();
-        itemStack.setItemMeta(itemMeta);
+            ItemStack is = NBTEditor.getItemFromTag(compound);
+            ItemMeta itemMeta = is.getItemMeta();
+            itemStack.setItemMeta(itemMeta);
+        } catch (Exception exception) {
+        }
     }
 
     /**
@@ -175,6 +214,22 @@ public class Utils {
         }
 
         return blocks;
+    }
+
+    public static Block getTarget(Location from, int distance) {
+        BlockIterator itr = new BlockIterator(from, 0, distance);
+        while (itr.hasNext()) {
+            Block block = itr.next();
+            if (!block.getType().isOccluding()) {
+                continue;
+            }
+            return block;
+        }
+        return null;
+    }
+
+    public static boolean canSee(LivingEntity from, Location to) {
+        return getTarget(from.getEyeLocation(), (int) Math.ceil(from.getLocation().distance(to))) == null;
     }
 }
 
